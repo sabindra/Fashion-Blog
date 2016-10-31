@@ -1,0 +1,12 @@
+{
+    "name": "sprouttech/blog",
+    "description": "a personal blog about fashion",
+    "license": "commercial",
+    "authors": [
+        {
+            "name": "Ryan Basnet",
+            "email": "ryandbasnet@gmail.com"
+        }
+    ],
+    "require": {}
+}
