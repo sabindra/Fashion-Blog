@@ -2,9 +2,9 @@
 					<div class="sidebar-widget">
 						<h3 class="sidebar-title">About Me</h3>
 						<div class="widget-container widget-about">
-							<a href="post.html"><img src="images/author.jpg" alt=""></a>
-							<h4>Jamie Mooz</h4>
-							<div class="author-title">Designer</div>
+							<a href="post.html"><img src="images/author1.jpg" alt=""></a>
+							<h4>Soniya Acharya</h4>
+							<div class="author-title">Blogger/Enrolled Nurse</div>
 							<p>While everyone’s eyes are glued to the runway, it’s hard to ignore that there are major fashion moments on the front row too.</p>
 						</div>
 					</div>
@@ -88,7 +88,7 @@
 						<h3 class="sidebar-title">Categories</h3>
 						<div class="widget-container">
 							<ul>
-								<?php foreach ($category as $menu) {
+								<?php foreach ($categories as $menu) {
 								echo "<li><a href=''>$menu</a></li>";
 								}?>
 							</ul>

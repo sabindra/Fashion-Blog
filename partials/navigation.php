@@ -10,11 +10,13 @@
 				</div>
 				<div id="navbar" class="collapse navbar-collapse">
 					<ul class="nav navbar-nav">
-						<?php foreach ($category as $menu) {
+						<li><a href="index.php">Home</a></li>
+						<?php foreach ($categories as $menu) {
 						echo "<li><a href=''>{$menu}</a></li>";
 						}?>
 						<li><a href="about.html">About Me</a></li>
 						<li><a href="about.html">Contact</a></li>
+						<li><a href="admin">Admin</a></li>
 					</ul>
 
 					<ul class="nav navbar-nav navbar-right">
