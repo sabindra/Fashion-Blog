@@ -3,7 +3,7 @@
 
 $db['db_host']="localhost";
 $db['db_name']="fashion_blog_2016";
-$db['user']="ryan@web";
+$db['user']="ryan@reb";
 $db['pass']="RajRadha88";
 
 
@@ -14,18 +14,18 @@ $db['pass']="RajRadha88";
 foreach ($db as $key=>$value) {
 
 	define(strtoupper($key),$value);
-	var_dump(strtoupper($key));
+	
 }
 
+
+//connect to db
 try {
     $dbh = new PDO('mysql:host=localhost;dbname='.DB_NAME, USER, PASS);
     
 
-
-    echo "Connected";
-    $dbh = null;
 } catch (PDOException $e) {
-    print "Error!: " . $e->getMessage() . "<br/>";
+	
+    echo "Error!: " , $e->getMessage() , "<br/>";
     die();
 }
 
