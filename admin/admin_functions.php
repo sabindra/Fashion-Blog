@@ -175,6 +175,7 @@ function getPosts(){
 }
 
 
+
 function deletePost($id){
 
 	try {
@@ -197,6 +198,7 @@ function deletePost($id){
 
  
 }
+
 
 
 

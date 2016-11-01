@@ -3,6 +3,7 @@ include("admin_functions.php");
 
 $allPosts = getPosts();
 
+
 if(isset($_GET['delete'])){
 
     $id =$_GET['delete'];
@@ -14,6 +15,7 @@ if(isset($_GET['delete'])){
         header('Location:post.php');
     }
 }
+
 
 include("partials/admin_header.php");
 
