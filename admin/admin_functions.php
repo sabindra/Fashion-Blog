@@ -147,4 +147,47 @@ function deleteCategory($id){
 }
 
 
+
+
+
+
+function getPosts(){
+	try {
+    $dbh = new PDO('mysql:host=localhost;dbname='.DB_NAME, USER, PASS);
+    
+
+} catch (PDOException $e) {
+	
+    echo "Error!: " , $e->getMessage() , "<br/>";
+    die();
+}
+	$post=array();
+	
+	
+			$posts = $dbh->query("SELECT * FROM posts ORDER BY post_id");
+			foreach	($posts as $item){
+
+			$post[] = $item;
+			}
+			
+			return $post;
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ?>
