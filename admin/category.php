@@ -1,7 +1,7 @@
 <?php 
 include("admin_functions.php");
 $categories = getCategories();
-if($_SERVER['REQUEST_METHOD'] == 'POST'){
+if(isset($_POST['submit'])){
 
 
     $title=$_POST['title'];
@@ -25,11 +25,24 @@ if(isset($_GET['delete'])){
 
   $id = $_GET['delete'];
 
+   if(!empty($id)){
+
   $query = deleteCategory($id);
 
   header('Location:category.php');
 
+}
 
+}
+
+
+
+if(isset($_POST['update-category'])){
+
+   $id = $_GET['edit'];
+  $title = $_POST['title'];
+   updateCategory($id, $title);
+   header('Location:category.php');
 
 }
 
@@ -78,26 +91,44 @@ include("partials/admin_header.php");
       <input type="text" class="form-control" id="email" name="title" placeholder="Enter email">
     </div>
     
-    <button type="submit" class="btn btn-primary" name="submit">Add Category</button>
+    <button type="submit" class="btn btn-success" name="submit">Add Category</button>
   </form>
-
+<br>
   <?php
-if($_SERVER['REQUEST_METHOD']=='GET'){?>
+if(isset($_GET['edit'])){
+
+  $cat_id = $_GET['edit'];
   
-    <form method="post" action="category.php">
+  if(isset($cat_id)){
+
+
+$category = getCategory($cat_id);
+
+$cat_title = $category['cat_title'];?>
+
+
+ <form method="post" action="">
     <div class="form-group">
       <label for="email">Add Category</label>
-      <input type="text" class="form-control" id="email" name="title" placeholder="Enter email">
+      <input type="text" class="form-control" id="email" name="title" value="<?php echo $cat_title ?>" placeholder="Enter email">
     </div>
     
-    <button type="submit" class="btn btn-primary" name="update">Add Category</button>
+    <button type="submit" class="btn btn-primary" name="update-category">Update Category</button>
   </form>
-<?php } ?>
+  <?php }
+
+
+
+
+  
+  
+   
+} ?>
                         </div>
 
                         <div class="col-xs-6">
-                         <table class="table table-hover">
-    <thead>
+                         <table class="table table-brodered table-stripped table-hover">
+    <thead class="thead-inverse">
       <tr>
         <th>Id</th>
         <th>Category</th>

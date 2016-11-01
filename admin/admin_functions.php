@@ -19,7 +19,15 @@ foreach ($db as $key=>$value) {
 
 //connect to db
 
+try {
+    $dbh = new PDO('mysql:host=localhost;dbname='.DB_NAME, USER, PASS);
+    
 
+} catch (PDOException $e) {
+	
+    echo "Error!: " , $e->getMessage() , "<br/>";
+    die();
+}
 
 function getCategories(){
 	try {
@@ -45,10 +53,8 @@ function getCategories(){
 }
 
 
-function addCategory($category){
-
-$message=array();
-try {
+function getCategory($id){
+	try {
     $dbh = new PDO('mysql:host=localhost;dbname='.DB_NAME, USER, PASS);
     
 
@@ -57,6 +63,21 @@ try {
     echo "Error!: " , $e->getMessage() , "<br/>";
     die();
 }
+	$category=array();
+	
+	
+			$query = $dbh->query("SELECT * FROM categories WHERE cat_id =$id");
+			$category = $query->fetch();
+			
+			return $category;
+	
+}
+
+function addCategory($category){
+
+$message=array();
+global $dbh;
+
 	
 	$query = $dbh->prepare("INSERT INTO categories(cat_title)
     VALUES(:title)");
@@ -81,6 +102,26 @@ try {
 
 }
 
+
+function updateCategory($id,$title){
+
+
+
+	try {
+    $dbh = new PDO('mysql:host=localhost;dbname='.DB_NAME, USER, PASS);
+    
+
+} catch (PDOException $e) {
+	
+    echo "Error!: " , $e->getMessage() , "<br/>";
+    die();
+}
+
+	$stmt = $dbh->prepare("UPDATE categories SET cat_title=:title WHERE cat_id=:id");
+	$stmt->execute(array('title'=>$title,'id'=>$id));
+
+
+}
 
 function deleteCategory($id){
 
