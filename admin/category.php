@@ -3,17 +3,33 @@ include("admin_functions.php");
 $categories = getCategories();
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
-	$title=$_POST['title'];
 
-	if(empty($title)){
+    $title=$_POST['title'];
 
-		$error ="Pleaes enter the category name";
+  if(empty($title)){
 
-	}else{
+    $error ="Pleaes enter the category name";
 
-		$message = addCategory($title);
-		header('Location:category.php');
-	}
+  }else{
+
+    $message = addCategory($title);
+    header('Location:category.php');
+  }
+  
+
+	
+
+}
+
+if(isset($_GET['delete'])){
+
+  $id = $_GET['delete'];
+
+  $query = deleteCategory($id);
+
+  header('Location:category.php');
+
+
 
 }
 
@@ -65,6 +81,18 @@ include("partials/admin_header.php");
     <button type="submit" class="btn btn-primary" name="submit">Add Category</button>
   </form>
 
+  <?php
+if($_SERVER['REQUEST_METHOD']=='GET'){?>
+  
+    <form method="post" action="category.php">
+    <div class="form-group">
+      <label for="email">Add Category</label>
+      <input type="text" class="form-control" id="email" name="title" placeholder="Enter email">
+    </div>
+    
+    <button type="submit" class="btn btn-primary" name="update">Add Category</button>
+  </form>
+<?php } ?>
                         </div>
 
                         <div class="col-xs-6">
@@ -81,12 +109,14 @@ include("partials/admin_header.php");
       	<tr> 
         <td><?php echo $item['cat_id'];?></td>
         <td><?php echo $item['cat_title'];?></td>
+        <td><a class ="btn btn-warning" href="category.php?edit=<?php echo $item['cat_id'];?>">Edit</a></td>
+         <td><a class ="btn btn-danger" href="category.php?delete=<?php echo $item['cat_id'];?>">Delete</a></td>
       </tr>
 
       	
       <?php endforeach ?>
        
-      foreach
+     
     </tbody>
   </table>
                         </div>

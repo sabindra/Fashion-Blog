@@ -80,4 +80,30 @@ try {
 
 
 }
- ?>
+
+
+function deleteCategory($id){
+
+	try {
+    $dbh = new PDO('mysql:host=localhost;dbname='.DB_NAME, USER, PASS);
+    
+
+} catch (PDOException $e) {
+	
+    echo "Error!: " , $e->getMessage() , "<br/>";
+    die();
+}
+
+	$query = $dbh->query("DELETE  FROM categories WHERE cat_id=$id");
+	$query->execute();
+	
+	
+
+
+
+
+ 
+}
+
+
+?>
