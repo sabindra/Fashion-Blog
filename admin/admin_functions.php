@@ -173,7 +173,41 @@ function getPosts(){
 			return $post;
 	
 }
+function addPost($title,$content,$image_path,$tag=null,$status,$author,$published,$cat_id){
 
+	if(!isset($tag)){
+
+		$tag="";
+
+	}
+
+		try {
+    $dbh = new PDO('mysql:host=localhost;dbname='.DB_NAME, USER, PASS);
+    
+
+} catch (PDOException $e) {
+	
+    echo "Error!: " , $e->getMessage() , "<br/>";
+    die();
+}
+
+$query = "INSERT INTO posts(title,content,image_path,tags,author,status,cat_id,published) VALUES(:title,:content,:image_path,:tag,:author,:status,:cat_id,:published)";
+$statement = $dbh->prepare($query);
+$statement->execute(array("title"=>$title,
+					"content"=> $content,
+					"image_path"=>$image_path,
+					"tag"=>$tag,
+					"status"=>$status,
+					"author"=>$author,
+					"published"=>$published,
+					"cat_id"=>$cat_id
+ 					));
+
+
+
+
+
+}
 
 
 function deletePost($id){
