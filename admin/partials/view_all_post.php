@@ -32,7 +32,7 @@
         <td><?php echo $item['cat_id'];?></td>
         <td><?php echo $item['tags'];?></td>
  
-        <td><a class ="btn btn-warning" href="post.php?edit=<?php echo $item['post_id'];?>">Edit</a></td>
+        <td><a class ="btn btn-warning" href="post.php?source=edit_post&p_id=<?php echo $item['post_id'];?>">Edit</a></td>
          <td><a class ="btn btn-danger" href="post.php?delete=<?php echo $item['post_id'];?>">Delete</a></td>
       </tr>
 

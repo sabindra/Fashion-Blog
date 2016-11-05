@@ -53,7 +53,12 @@ include("partials/admin_header.php");
                         						include('partials/add_post.php');
                         						break;
 
+                                    case 'edit_post':
 
+                                                include('partials/edit_post.php');
+                                                break;
+
+                                    
                         			default:
 
                         			include('partials/view_all_post.php');

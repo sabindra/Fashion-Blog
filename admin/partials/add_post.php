@@ -91,7 +91,9 @@ if(!empty($title) && !empty($content)){
 ?>
 
 <form method="post" enctype="multipart/form-data" action="">
-<?php if(isset($formError)){ echo "<p class='text-danger'>$formError<?p>";}?>
+<?php if(isset($formError)){ echo "<div class = 'alert alert-error'><button type = 'button' class = 'close' data-dismiss = 'alert' aria-hidden = 'true'>
+      &times;
+   </button>$formError</div>";}?>
 <?php if(isset($feedback)){ echo "<div class = 'alert alert-success'><button type = 'button' class = 'close' data-dismiss = 'alert' aria-hidden = 'true'>
       &times;
    </button>$feedback</div>";}?>

@@ -41,8 +41,17 @@ if(isset($_POST['update-category'])){
 
    $id = $_GET['edit'];
   $title = $_POST['title'];
-   updateCategory($id, $title);
+
+  if(!empty($id) && !empty($title)){
+
+    updateCategory($id, $title);
    header('Location:category.php');
+  }else{
+
+     $error ="Pleaes enter the category name to update";
+
+  }
+   
 
 }
 

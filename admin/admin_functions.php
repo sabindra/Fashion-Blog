@@ -173,6 +173,33 @@ function getPosts(){
 			return $post;
 	
 }
+
+function getPost($id){
+
+
+try {
+    $dbh = new PDO('mysql:host=localhost;dbname='.DB_NAME, USER, PASS);
+    
+
+} catch (PDOException $e) {
+	
+    echo "Error!: " , $e->getMessage() , "<br/>";
+    die();
+}
+	
+	
+	
+			$statement = $dbh->prepare("SELECT * FROM posts WHERE post_id=:id");
+			$statement->execute(array('id'=>$id));
+			$post=$statement->fetch();
+			
+			return $post;
+
+}
+
+
+
+
 function addPost($title,$content,$image_path,$tag=null,$status,$author,$published,$cat_id){
 
 	if(!isset($tag)){
@@ -201,6 +228,39 @@ $statement->execute(array("title"=>$title,
 					"author"=>$author,
 					"published"=>$published,
 					"cat_id"=>$cat_id
+ 					));
+
+
+
+
+
+}
+function updatePost ($post_id,$title,$content,$tag=null,$status,$cat_id){
+
+	if(!isset($tag)){
+
+		$tag="";
+
+	}
+
+		try {
+    $dbh = new PDO('mysql:host=localhost;dbname='.DB_NAME, USER, PASS);
+    
+
+} catch (PDOException $e) {
+	
+    echo "Error!: " , $e->getMessage() , "<br/>";
+    die();
+}
+
+$query = "Update posts SET title=:title,content=:content,tags=:tag,status=:status,cat_id=:cat_id WHERE post_id=:post_id";
+$statement = $dbh->prepare($query);
+$statement->execute(array("title"=>$title,
+					"content"=> $content,
+					"tag"=>$tag,
+					"status"=>$status,
+					"cat_id"=>$cat_id,
+					"post_id"=>$post_id
  					));
 
 
