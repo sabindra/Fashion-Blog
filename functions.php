@@ -73,4 +73,56 @@ try {
 
 
 }
+
+
+function getPostList(){
+
+try {
+    $dbh = new PDO('mysql:host=localhost;dbname='.DB_NAME, USER, PASS);
+    
+
+} catch (PDOException $e) {
+	
+    echo "Error!: " , $e->getMessage() , "<br/>";
+    die();
+}
+	$post=array();
+	$query = $dbh->query("SELECT * FROM posts WHERE status='published' ORDER BY post_id DESC LIMIT 10");
+	$query->execute();
+
+			$posts = $query->fetchAll();
+			foreach	($posts as $item){
+
+			$post[] = $item;
+			}
+			
+			return $posts;
+	
+
+
+
+}
+
+function getPost($id){
+
+
+try {
+    $dbh = new PDO('mysql:host=localhost;dbname='.DB_NAME, USER, PASS);
+    
+
+} catch (PDOException $e) {
+	
+    echo "Error!: " , $e->getMessage() , "<br/>";
+    die();
+}
+	
+	
+	
+			$statement = $dbh->prepare("SELECT * FROM posts WHERE post_id=:id");
+			$statement->execute(array('id'=>$id));
+			$post=$statement->fetch();
+			
+			return $post;
+
+}
  ?>

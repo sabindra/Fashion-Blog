@@ -118,12 +118,13 @@ function updateCategory($id,$title){
 }
 
 	$stmt = $dbh->prepare("UPDATE categories SET cat_title=:title WHERE cat_id=:id");
-	$stmt->execute(array('title'=>$title,'id'=>$id));
+	$stmt->execute(array(':title'=>$title,':id'=>$id));
 
 
 }
 
 function deleteCategory($id){
+	echo "inside function";
 
 	try {
     $dbh = new PDO('mysql:host=localhost;dbname='.DB_NAME, USER, PASS);
@@ -135,8 +136,8 @@ function deleteCategory($id){
     die();
 }
 
-	$query = $dbh->query("DELETE  FROM categories WHERE cat_id=$id");
-	$query->execute();
+	$query = $dbh->prepare("DELETE  FROM categories WHERE cat_id=:id");
+	$query->execute(array("id"=>$id));
 	
 	
 
@@ -296,11 +297,55 @@ function deletePost($id){
 
 
 
+function getComments(){
+	try {
+    $dbh = new PDO('mysql:host=localhost;dbname='.DB_NAME, USER, PASS);
+    
+
+} catch (PDOException $e) {
+	
+    echo "Error!: " , $e->getMessage() , "<br/>";
+    die();
+}
+	
+	
+	
+			$statement = $dbh->prepare("SELECT * FROM comments ORDER BY comment_id");
+			$statement->execute();
+			$comments = $statement->fetchAll(PDO::FETCH_ASSOC); 
+			
+			return $comments;
+	
+}
 
 
 
 
 
+
+
+function deleteComment($id){
+
+	try {
+    $dbh = new PDO('mysql:host=localhost;dbname='.DB_NAME, USER, PASS);
+    
+
+} catch (PDOException $e) {
+	
+    echo "Error!: " , $e->getMessage() , "<br/>";
+    die();
+}
+
+	$query = $dbh->prepare("DELETE  FROM comments WHERE comment_id=$id");
+	$query->execute();
+	
+	
+
+
+
+
+ 
+}
 
 
 

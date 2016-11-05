@@ -5,7 +5,7 @@
 
 if(isset($_POST['submit'])){
 
-  $formError="";
+  
   $title =$_POST['title'];
   $content =$_POST['content'];
   $cat_id =$_POST['category'];
@@ -91,7 +91,7 @@ if(!empty($title) && !empty($content)){
 ?>
 
 <form method="post" enctype="multipart/form-data" action="">
-<?php if(isset($formError)){ echo "<div class = 'alert alert-error'><button type = 'button' class = 'close' data-dismiss = 'alert' aria-hidden = 'true'>
+<?php if(isset($formError)){ echo "<div class = 'alert alert-danger'><button type = 'button' class = 'close' data-dismiss = 'alert' aria-hidden = 'true'>
       &times;
    </button>$formError</div>";}?>
 <?php if(isset($feedback)){ echo "<div class = 'alert alert-success'><button type = 'button' class = 'close' data-dismiss = 'alert' aria-hidden = 'true'>
@@ -129,7 +129,7 @@ if(!empty($title) && !empty($content)){
     <select class="form-control" name="status">
 
     <option value="draft">Draft</option>
-    <option value="publsihed">Published</option>
+    <option value="published">Published</option>
 
 
     </select>

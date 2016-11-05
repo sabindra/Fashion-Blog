@@ -3,6 +3,7 @@
 	 include("functions.php");
 	 $categories=getCategories();
 	 $recentPosts = getRecentPosts();
+	 $postList = getPostList();
 	 include("partials/header.php");
 
 
@@ -17,7 +18,7 @@
 		</header>
 		<section class="main-slider">
 			<ul class="bxslider">
-				<li><div class="slider-item"><img src="images/1140x500-2.jpg" title="Funky roots" /><h2><a href="post.html" title="Vintage-Inspired Finds for Your Home">Vintage-Inspired Finds for Your Home</a></h2></div></li>
+				<li><div class="slider-item"><img src="post_images/581da7440c14d_05-11-16.jpg" title="Funky roots" /><h2><a href="post.html" title="Vintage-Inspired Finds for Your Home">Vintage-Inspired Finds for Your Home</a></h2></div></li>
 				<li><div class="slider-item"><img src="images/1140x500-1.jpg" title="Funky roots" /><h2><a href="post.html" title="Vintage-Inspired Finds for Your Home">Vintage-Inspired Finds for Your Home</a></h2></div></li>
 				<li><div class="slider-item"><img src="images/1140x500-3.jpg" title="Funky roots" /><h2><a href="post.html" title="Vintage-Inspired Finds for Your Home">Vintage-Inspired Finds for Your Home</a></h2></div></li>
 			</ul>
@@ -30,10 +31,10 @@
 
 					<article class="blog-post">
 						<div class="blog-post-image">
-							<a href="post.html"><img src="images/750x500-1.jpg" alt=""></a>
+							<?php echo "<a href='post.php?id=".$post['post_id']."><img src='./post_images/".$post['image_path']."' alt=''></a>"; ?>
 						</div>
 						<div class="blog-post-body">
-							<h2><a href="post.html"><?php echo $post['title']; ?></a></h2>
+							<h2><a href="post.php?id=<?php echo $post['post_id']; ?>"><?php echo $post['title']; ?></a></h2>
 							<div class="post-meta"><span>by <a href="#"><?php echo $post['author']; ?></a></span>/<span><i class="fa fa-clock-o"></i><?php echo $post['published']; ?></span>/<span><i class="fa fa-comment-o"></i> <a href="#"><?php echo $post['comments_count']; ?></a></span></div>
 							<p><?php echo $post['content']; ?></p>
 							<div class="read-more"><a href="#">Continue Reading</a></div>
