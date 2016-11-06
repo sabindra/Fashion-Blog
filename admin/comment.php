@@ -1,6 +1,22 @@
 <?php
 include("admin_functions.php");
 
+
+if(isset($_GET['approve'])){
+
+$comment_id=$_GET['approve'];
+approveComment($comment_id);
+  header('Location:comment.php');
+
+}
+
+if(isset($_GET['unapprove'])){
+$comment_id=$_GET['unapprove'];
+unapproveComment($comment_id);
+ header('Location:comment.php');
+
+  
+}
 if(isset($_GET['delete'])){
 
     $id =$_GET['delete'];
@@ -11,7 +27,10 @@ if(isset($_GET['delete'])){
 
         header('Location:comment.php');
     }
-}?>
+}
+
+
+?>
 
 <?php
 

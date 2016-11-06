@@ -348,6 +348,49 @@ function deleteComment($id){
 }
 
 
+function approveComment($comment_id){
+
+
+
+	try {
+    $dbh = new PDO('mysql:host=localhost;dbname='.DB_NAME, USER, PASS);
+    
+
+} catch (PDOException $e) {
+	
+    echo "Error!: " , $e->getMessage() , "<br/>";
+    die();
+}
+
+	$stmt = $dbh->prepare("UPDATE comments SET comment_status='approved' WHERE comment_id=:comment_id");
+	$stmt->execute(array(':comment_id'=>$comment_id));
+
+
+}
+
+
+function unapproveComment($comment_id){
+
+
+
+	try {
+    $dbh = new PDO('mysql:host=localhost;dbname='.DB_NAME, USER, PASS);
+    
+
+} catch (PDOException $e) {
+	
+    echo "Error!: " , $e->getMessage() , "<br/>";
+    die();
+}
+
+	$stmt = $dbh->prepare("UPDATE comments SET comment_status='unapproved' WHERE comment_id=:comment_id");
+	$stmt->execute(array(':comment_id'=>$comment_id));
+
+
+}
+
+
+
 
 
 

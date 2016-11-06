@@ -14,7 +14,6 @@ $allComments = getComments();
 
 
 
-
 ?>
 
 
@@ -52,8 +51,8 @@ $allComments = getComments();
         
         
  
-        <td><a class ="btn btn-success" href="post.php?source=edit_post&p_id=<?php echo $item['post_id'];?>">Approve</a></td>
-        <td><a class ="btn btn-warning" href="post.php?source=edit_post&p_id=<?php echo $item['post_id'];?>">Block</a></td>
+        <td><a class ="btn btn-success" href="comment.php?approve=<?php echo $item['comment_id'];?>">Approve</a></td>
+        <td><a class ="btn btn-warning" href="comment.php?unapprove=<?php echo $item['comment_id'];?>">Block</a></td>
          <td><a class ="btn btn-danger" href="comment.php?delete=<?php echo $item['comment_id'];?>">Delete</a></td>
       </tr>
 

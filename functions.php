@@ -125,4 +125,32 @@ try {
 			return $post;
 
 }
+
+function addComment($comment_post_id,$comment_author,$comment_author_email,$comment,$comment_date){
+
+	try {
+    $dbh = new PDO('mysql:host=localhost;dbname='.DB_NAME, USER, PASS);
+    
+
+} catch (PDOException $e) {
+	
+    echo "Error!: " , $e->getMessage() , "<br/>";
+    die();
+}
+
+
+$query = "INSERT INTO comments(comment_post_id,comment_author,comment_author_email,comment,comment_status,comment_date) VALUES(:comment_post_id,:comment_author,:comment_author_email,:comment,:comment_status,:comment_date)";
+$statement = $dbh->prepare($query);
+$statement->execute(array("comment_post_id"=>$comment_post_id,
+					"comment_author"=> $comment_author,
+					"comment_author_email"=>$comment_author_email,
+					"comment"=>$comment,
+					"comment_status"=>"unapproved",
+					"comment_date"=>$comment_date
+ 					));
+
+}
+
+
  ?>
+

@@ -3,7 +3,7 @@
 	 include("functions.php");
 
 	 $post_id = $_GET['id'];
-
+	 
 	 if(!empty($post_id)){
 	 $post = getPost($post_id);
 	 $postList = getPostList();
@@ -18,6 +18,36 @@
 
 	 }
 	 
+
+	 if(isset($_POST['submit'])){
+
+	 	$comment_author=$_POST['name'];
+	 	$comment_author_email=$_POST['email'];
+	 	$comment=$_POST['comment'];
+	 	$comment_date = date("Y-m-d");
+	 	
+
+	 	if(!empty($name) || !empty($email) || !empty($comment)){
+	 		// echo $post_id,$comment_author,$comment_author_email,$comment,$comment_date;
+	 		// exit;
+	 		addComment($post_id,$comment_author,$comment_author_email,$comment,$comment_date);
+	 		$feedback="Thank you, your comment is successfully sent.";
+
+	 			
+	 	}else{
+
+	 			$formError="Please enter all required fields";
+	 	}
+
+	 	
+	
+}
+
+
+
+
+
+
 	 include("partials/header.php");
 
 
@@ -42,6 +72,35 @@
 							<div class="post-meta"><span>by <a href="#">Jamie Mooze</a></span>/<span><i class="fa fa-clock-o"></i>March 14, 2015</span>/<span><i class="fa fa-comment-o"></i> <a href="#">343</a></span></div>
 							<div class="blog-post-text"><p><?php echo $post['content'] ?></p>
 							</div>
+						</div>
+						<div class="well row">
+						<?php if(isset($formError)){ echo "<div class='alert alert-danger'>$formError </div>"; }?>
+						<?php if(isset($feedback)){ echo "<div class='alert alert-success'>$feedback </div>"; }?>
+						<form action="" method="post">
+							<div class="form-group">
+							<label for="name" >Name</label>
+							
+							<input type="text" class="form-control" name="name">
+						
+
+							</div>
+
+							<div class="form-group">
+							<label for="name" class="">Email</label>
+							
+							<input type="email" class="form-control" name="email">
+						
+
+							</div>
+							<div class="form-group">
+							<label for="name" class="">Comment</label>
+							
+							<textarea type="text" class="form-control" name="comment" rows="10"></textarea>
+						
+
+							</div>
+							<button class="btn btn-success" type="submit" name="submit">Submit</button>
+						</form>
 						</div>
 					</article>
 				</div>
