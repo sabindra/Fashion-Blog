@@ -2,26 +2,16 @@
 
 namespace App\Controllers;
 use PDO;
+use \App\Models\User as User;
 
-class PageController extends BaseController{
+class PageController extends Controller{
 
 
 
 	public function index($request,$response){
 
-
-		
-		$query = $this->container->connection->prepare("SELECT * FROM categories");
-	$query->execute();
-
-
-			$categories = $query->fetchAll(PDO::FETCH_ASSOC);
-			foreach	($categories as $item){
-
-			$category[] = $item;
-			}
-			sort($category);
-			
+		$user = $this->container->category;
+		$category = $user->findAll();
 			
 		return $this->container->view->render($response,'home.twig',['category'=>$category,'page'=>"Twig test"]);
 

@@ -4,7 +4,7 @@
  * @Author: Ryan Basnet
  * @Date:   2016-11-07 09:33:39
  * @Last Modified by:   Rajesh Basnet
- * @Last Modified time: 2016-11-08 00:29:48
+ * @Last Modified time: 2016-11-08 09:23:29
  */
 
 
@@ -54,6 +54,7 @@ $container['connection'] = function($container) use($config){
 		$connection = new PDO('mysql:host=localhost;dbname='.$config['db']['db_name'], $config['db']['user'], $config['db']['pass']);
 		// $dbh->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
 		
+		
 
 		} catch (PDOException $e) {
 
@@ -100,6 +101,23 @@ $container['PageController'] = function($container){
 
 	return new \App\Controllers\PageController($container);
 };
+
+
+
+/**
+ * Model Registration
+ */
+
+$container['category'] = function($container){
+
+	$connection = $container->connection;
+
+	return new \App\Models\Category($connection);
+};
+
+
+
+
 
 /**
  * Routes
