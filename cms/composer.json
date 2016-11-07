@@ -1,0 +1,26 @@
+{
+    "name": "vendor/cms",
+    "description": "cms system for fashion blog",
+    "license": "Commercial",
+    "authors": [
+        {
+            "name": "Ryan Basnet",
+            "email": "ryandbasnet@gmail.com"
+        }
+    ],
+    "require": {
+        "monolog/monolog": "^1.21",
+        "slim/slim": "^3.5",
+        "twig/twig": "^1.27",
+        "slim/twig-view": "^2.1"
+    },
+
+    "autoload":{
+
+        "psr-4": {
+
+            "App\\": "app"
+        }
+
+    }
+}
