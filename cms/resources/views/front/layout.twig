@@ -13,8 +13,8 @@
 		<link href="http://localhost:8888/css/bootstrap.min.css" rel="stylesheet">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 		<!-- Custom styles for this template -->
-		<link href="css/jquery.bxslider.css" rel="stylesheet">
-		<link href="css/style.css" rel="stylesheet">
+		<link href="/css/jquery.bxslider.css" rel="stylesheet">
+		<link href="/css/style.css" rel="stylesheet">
 	</head>
 	<body>
 		
@@ -22,60 +22,17 @@
 
 			<div class="container">
 		<header>
-			<a href="index.html"><img src="images/logo.png"></a>
+			<a href="index.html"><img src="/images/logo.png"></a>
 		</header>
-		
-		<section>
-			<div class="row">
-				<div class="col-md-8">
-					<article class="blog-post">
-						<div class="blog-post-image">
-							<a href="post.html"><img src="images/750x500-5.jpg" alt=""></a>
-						</div>
-						<div class="blog-post-body">
-							<h2><?php echo $post['title']?></h2>
-							<div class="post-meta"><span>by <a href="#">Jamie Mooze</a></span>/<span><i class="fa fa-clock-o"></i>March 14, 2015</span>/<span><i class="fa fa-comment-o"></i> <a href="#">343</a></span></div>
-							<div class="blog-post-text"><p><?php echo $post['content'] ?></p>
-							</div>
-						</div>
-						<div class="well row">
-						<?php if(isset($formError)){ echo "<div class='alert alert-danger'>$formError </div>"; }?>
-						<?php if(isset($feedback)){ echo "<div class='alert alert-success'>$feedback </div>"; }?>
-						<form action="" method="post">
-							<div class="form-group">
-							<label for="name" >Name</label>
-							
-							<input type="text" class="form-control" name="name">
-						
-
-							</div>
-
-							<div class="form-group">
-							<label for="name" class="">Email</label>
-							
-							<input type="email" class="form-control" name="email">
-						
-
-							</div>
-							<div class="form-group">
-							<label for="name" class="">Comment</label>
-							
-							<textarea type="text" class="form-control" name="comment" rows="10"></textarea>
-						
-
-							</div>
-							<button class="btn btn-success" type="submit" name="submit">Submit</button>
-						</form>
-						</div>
-					</article>
-				</div>
+		{% block main %}
 				<div class="col-md-4 sidebar-gutter">
 					<aside>
-					<?php include("partials/sidebar.php") ?>
+					{% include 'front/partials/sidebar.twig'  %}
 					</aside>
 				</div>
 			</div>
 		</section>
+		{% endblock main %}
 		</div><!-- /.container -->
 		<!-- Footer -->
 
@@ -85,8 +42,8 @@
 			================================================== -->
 		<!-- Placed at the end of the document so the pages load faster -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-		<script src="js/bootstrap.min.js"></script>
-		<script src="js/jquery.bxslider.js"></script>
-		<script src="js/mooz.scripts.min.js"></script>
+		<script src="/js/bootstrap.min.js"></script>
+		<script src="/js/jquery.bxslider.js"></script>
+		<script src="/js/mooz.scripts.min.js"></script>
 	</body>
 </html>

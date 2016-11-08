@@ -1,0 +1,33 @@
+{% include 'admin/partials/admin_header.twig' %}
+<body>
+
+    <div id="wrapper">
+
+        <!-- Navigation -->
+      
+    {% include 'admin/partials/admin_navigation.twig' %}
+        <div id="page-wrapper">
+
+            <div class="container-fluid">
+
+                {% block main%}
+                {% endblock main %}
+
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- jQuery -->
+    <script src="/admin/js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/admin/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

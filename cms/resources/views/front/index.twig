@@ -1,76 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-		<meta name="description" content="">
-		<meta name="author" content="">
-		<link rel="icon" href="favicon.ico">
-		<title>Renda - clean blog theme based on Bootstrap</title>
-		<!-- Bootstrap core CSS -->
-		<link href="http://localhost:8888/css/bootstrap.min.css" rel="stylesheet">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-		<!-- Custom styles for this template -->
-		<link href="css/jquery.bxslider.css" rel="stylesheet">
-		<link href="css/style.css" rel="stylesheet">
-	</head>
-	<body>
-		
-		{% include 'front/partials/navigation.twig' %}
-
-			<div class="container">
-		<header>
-			<a href="index.html"><img src="images/logo.png"></a>
-		</header>
-		<section class="main-slider">
-			<ul class="bxslider">
-				<li><div class="slider-item"><img src="post_images/581da7440c14d_05-11-16.jpg" title="Funky roots" /><h2><a href="post.html" title="Vintage-Inspired Finds for Your Home">Vintage-Inspired Finds for Your Home</a></h2></div></li>
-				<li><div class="slider-item"><img src="images/1140x500-1.jpg" title="Funky roots" /><h2><a href="post.html" title="Vintage-Inspired Finds for Your Home">Vintage-Inspired Finds for Your Home</a></h2></div></li>
-				<li><div class="slider-item"><img src="images/1140x500-3.jpg" title="Funky roots" /><h2><a href="post.html" title="Vintage-Inspired Finds for Your Home">Vintage-Inspired Finds for Your Home</a></h2></div></li>
-			</ul>
-		</section>
-		<section>
-			<div class="row">
-				<div class="col-md-8">
-
-				{% for post in recentPosts %}
-
-					<article class="blog-post">
-						<div class="blog-post-image">
-							<a href=''><img src="http://localhost:8888/{{ post['image_path'] }}" alt=''></a>"; ?>
-						</div>
-						<div class="blog-post-body">
-							<h2><a href="">{{ post['title'] }}</a></h2>
-							<div class="post-meta"><span>by <a href="#">{{ post['author'] }}</a></span>/<span><i class="fa fa-clock-o"></i>{{ post['published'] | date("F jS \\a\\t g:ia") }}</span>/<span><i class="fa fa-comment-o"></i> <a href="#">{{ post['comments_count']}}</a></span></div>
-							<p>{{ post['content'] }}</p>
-							<div class="read-more"><a href="post/{{post['post_id']}}">Continue Reading</a></div>
-						</div>
-					</article>
-					
-					
-			{% endfor %}
-		
+{% extends 'front/layout.twig' %}
+{% block main %}
+<section class="main-slider">
+	<ul class="bxslider">
+		<li><div class="slider-item"><img src="post_images/581da7440c14d_05-11-16.jpg" title="Funky roots" /><h2><a href="post.html" title="Vintage-Inspired Finds for Your Home">Vintage-Inspired Finds for Your Home</a></h2></div></li>
+		<li><div class="slider-item"><img src="images/1140x500-1.jpg" title="Funky roots" /><h2><a href="post.html" title="Vintage-Inspired Finds for Your Home">Vintage-Inspired Finds for Your Home</a></h2></div></li>
+		<li><div class="slider-item"><img src="images/1140x500-3.jpg" title="Funky roots" /><h2><a href="post.html" title="Vintage-Inspired Finds for Your Home">Vintage-Inspired Finds for Your Home</a></h2></div></li>
+	</ul>
+</section>
+<section>
+	<div class="row">
+		<div class="col-md-8">
+		{% for post in recentPosts %}
+			<article class="blog-post">
+				<div class="blog-post-image">
+					<a href=''><img src="http://localhost:8888/{{ post['image_path'] }}" alt=''></a> 
 				</div>
-				<div class="col-md-4 sidebar-gutter">
+				<div class="blog-post-body">
+					<h2><a href="">{{ post['title'] }}</a></h2>
+					<div class="post-meta"><span>by <a href="#">{{ post['author'] }}</a></span>/<span><i class="fa fa-clock-o"></i>{{ post['published'] | date("F jS \\a\\t g:ia") }}</span>/<span><i class="fa fa-comment-o"></i> <a href="#">{{ post['comments_count']}}</a></span></div>
+					<p>{{ post['content'] }}</p>
+					<div class="read-more"><a href="post/{{post['post_id']}}">Continue Reading</a></div>
+				</div>
+			</article>
+
+		{% endfor %}
+		</div>
+		<div class="col-md-4 sidebar-gutter">
 					<aside>
 					{% include 'front/partials/sidebar.twig'  %}
 					</aside>
 				</div>
 			</div>
 		</section>
-		</div><!-- /.container -->
-		<!-- Footer -->
-
-		{% include 'front/partials/footer.twig' %}
-
-		<!-- Bootstrap core JavaScript
-			================================================== -->
-		<!-- Placed at the end of the document so the pages load faster -->
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-		<script src="js/bootstrap.min.js"></script>
-		<script src="js/jquery.bxslider.js"></script>
-		<script src="js/mooz.scripts.min.js"></script>
-	</body>
-</html>
+{% endblock main %}	
+				
+	

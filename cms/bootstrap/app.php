@@ -4,7 +4,7 @@
  * @Author: Ryan Basnet
  * @Date:   2016-11-07 09:33:39
  * @Last Modified by:   Rajesh Basnet
- * @Last Modified time: 2016-11-08 12:52:59
+ * @Last Modified time: 2016-11-08 17:49:02
  */
 
 
@@ -109,6 +109,12 @@ $container['PageController'] = function($container){
 	return new \App\Controllers\PageController($container);
 };
 
+
+
+$container['AdminController'] = function($container){
+
+	return new \App\Controllers\AdminController($container);
+};
 
 
 /**
