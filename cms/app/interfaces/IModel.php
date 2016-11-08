@@ -1,6 +1,6 @@
 <?php 
 
-namespace App\Inf;
+namespace App\Interfaces;
 
 
 

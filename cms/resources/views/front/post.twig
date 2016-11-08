@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<link rel="icon" href="favicon.ico">
+		<title>Renda - clean blog theme based on Bootstrap</title>
+		<!-- Bootstrap core CSS -->
+		<link href="http://localhost:8888/css/bootstrap.min.css" rel="stylesheet">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+		<!-- Custom styles for this template -->
+		<link href="css/jquery.bxslider.css" rel="stylesheet">
+		<link href="/css/style.css" rel="stylesheet">
+	</head>
+	<body>
+		
+		{% include 'front/partials/navigation.twig' %}
+
+			<div class="container">
+		<header>
+			<a href="index.html"><img src="http://localhost:8888/images/logo.png"></a>
+		</header>
+		<section>
+			<div class="row">
+				<div class="col-md-8">
+					<article class="blog-post">
+						<div class="blog-post-image">
+							<a href=""><img src="http://localhost:8888/images/750x500-2.jpg" alt=""></a>
+						</div>
+						<div class="blog-post-body">
+							<h2>{{ post['title'] }}</h2>
+							<div class="post-meta"><span>by <a href="#">Jamie Mooze</a></span>/<span><i class="fa fa-clock-o"></i>{{ post['published'] }}</span>/<span><i class="fa fa-comment-o"></i> <a href="#">{{ post['comments_count'] }}</a></span></div>
+							<div class="blog-post-text"><p>{{ post['content'] }}</p>
+							</div>
+						</div>
+						<div class="well row">
+						<!-- <?php if(isset($formError)){ echo "<div class='alert alert-danger'>$formError </div>"; }?>
+						<?php if(isset($feedback)){ echo "<div class='alert alert-success'>$feedback </div>"; }?>
+						<form action="" method="post"> -->
+							<div class="form-group">
+							<label for="name" >Name</label>
+							
+							<input type="text" class="form-control" name="name">
+						
+
+							</div>
+
+							<div class="form-group">
+							<label for="name" class="">Email</label>
+							
+							<input type="email" class="form-control" name="email">
+						
+
+							</div>
+							<div class="form-group">
+							<label for="name" class="">Comment</label>
+							
+							<textarea type="text" class="form-control" name="comment" rows="10"></textarea>
+						
+
+							</div>
+							<button class="btn btn-success" type="submit" name="submit">Submit</button>
+						</form>
+						</div>
+					</article>
+				</div>
+				<div class="col-md-4 sidebar-gutter">
+					<aside>
+					{% include 'front/partials/sidebar.twig' %}
+					</aside>
+				</div>
+			</div>
+		</section>
+		</div><!-- /.container -->
+		<!-- Footer -->
+
+		{% include 'front/partials/footer.twig' %}
+
+		<!-- Bootstrap core JavaScript
+			================================================== -->
+		<!-- Placed at the end of the document so the pages load faster -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/jquery.bxslider.js"></script>
+		<script src="js/mooz.scripts.min.js"></script>
+	</body>
+</html>

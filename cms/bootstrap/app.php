@@ -4,7 +4,7 @@
  * @Author: Ryan Basnet
  * @Date:   2016-11-07 09:33:39
  * @Last Modified by:   Rajesh Basnet
- * @Last Modified time: 2016-11-08 09:23:29
+ * @Last Modified time: 2016-11-08 12:52:59
  */
 
 
@@ -27,11 +27,13 @@ require __DIR__ . '/../vendor/autoload.php';
 $config['displayErrorDetails'] = true;
 $config['db'] = require __DIR__ . '/../config/db.php';
 
+
 /**
  * Slim app instantiation
  * 
  */
 $app = new \Slim\App($config);
+
 
 
 /**
@@ -82,6 +84,7 @@ $container['view'] = function ($container){
 	$view = new \Slim\Views\Twig(__DIR__ . '/../resources/views',[
 
 		'cache' => false,
+		'debug'=>true,
 
 		]);
 
@@ -89,8 +92,12 @@ $container['view'] = function ($container){
     $basePath = rtrim(str_ireplace('index.php', '', $container['request']->getUri()->getBasePath()), '/');
     $view->addExtension(new Slim\Views\TwigExtension($container['router'], $basePath));
 
+
+    
 	return $view;
 };
+
+
 
 /**
  * Controller Registration
@@ -114,6 +121,14 @@ $container['category'] = function($container){
 
 	return new \App\Models\Category($connection);
 };
+
+$container['post'] = function($container){
+
+	$connection = $container->connection;
+
+	return new \App\Models\Post($connection);
+};
+
 
 
 

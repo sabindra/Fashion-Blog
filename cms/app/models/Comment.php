@@ -3,8 +3,9 @@
 namespace App\Models;
 
 use PDO;
+use \App\Interfaces\IModel as IModel;
 
-class Comment extends Model implements  \App\Inf\IModel{
+class Comment extends Model implements  IModel{
 
 
 	function __construct($connection){

@@ -1,0 +1,57 @@
+<!-- sidebar-widget -->
+					<div class="sidebar-widget">
+						<h3 class="sidebar-title">About Me</h3>
+						<div class="widget-container widget-about">
+							<a href="post.html"><img src="http://localhost:8888/images/author1.jpg" alt=""></a>
+							<h4>Soniya Acharya</h4>
+							<div class="author-title">Blogger/Enrolled Nurse</div>
+							<p>While everyone’s eyes are glued to the runway, it’s hard to ignore that there are major fashion moments on the front row too.</p>
+						</div>
+					</div>
+					<!-- sidebar-widget -->
+					<div class="sidebar-widget">
+						<h3 class="sidebar-title">Recent Posts</h3>
+						<div class="widget-container">
+							{% for post in featuredPosts %}
+
+								<article class="widget-post">
+								<div class="post-image">
+									<a href=''><img src='' alt=''></a>
+								</div>
+								<div class="post-body">
+									<h2><a href="/post/{{post['post_id']}}">{{ post['title'] }}</a></h2>
+									<div class="/post-meta">
+										<span><i class="fa fa-clock-o"></i>{{ post['published'] }}</span> <span><a href=""><i class="fa fa-comment-o"></i><?php echo $item['comments_count']; ?></a></span>
+									</div>
+								</div>
+							</article>
+								
+							{% endfor %} 
+						</div>
+					</div>
+					<!-- sidebar-widget -->
+					<div class="sidebar-widget">
+						<h3 class="sidebar-title">Socials</h3>
+						<div class="widget-container">
+							<div class="widget-socials">
+								<a href="#"><i class="fa fa-facebook"></i></a>
+								<a href="#"><i class="fa fa-twitter"></i></a>
+								<a href="#"><i class="fa fa-instagram"></i></a>
+								<a href="#"><i class="fa fa-google-plus"></i></a>
+								<a href="#"><i class="fa fa-pinterest"></i></a>
+								<a href="#"><i class="fa fa-reddit"></i></a>
+							</div>
+						</div>
+					</div>
+					<!-- sidebar-widget -->
+					<div class="sidebar-widget">
+						<h3 class="sidebar-title">Categories</h3>
+						<div class="widget-container">
+							<ul>
+								{% for cat in categories %}
+				<li><a href=''>{{ cat['cat_title'] }}</a></li>";
+				{% endfor %}
+							</ul>
+						</div>
+					</div>
+					</div>
