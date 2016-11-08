@@ -38,24 +38,25 @@
     <tbody>
       
       <?php foreach ($allPosts as $item): ?>
+        {% for post in posts %}
       	<tr> 
-        <td><?php echo $item['post_id'];?></td>
-        <td><?php echo $item['title'];?></td>
+        <td>{{ post['post_id'] }}</td>
+        <td>{{ post['author'] }}</td>
 
-        <td><?php echo $item['author'];?></td>
-        <td><?php echo $item['published'];?></td>
-        <td><?php echo $item['status'];?></td>
-        <td><?php echo $item['view_count'];?></td>
-        <td><?php echo $item['comments_count'];?></td>
-        <td><?php echo $item['cat_id'];?></td>
-        <td><?php echo $item['tags'];?></td>
+        <td>{{ post['author'] }}</td>
+        <td>{{ post['published'] }}</td>
+        <td>{{ post['status'] }}</td>
+        <td>{{ post['view_count'] }}</td>
+        <td>{{ post['comments_count'] }}</td>
+        <td>{{ post['cat_id'] }}</td>
+        <td>{{ post['tags'] }}</td>
  
-        <td><a class ="btn btn-warning" href="post.php?source=edit_post&p_id=<?php echo $item['post_id'];?>">Edit</a></td>
-         <td><a class ="btn btn-danger" href="post.php?delete=<?php echo $item['post_id'];?>">Delete</a></td>
+        <td><a class ="btn btn-warning" href="post.php?source=edit_post&p_id">Edit</a></td>
+         <td><a class ="btn btn-danger" href="post.php?delete=">Delete</a></td>
       </tr>
 
       	
-      <?php endforeach ?>
+      {% endfor %}
        
      
     </tbody>

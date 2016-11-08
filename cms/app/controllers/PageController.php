@@ -8,7 +8,7 @@ class PageController extends Controller{
 
 
 
-	public function index($request,$response){
+	public function getIndex($request,$response){
 
 		$category = $this->container->category;
 		$categories = $category->findAll();
@@ -24,7 +24,7 @@ class PageController extends Controller{
 
 
 
-	public function about($request,$response){
+	public function getAbout($request,$response){
 
 		$categories = $this->container->category->findAll();
 
@@ -33,7 +33,7 @@ class PageController extends Controller{
 	}
 
 	
-	public function contact($request,$response){
+	public function getContact($request,$response){
 
 		$categories = $this->container->category->findAll();
 
@@ -41,7 +41,7 @@ class PageController extends Controller{
 
 	}
 
-	public function post($request,$response,$args){
+	public function getPost($request,$response,$args){
 
 		$id = $args['id'];
 		$post = $this->container->post->find($id);
@@ -53,7 +53,7 @@ class PageController extends Controller{
 
 	}
 
-	public function caegory($request,$response,$args){
+	public function getCaegory($request,$response,$args){
 
 		$category = $args['category'];
 		// $post = $this->container->post->find($id);

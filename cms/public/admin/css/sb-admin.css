@@ -222,3 +222,16 @@ ul.alert-dropdown {
 .panel-yellow a:hover {
     color: #df8a13;
 }
+
+/*Custom*/
+
+.login-container{
+
+
+    margin-top:20vh;
+}
+
+.login{
+
+    width:100%;
+}

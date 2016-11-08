@@ -4,7 +4,7 @@
  * @Author: Ryan Basnet
  * @Date:   2016-11-07 09:33:39
  * @Last Modified by:   Rajesh Basnet
- * @Last Modified time: 2016-11-08 17:49:02
+ * @Last Modified time: 2016-11-08 22:12:38
  */
 
 
@@ -24,7 +24,7 @@ require __DIR__ . '/../vendor/autoload.php';
  * Configuration
  */
 
-$config['displayErrorDetails'] = true;
+$config['settings']['displayErrorDetails'] = true;
 $config['db'] = require __DIR__ . '/../config/db.php';
 
 
@@ -111,10 +111,31 @@ $container['PageController'] = function($container){
 
 
 
-$container['AdminController'] = function($container){
+$container['AuthController'] = function($container){
 
-	return new \App\Controllers\AdminController($container);
+	return new \App\Controllers\AuthController($container);
 };
+
+$container['PostController'] = function($container){
+
+	return new \App\Controllers\PostController($container);
+};
+
+$container['UserController'] = function($container){
+
+	return new \App\Controllers\UserController($container);
+};
+
+$container['CategoryController'] = function($container){
+
+	return new \App\Controllers\CategoryController($container);
+};
+
+$container['CommentController'] = function($container){
+
+	return new \App\Controllers\CommentController($container);
+};
+
 
 
 /**

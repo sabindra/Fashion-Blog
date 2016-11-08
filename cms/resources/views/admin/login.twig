@@ -1,0 +1,39 @@
+{% include 'admin/partials/admin_header.twig' %}
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-4 col-sm-offset-4">
+                <div class="well login-container">
+                    <h3 class="text-center">Log in</h3>
+                    <form method="post"  action="/manage/login">
+
+                        <div class="form-group">
+                            <label for="title">Email:</label>
+                            <input type="email" class="form-control input-lg" id="email" name="email" >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="pwd">Password:</label>
+                            <input type="text" class="form-control input-lg" id="password" name="password" >
+                        </div>
+                        <button class="btn btn-success btn-lg login" >Log in </button>
+                    </form>
+                </div>
+                <!-- /.well -->
+             </div>
+             <!-- /.col-sm-4 -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+
+
+    <!-- jQuery -->
+    <script src="/admin/js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/admin/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
