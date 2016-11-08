@@ -18,7 +18,7 @@ $app->get('/post/{id}' ,'PageController:getPost');
  * Aduth Routes
  */
 
-$app->get('/manage/login' ,'AuthController:getSignIn');
+$app->get('/manage/login' ,'AuthController:getSignIn')->setName('admin.signIn');;
 $app->post('/manage/login' ,'AuthController:postSignIn');
 
 
