@@ -4,7 +4,7 @@
  * @Author: Ryan Basnet
  * @Date:   2016-11-07 09:33:39
  * @Last Modified by:   Rajesh Basnet
- * @Last Modified time: 2016-11-11 01:23:07
+ * @Last Modified time: 2016-11-11 01:54:51
  */
 
 session_start();
@@ -100,7 +100,7 @@ $container['view'] = function ($container){
     $view->addExtension(new Slim\Views\TwigExtension($container['router'], $basePath));
     $view->addExtension(new Twig_Extension_Debug());
 
-    $view->getEnvironment()->addGlobal('flash',$container->flash);
+    $view->getEnvironment()->addGlobal('flash',$container->flash->getMessages());
 
 
     

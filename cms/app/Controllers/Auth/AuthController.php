@@ -72,11 +72,12 @@ class AuthController extends Controller{
 
 				if(!$auth){
 
-					$this->container->flash->addMessage('failed',"Sorry Could not signed in");
+					$this->container->flash->addMessage('fail',"Sorry Could not signed in");
 			
 					return $response->withRedirect($this->container->router->pathFor('admin.signIn'));
 				}
 
+				$this->container->flash->addMessage('success',"Welcome Rajesh");
 				return $response->withRedirect($this->container->router->pathFor('admin.dashboard'));
 
 		

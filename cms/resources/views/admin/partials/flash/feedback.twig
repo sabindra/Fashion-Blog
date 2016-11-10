@@ -2,12 +2,17 @@
 	
 
   		
-	{% if flash.getMessage('failed') %}
+	{% if flash %}
+		
 
-  	<div id="feedback" class="fail">
-	<p>{{ flash.getMessage('failed') }}</p>
+	{% for key,value in flash %}
+		<div id="feedback" class="{{ key}}">
+  	
+	<p>{{ value[0] }}</p>
 	  </div>
+{% endfor %}
+	
+
 
 {% endif %}
-
 
