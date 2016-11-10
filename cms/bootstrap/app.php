@@ -4,7 +4,7 @@
  * @Author: Ryan Basnet
  * @Date:   2016-11-07 09:33:39
  * @Last Modified by:   Rajesh Basnet
- * @Last Modified time: 2016-11-11 01:54:51
+ * @Last Modified time: 2016-11-11 02:18:19
  */
 
 session_start();
@@ -67,7 +67,6 @@ $container['connection'] = function($container) use($config){
 	return $connection;
 
 };
-
 
 
 
