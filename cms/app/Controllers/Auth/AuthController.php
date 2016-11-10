@@ -2,6 +2,7 @@
 
 namespace App\Controllers\Auth;
 use App\Controllers\Controller;
+use Respect\Validation\Validator as v;
 use PDO;
 
 
@@ -19,15 +20,14 @@ class AuthController extends Controller{
 
 
 
-
-	
-
 	public function getSignIn($request,$response){
 		
 		return $this->container->view->render($response,'admin/login.twig');
 
 
 	}
+
+
 
 	public function postSignIn($request,$response){
 
@@ -36,33 +36,47 @@ class AuthController extends Controller{
 		$error = array();
 
 
-		//input validation
-		if(empty($email)){
+		$rules = [
 
-			$error['email'] = "Please enter email.";
+				'email'=>v::notEmpty()->email(),
+				'password'=>v::notEmpty(),
+				
+		];
+		// $this->container->validator->t();
+		$validation = $this->container->validator->validate($request,$rules);
+		// var_dump($validation->getError());
+		// exit;
+		if($validation->failed()){
+			$this->container->view->render($response,'admin/login.twig',['error'=>$validation->getError()]);
 			
-		}else{
-
-			if(!filter_var($email,FILTER_VALIDATE_EMAIL)){
-
-			$error['email'] = "Please enter valid email.";
-
-			}
 		}
+		// //input validation
+		// if(empty($email)){
 
-		if(empty($password)){
+		// 	$error['email'] = "Please enter email.";
+			
+		// }else{
 
-			$error['password'] = "Please enter password.";
-		}
+		// 	if(!filter_var($email,FILTER_VALIDATE_EMAIL)){
+
+		// 	$error['email'] = "Please enter valid email.";
+
+		// 	}
+		// }
+
+		// if(empty($password)){
+
+		// 	$error['password'] = "Please enter password.";
+		// }
 		 
-		if(!empty($error)){
+		// if(!empty($error)){
 			
 			
 			
-			// return $response->withRedirect($this->container->router->pathFor('admin.signIn',['error'=>$error]));
-			return $this->container->view->render($response,'admin/login.twig',['error'=>$error]);
+		// 	// return $response->withRedirect($this->container->router->pathFor('admin.signIn',['error'=>$error]));
+		// 	return $this->container->view->render($response,'admin/login.twig',['error'=>$error]);
 
-		}
+		// }
 
 		
 
