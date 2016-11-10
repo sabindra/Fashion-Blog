@@ -3,8 +3,8 @@
 /**
  * @Author: Ryan Basnet
  * @Date:   2016-11-07 09:33:39
- * @Last Modified by:   Rajesh Basnet
- * @Last Modified time: 2016-11-10 10:58:17
+ * @Last Modified by:   Ryan Basnet
+ * @Last Modified time: 2016-11-10 23:42:55
  */
 
 session_start();
@@ -107,7 +107,10 @@ $container['view'] = function ($container){
 	return $view;
 };
 
+$container['validator'] = function ($container){
 
+	return new App\Validation\Validator();
+};
 
 
 
@@ -166,6 +169,13 @@ $container['post'] = function($container){
 	$connection = $container->connection;
 
 	return new \App\Models\Post($connection);
+};
+
+$container['user'] = function($container){
+
+	$connection = $container->connection;
+
+	return new \App\Models\User($connection);
 };
 
 

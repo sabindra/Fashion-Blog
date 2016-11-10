@@ -21,8 +21,12 @@ class User extends Model implements  Imodel{
 	 */
 	public function create($array){
 
-		$statement = $this->connection->prepare("INSERT INTO users(,first_name,last_name,user_email,password,role_id) VALUES(:title)");
-		$statement->execute(array( "title"=>$array['title']));
+		$statement = $this->connection->prepare("INSERT INTO users(,first_name,last_name,user_email,password,role_id,created_at) VALUES(:first_name,:last_name,:user_email,:role_id,:created_at)");
+		$statement->execute(array( "first_name"=>$array['first_name'],
+			"last_name"=>$array['last_name'],
+			"user_email"=>$array['user_email'],
+			"role_id"=>$array['role_id'],
+			"created_at"=>NOW()));
 
 	}
 
@@ -85,7 +89,7 @@ class User extends Model implements  Imodel{
 		$statement = $this->connection->prepare("DELETE  FROM categories WHERE user_id=:id");
 		$statement->execute(array("id"=>$id));
 	}
-}
+
 
 
 public function userExist($email){
@@ -101,6 +105,6 @@ public function userVerify($email,$password){
 	
 }
 
-
+}
 
  ?>

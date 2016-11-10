@@ -35,8 +35,8 @@ $app->get('/manage/post' ,'PostController:getIndex');
 $app->get('/manage/post/new' ,'PostController:getpostForm');
 
 
-$app->get('/manage/user/new' ,'UserController:getUserForm');
-$app->post('/manage/user' ,'UserController:postUser');
+$app->get('/manage/user/new' ,'UserController:getUserForm')->setName('admin.signup');
+$app->post('/manage/user' ,'UserController:postUser')->setName('admin.signup');
 
 
  ?>
