@@ -4,10 +4,10 @@
  * @Author: Ryan Basnet
  * @Date:   2016-11-07 09:33:39
  * @Last Modified by:   Rajesh Basnet
- * @Last Modified time: 2016-11-08 22:12:38
+ * @Last Modified time: 2016-11-10 10:58:17
  */
 
-
+session_start();
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -75,8 +75,15 @@ $container['connection'] = function($container) use($config){
 
 
 /**
- * Views Setup
+ * Service Provider Registration
  */
+
+
+$container['flash'] = function ($container){
+
+	return new \Slim\Flash\Messages();
+};
+
 
 $container['view'] = function ($container){
 
@@ -91,11 +98,16 @@ $container['view'] = function ($container){
 	// Instantiate and add Slim specific extension
     $basePath = rtrim(str_ireplace('index.php', '', $container['request']->getUri()->getBasePath()), '/');
     $view->addExtension(new Slim\Views\TwigExtension($container['router'], $basePath));
+    $view->addExtension(new Twig_Extension_Debug());
+
+    $view->getEnvironment()->addGlobal('flash',$container->flash);
 
 
     
 	return $view;
 };
+
+
 
 
 

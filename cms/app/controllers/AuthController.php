@@ -16,9 +16,9 @@ class AuthController extends Controller{
 
 	}
 
-		public function getSignIn($request,$response){
-			
-			return $this->container->view->render($response,'admin/login.twig');
+	public function getSignIn($request,$response){
+		
+		return $this->container->view->render($response,'admin/login.twig');
 
 
 	}
@@ -50,12 +50,17 @@ class AuthController extends Controller{
 		}
 		 
 		if(!empty($error)){
-
+			
+			
+			$this->container->flash->addMessage('failed',"Sorry Could not signed in");
+			
+			// return $response->withRedirect($this->container->router->pathFor('admin.signIn',['error'=>$error]));
 			return $this->container->view->render($response,'admin/login.twig',['error'=>$error]);
 
 		}
 
 		
+
 		return $response->withRedirect($this->container->router->pathFor('admin.dashboard'));
 		
 			
