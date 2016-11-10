@@ -60,7 +60,7 @@ class UserController extends Controller{
 		$data['first_name']= $request->getParam('first-name');
 		$data['last_name']= $request->getParam('last-name');
 		$data['email']= $request->getParam('email');
-		$data['password']= password_hash($request->getParam('password'),DEFAULT_PASSWORD);
+		$data['password']= password_hash($request->getParam('password'),PASSWORD_DEFAULT);
 		$data['role_id']= $request->getParam('role');
 		$this->container->user->create($data);
 		return $this->container->view->render($response,'admin/partials/user/add_user.twig');

@@ -1,6 +1,7 @@
 <?php 
 
-namespace App\Controllers;
+namespace App\Controllers\Auth;
+use App\Controllers\Controller;
 use PDO;
 
 
@@ -15,6 +16,11 @@ class AuthController extends Controller{
 
 
 	}
+
+
+
+
+	
 
 	public function getSignIn($request,$response){
 		
@@ -52,7 +58,6 @@ class AuthController extends Controller{
 		if(!empty($error)){
 			
 			
-			$this->container->flash->addMessage('failed',"Sorry Could not signed in");
 			
 			// return $response->withRedirect($this->container->router->pathFor('admin.signIn',['error'=>$error]));
 			return $this->container->view->render($response,'admin/login.twig',['error'=>$error]);
@@ -61,7 +66,22 @@ class AuthController extends Controller{
 
 		
 
-		return $response->withRedirect($this->container->router->pathFor('admin.dashboard'));
+
+				$auth= $this->container->auth->attempt($email,$password);
+				
+
+				if(!$auth){
+
+					$this->container->flash->addMessage('failed',"Sorry Could not signed in");
+			
+					return $response->withRedirect($this->container->router->pathFor('admin.signIn'));
+				}
+
+				return $response->withRedirect($this->container->router->pathFor('admin.dashboard'));
+
+		
+
+	
 		
 			
 		//                             return $this->container->view->render($response,'admin/login.twig');

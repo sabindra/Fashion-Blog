@@ -21,12 +21,14 @@ class User extends Model implements  Imodel{
 	 */
 	public function create($array){
 
-		$statement = $this->connection->prepare("INSERT INTO users(,first_name,last_name,user_email,password,role_id,created_at) VALUES(:first_name,:last_name,:user_email,:role_id,:created_at)");
+		$statement = $this->connection->prepare("INSERT INTO users(first_name,last_name,user_email,password,role_id,created_at) VALUES(:first_name,:last_name,:user_email,:password,:role_id,NOW())");
 		$statement->execute(array( "first_name"=>$array['first_name'],
 			"last_name"=>$array['last_name'],
-			"user_email"=>$array['user_email'],
+			"user_email"=>$array['email'],
+			"password"=>$array['password'],
 			"role_id"=>$array['role_id'],
-			"created_at"=>NOW()));
+
+			));
 
 	}
 
@@ -96,7 +98,7 @@ public function userExist($email){
 
 	$statement = $this->connection->prepare("SELECT * FROM users WHERE user_email=:email");
 		$statement->execute(array('email'=>$email));
-		$user=$statement->fetch();
+		$user=$statement->fetch(PDO::FETCH_ASSOC);
 		return $user;
 }
 

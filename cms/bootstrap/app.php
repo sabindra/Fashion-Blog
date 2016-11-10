@@ -3,8 +3,8 @@
 /**
  * @Author: Ryan Basnet
  * @Date:   2016-11-07 09:33:39
- * @Last Modified by:   Ryan Basnet
- * @Last Modified time: 2016-11-10 23:42:55
+ * @Last Modified by:   Rajesh Basnet
+ * @Last Modified time: 2016-11-11 01:23:07
  */
 
 session_start();
@@ -126,9 +126,15 @@ $container['PageController'] = function($container){
 
 
 
+$container['auth'] = function($container){
+
+	return new \App\Auth\Auth($container);
+};
+
+
 $container['AuthController'] = function($container){
 
-	return new \App\Controllers\AuthController($container);
+	return new \App\Controllers\Auth\AuthController($container);
 };
 
 $container['PostController'] = function($container){
