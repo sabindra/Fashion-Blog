@@ -37,7 +37,23 @@ public function attempt($email,$password){
 }
 
 
+public function logout(){
 
+	session_unset();
+}
+
+
+public function user(){
+
+	$user = $this->container->user->find($_SESSION['user']);
+
+	return ['user'=>$user['user_id'],'firstName'=>$user['first_name'],'lastName'=>$user['last_name']]
+}
+
+public function check(){
+
+	return isset($_SESSION['user']);
+}
 
 
 

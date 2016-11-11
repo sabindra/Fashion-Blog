@@ -20,6 +20,7 @@ $app->get('/post/{id}' ,'PageController:getPost');
 
 $app->get('/manage/login' ,'AuthController:getSignIn')->setName('admin.signIn');;
 $app->post('/manage/login' ,'AuthController:postSignIn');
+$app->get('/manage/signout' ,'AuthController:signout')->setName('admin.signout');
 
 
 

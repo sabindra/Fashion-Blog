@@ -104,6 +104,14 @@ class AuthController extends Controller{
 
 	}
 
+	public function signout($request,$response){
+
+		$this->container->auth->logout();
+		return $response->withRedirect($this->container->router->pathFor('admin.signIn'));
+
+
+	}
+
 
 
 
