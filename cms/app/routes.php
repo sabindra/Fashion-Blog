@@ -31,7 +31,7 @@ $app->get('/manage/signout' ,'AuthController:signout')->setName('admin.signout')
  * Admin Routes
  */
 
-$app->get('/manage' ,'AuthController:getIndex')->setName('admin.dashboard');
+$app->get('/manage' ,'AuthController:getIndex')->setName('admin.dashboard')->add(new \App\Middleware\AuthMiddleware($container));
 $app->get('/manage/post' ,'PostController:getIndex');
 $app->get('/manage/post/new' ,'PostController:getpostForm');
 
