@@ -3,8 +3,8 @@
 /**
  * @Author: Ryan Basnet
  * @Date:   2016-11-07 09:33:39
- * @Last Modified by:   Rajesh Basnet
- * @Last Modified time: 2016-11-11 02:18:19
+ * @Last Modified by:   Ryan Basnet
+ * @Last Modified time: 2016-11-13 10:09:32
  */
 
 session_start();
@@ -42,10 +42,11 @@ $app = new \Slim\App($config);
 
 $container = $app->getContainer();
 
+
+
 /**
  * Database Conection Setup
  */
-
 
 
 $container['connection'] = function($container) use($config){
@@ -71,13 +72,11 @@ $container['connection'] = function($container) use($config){
 
 
 
-
-
 /**
  * Service Provider Registration
  */
 
-
+/** Flash Message */
 $container['flash'] = function ($container){
 
 	return new \Slim\Flash\Messages();
@@ -97,18 +96,25 @@ $container['view'] = function ($container){
 	// Instantiate and add Slim specific extension
     $basePath = rtrim(str_ireplace('index.php', '', $container['request']->getUri()->getBasePath()), '/');
     $view->addExtension(new Slim\Views\TwigExtension($container['router'], $basePath));
-    $view->addExtension(new Twig_Extension_Debug());
-
-    $view->getEnvironment()->addGlobal('flash',$container->flash->getMessages());
-
-
     
+    $view->addExtension(new Twig_Extension_Debug());
+    $view->getEnvironment()->addGlobal('flash',$container->flash->getMessages());
 	return $view;
 };
 
+
+/** Validator  */
 $container['validator'] = function ($container){
 
 	return new App\Validation\Validator();
+};
+
+
+/** Auth Middleware */
+
+$container['auth'] = function($container){
+
+	return new \App\Auth\Auth($container);
 };
 
 
@@ -117,19 +123,10 @@ $container['validator'] = function ($container){
  * Controller Registration
  */
 
-
 $container['PageController'] = function($container){
 
 	return new \App\Controllers\PageController($container);
 };
-
-
-
-$container['auth'] = function($container){
-
-	return new \App\Auth\Auth($container);
-};
-
 
 $container['AuthController'] = function($container){
 
@@ -165,26 +162,20 @@ $container['CommentController'] = function($container){
 $container['category'] = function($container){
 
 	$connection = $container->connection;
-
 	return new \App\Models\Category($connection);
 };
 
 $container['post'] = function($container){
 
 	$connection = $container->connection;
-
 	return new \App\Models\Post($connection);
 };
 
 $container['user'] = function($container){
 
 	$connection = $container->connection;
-
 	return new \App\Models\User($connection);
 };
-
-
-
 
 
 

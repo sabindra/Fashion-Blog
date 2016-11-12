@@ -56,7 +56,7 @@ class User extends Model implements  Imodel{
 	public function find($id){
 
 
-		$statement = $this->connection->prepare("SELECT * FROM categories WHERE user_id=:id");
+		$statement = $this->connection->prepare("SELECT * FROM users WHERE user_id=:id");
 		$statement->execute(array('id'=>$id));
 		$user=$statement->fetch();
 		return $user;

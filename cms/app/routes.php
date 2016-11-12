@@ -1,5 +1,7 @@
 <?php 
 
+use \App\Middleware\GuestMiddleware;
+use \App\Middleware\AuthMiddleware;
 
 /**
  * Page Routes
@@ -15,12 +17,12 @@ $app->get('/post/{id}' ,'PageController:getPost');
 
 
 /**
- * Aduth Routes
+ * Auth Routes
  */
 
-$app->get('/manage/login' ,'AuthController:getSignIn')->setName('admin.signIn');;
-$app->post('/manage/login' ,'AuthController:postSignIn');
-$app->get('/manage/signout' ,'AuthController:signout')->setName('admin.signout');
+$app->get('/manage/login' ,'AuthController:getSignin')->setName('admin.signin')->add(new GuestMiddleware($container));
+$app->post('/manage/login' ,'AuthController:postSignin');
+$app->get('/manage/signout' ,'AuthController:getSignout')->setName('admin.signout');
 
 
 
@@ -31,7 +33,7 @@ $app->get('/manage/signout' ,'AuthController:signout')->setName('admin.signout')
  * Admin Routes
  */
 
-$app->get('/manage' ,'AuthController:getIndex')->setName('admin.dashboard')->add(new \App\Middleware\AuthMiddleware($container));
+$app->get('/manage' ,'AuthController:getIndex')->setName('admin.dashboard')->add(new AuthMiddleware($container));
 $app->get('/manage/post' ,'PostController:getIndex');
 $app->get('/manage/post/new' ,'PostController:getpostForm');
 

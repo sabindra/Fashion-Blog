@@ -1,6 +1,8 @@
 <?php 
 
 namespace App\Controllers\Auth;
+
+
 use App\Controllers\Controller;
 use Respect\Validation\Validator as v;
 use PDO;
@@ -9,18 +11,26 @@ use PDO;
 class AuthController extends Controller{
 
 
-
+	/**
+	 * [getIndex description]
+	 * @param  [type] $request  [description]
+	 * @param  [type] $response [description]
+	 * @return [type]           [description]
+	 */
 	public function getIndex($request,$response){
 
 			
 		return $this->container->view->render($response,'admin/index_admin.twig');
-
-
 	}
 
 
-
-	public function getSignIn($request,$response){
+	/**
+	 * [getSignIn returns login view]
+	 * @param  [HTTP request object] $request 
+	 * @param  [HTTP response object] $response 
+	 * @return [HTML] [return login form]
+	 */
+	public function getSignin($request,$response){
 		
 		return $this->container->view->render($response,'admin/login.twig');
 
@@ -28,91 +38,63 @@ class AuthController extends Controller{
 	}
 
 
+	/**
+	 * [postSignin returns dashboard/redirect login view]
+	 * @param  [HTTP request object] $request 
+	 * @param  [HTTP response object] $response 
+	 * @return [HTML] [return dashboard or redirect to login view]
+	 */
+	public function postSignin($request,$response){
 
-	public function postSignIn($request,$response){
-
+		//sanitizing input data
 		$email= filter_var($request->getParam('email'),FILTER_SANITIZE_EMAIL);
 		$password= filter_var($request->getParam('password'),FILTER_SANITIZE_STRING);
-		$error = array();
+		
 
-
+		// rules for respect validation
 		$rules = [
 
 				'email'=>v::notEmpty()->email(),
 				'password'=>v::notEmpty(),
 				
 		];
-		// $this->container->validator->t();
+
+		// @see Validation\Validator
 		$validation = $this->container->validator->validate($request,$rules);
-		// var_dump($validation->getError());
-		// exit;
 		if($validation->failed()){
-			$this->container->view->render($response,'admin/login.twig',['error'=>$validation->getError()]);
+			
+			$error= $validation->getError();
+			return $this->container->view->render($response,'admin/login.twig',['error'=>$error]);
 			
 		}
-		// //input validation
-		// if(empty($email)){
-
-		// 	$error['email'] = "Please enter email.";
-			
-		// }else{
-
-		// 	if(!filter_var($email,FILTER_VALIDATE_EMAIL)){
-
-		// 	$error['email'] = "Please enter valid email.";
-
-		// 	}
-		// }
-
-		// if(empty($password)){
-
-		// 	$error['password'] = "Please enter password.";
-		// }
-		 
-		// if(!empty($error)){
-			
-			
-			
-		// 	// return $response->withRedirect($this->container->router->pathFor('admin.signIn',['error'=>$error]));
-		// 	return $this->container->view->render($response,'admin/login.twig',['error'=>$error]);
-
-		// }
-
-		
-
-
-				$auth= $this->container->auth->attempt($email,$password);
-				
-
-				if(!$auth){
-
-					$this->container->flash->addMessage('fail',"Sorry Could not signed in");
-			
-					return $response->withRedirect($this->container->router->pathFor('admin.signIn'));
-				}
-
-				$this->container->flash->addMessage('success',"Welcome Rajesh");
-				return $response->withRedirect($this->container->router->pathFor('admin.dashboard'));
-
-		
 
 	
-		
-			
-		//                             return $this->container->view->render($response,'admin/login.twig');
+		$auth= $this->container->auth->attempt($email,$password);
+				
+		if(!$auth){
 
+			$this->container->flash->addMessage('success',"Sorry Could not signed in");
+			return $response->withRedirect($this->container->router->pathFor('admin.signin'));
+		}
 
+		$user_name = $this->container->auth->user()['first_name'];
+		$this->container->flash->addMessage('success',"Welcome $user_name");
+		return $response->withRedirect($this->container->router->pathFor('admin.dashboard'));
 	}
 
-	public function signout($request,$response){
 
+	/**
+	 * [getSignout logs user out and redirect to  login view]
+	 * @param  [HTTP request object] $request 
+	 * @param  [HTTP response object] $response 
+	 * @return [HTML] [ redirect to login view]
+	 */
+	public function getSignout($request,$response){
+
+		// @see Auth\Auth
 		$this->container->auth->logout();
-		return $response->withRedirect($this->container->router->pathFor('admin.signIn'));
-
-
+		return $response->withRedirect($this->container->router->pathFor('admin.signin'));
 	}
-
-
 
 
 
