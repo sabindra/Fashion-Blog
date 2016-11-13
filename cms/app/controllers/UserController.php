@@ -75,9 +75,10 @@ class UserController extends Controller{
 		$data['email']= $request->getParam('email');
 		$data['password']= password_hash($request->getParam('password'),PASSWORD_DEFAULT);
 		$data['role_id']= $request->getParam('role');
+
 		$this->container->user->create($data);
 		$this->container->flash->addMessage('success',"User added successfully !");
-		return $response->withRedirect($this->container->router->pathFor('admin.signup'));
+		return $response->withRedirect($this->container->router->pathFor('admin.addUser'));
 
 	}
 
@@ -120,7 +121,10 @@ class UserController extends Controller{
 		if($validation->failed()){
 
 			$this->container->view->getEnvironment()->addGlobal('errors',$validation->getError());
-			return $response->withRedirect(urlFor("/manage/user/edit/$user_id",['errors'=>$validation->getError()]));
+			$this->container->flash->addMessage('fail',"Please enter required fields !");
+			$user = $this->container->user->find($user_id);
+			// return $this->container->view->render($response,'admin/partials/user/edit_user.twig',['user'=>$user]);
+			return $response->withRedirect($this->container->router->pathFor('admin.editUser',['id'=>$user_id,'errors'=>$validation->getError()]));
 		}
 
 
@@ -130,6 +134,7 @@ class UserController extends Controller{
 		$data['user_email']= $request->getParam('email');
 		$data['password']= password_hash($request->getParam('password'),PASSWORD_DEFAULT);
 		$data['role_id']= $request->getParam('role');
+
 		$user = $this->container->user->update($user_id,$data);
 		$this->container->flash->addMessage('success',"User updated successfully !");
 		return $response->withRedirect($this->container->router->pathFor('admin.users'));
@@ -157,6 +162,129 @@ class UserController extends Controller{
 	}
 
 
+
+	/**
+	 * [getUserForm description]
+	 * [HTTP request object] $request 
+	 * @param  [HTTP response object] $response 
+	 * @return [type]           [description]
+	 */
+	public function getProfile($request,$response){
+
+		$user_id = $this->container->auth->user()['user'];
+		$user=$this->container->user->find($user_id);
+		return $this->container->view->render($response,'admin/partials/user/profile.twig',['user'=>$user]);
+
+
+	}
+
+
+	/**
+	 * [getUserForm description]
+	 * [HTTP request object] $request 
+	 * @param  [HTTP response object] $response 
+	 * @return [type]           [description]
+	 */
+	public function updateProfile($request,$response){
+
+			// respect validation rules
+		$rules = [
+
+				'first-name'=>v::notEmpty()->alpha()->length(5,10),
+				'last-name'=>v::notEmpty()->alpha()->length(5,10),
+				'email'=>v::notEmpty()->email(),
+				
+		];
+
+		$validation = $this->container->validator->validate($request,$rules);
+		if($validation->failed()){
+
+			$this->container->flash->addMessage('fail',"Please enter all fields!");
+			return $response->withRedirect($this->container->router->pathFor('user.profile'));
+		}
+
+		$data =array();
+		$data['first_name']= $request->getParam('first-name');
+		$data['last_name']= $request->getParam('last-name');
+		$data['user_email']= $request->getParam('email');
+		$user_id = $this->container->auth->user()['user'];
+
+		$user = $this->container->user->updateProfile($user_id,$data);
+		$this->container->flash->addMessage('success',"Successfully update profile!");
+		return $response->withRedirect($this->container->router->pathFor('user.profile'));
+
+
+	}
+
+
+	/**
+	 * [getUserForm description]
+	 * [HTTP request object] $request 
+	 * @param  [HTTP response object] $response 
+	 * @return [type]           [description]
+	 */
+	public function getChangePassword($request,$response){
+
+		
+		return $this->container->view->render($response,'admin/partials/auth/password.twig');
+
+
+	}
+
+
+	/**
+	 * [getUserForm description]
+	 * [HTTP request object] $request 
+	 * @param  [HTTP response object] $response 
+	 * @return [type]           [description]
+	 */
+	public function changePassword($request,$response){
+
+		$user_id = $this->container->auth->user()['user'];
+		$user = $this->container->user->find($user_id);
+		$old_password = $request->getParam('old-password');
+		$new_password=$request->getParam('new-password');
+		$confirm_password = $request->getParam('confirm-password');
+
+				// respect validation rules
+		$rules = [
+
+				'old-password'=>v::notEmpty()->length(5,10),
+				'new-password'=>v::notEmpty()->length(5,10),
+				'confirm-password'=>v::notEmpty()->length(5,10)
+				
+		];
+
+
+		$validation = $this->container->validator->validate($request,$rules);
+
+		if($validation->failed()){
+
+		return $this->container->view->render($response,'admin/partials/auth/password.twig',['errors'=>$validation->getError()]);
+		}
+
+		if(!v::equals($new_password)->validate($confirm_password)){
+
+			$error['password'] = ["New Password and confirm password must match"];
+			return $this->container->view->render($response,'admin/partials/auth/password.twig',['errors'=>$error]);
+
+		}
+
+
+		if(!password_verify($old_password,$user['password'])){
+
+					$error['password'] = ["Old password is incorrect."];
+					return $this->container->view->render($response,'admin/partials/auth/password.twig',['errors'=>$error]);
+				}
+		
+
+		$this->container->user->updatePassword($user_id,password_hash($request->getParam('new-password'),PASSWORD_DEFAULT));
+		$this->container->flash->addMessage('success',"Successfully update password!");
+		$this->container->auth->logout();
+		return $response->withRedirect($this->container->router->pathFor('user.signin'));
+
+
+	}
 
 
 

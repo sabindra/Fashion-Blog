@@ -15,9 +15,13 @@
                             </li>
                         </ul>
                     </li>
+                    {% if user is not empty%}
+                    {% if user.role_id == 1 %}
                     <li>
                         <a href="category.php"><i class="fa fa-fw fa-table"></i>Categories</a>
                     </li>
+                    {% endif %}
+                        {% endif %}
                     <li>
                         <a href="comment.php"><i class="fa fa-fw fa-edit"></i> Comments</a>
                     </li>
@@ -41,7 +45,7 @@
                       {% endif %}
                         {% endif %}
                     <li>
-                        <a href="bootstrap-grid.html"><i class="fa fa-fw fa-wrench"></i> Profile</a>
+                        <a href="{{ path_for('user.profile')}}"><i class="fa fa-fw fa-wrench"></i> Profile</a>
                     </li>
                  
                 </ul>

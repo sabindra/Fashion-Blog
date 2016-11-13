@@ -28,7 +28,7 @@
   {% endfor %}
 </div>
 {% endif %}
-<form method="post"  action="/manage/user/update/{{user.user_id}}">
+<form method="post"  action="/manage/user/{{user.user_id}}/update">
 
   <div class="form-group">
     <label for="title">Last Name</label>
@@ -48,7 +48,8 @@
 
 
       <option value="1">Admin</option>
-       <option value="2">Subscriber</option>
+       <option value="2">Author</option>
+       <option value="3">Subscriber</option>
       
 
     </select>

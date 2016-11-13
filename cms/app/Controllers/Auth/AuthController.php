@@ -74,7 +74,7 @@ class AuthController extends Controller{
 		if(!$auth){
 
 			$this->container->flash->addMessage('success',"Sorry Could not signed in");
-			return $response->withRedirect($this->container->router->pathFor('admin.signin'));
+			return $response->withRedirect($this->container->router->pathFor('user.signin'));
 		}
 
 		$user_name = $this->container->auth->user()['first_name'];
@@ -93,7 +93,7 @@ class AuthController extends Controller{
 
 		// @see Auth\Auth
 		$this->container->auth->logout();
-		return $response->withRedirect($this->container->router->pathFor('admin.signin'));
+		return $response->withRedirect($this->container->router->pathFor('user.signin'));
 	}
 
 

@@ -116,6 +116,30 @@ public function findRole($id){
 	
 }
 
+public function updateProfile($id,$array){
+
+		$first_name = $array['first_name'];
+		$last_name = $array['last_name'];
+		$user_email = $array['user_email'];
+		$stmt = $this->connection->prepare("UPDATE users SET first_name=:first_name,last_name=:last_name,user_email=:user_email WHERE user_id=:id");
+		$stmt->execute(array(	'first_name'=>$first_name,
+								'last_name'=>$last_name,
+								'user_email'=>$user_email,
+								'id'=>$id));
+
+}
+
+
+public function updatePassword($id,$password){
+
+		
+		$stmt = $this->connection->prepare("UPDATE users SET password=:password WHERE user_id=:id");
+		$stmt->execute(array(	
+								'password'=>$password,
+								'id'=>$id));
+
+}
+
 }
 
  ?>
