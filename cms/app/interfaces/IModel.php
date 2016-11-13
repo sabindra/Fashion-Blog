@@ -8,7 +8,7 @@ interface IModel{
 
 	public function create($array);
 
-	public function findAll();
+	public function findAll($id=null);
 
 	public function find($id);
 

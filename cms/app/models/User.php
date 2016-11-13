@@ -38,12 +38,12 @@ class User extends Model implements  Imodel{
 	 * [findAll list all category]
 	 * @return [voiarray['title']
 	 */
-	public function findAll(){
+	public function findAll($id=null){
 
-		$statement = $this->connection->prepare("SELECT * FROM categories");
-		$statement->execute();
-		$categories = $statement->fetchAll(PDO::FETCH_ASSOC);	
-		return $categories;
+		$statement = $this->connection->prepare("SELECT * FROM users WHERE user_id != :user_id");
+		$statement->execute(array('user_id' => $id));
+		$users = $statement->fetchAll(PDO::FETCH_ASSOC);	
+		return $users;
 			
 	}
 
@@ -73,14 +73,18 @@ class User extends Model implements  Imodel{
 	 */
 	public function update($id,$array){
 
-		$title = $array['title'];
-		$stmt = $this->connection->prepare("UPDATE categories SET cat_title=:title WHERE user_id=:id");
-		$stmt->execute(array(':title'=>$title,':id'=>$id));
+		$first_name = $array['first_name'];
+		$last_name = $array['last_name'];
+		$user_email = $array['user_email'];
+		$role_id = $array['role_id'];
+		$stmt = $this->connection->prepare("UPDATE users SET first_name=:first_name,last_name=:last_name,user_email=:user_email,role_id=:role_id WHERE user_id=:id");
+		$stmt->execute(array(	'first_name'=>$first_name,
+								'last_name'=>$last_name,
+								'user_email'=>$user_email,
+								'role_id'=>$role_id,
+								'id'=>$id));
 
-
-	}
-
-
+}
 	/**
 	 * [delete category]
 	 * @param  [int] $id [category id]
@@ -88,7 +92,7 @@ class User extends Model implements  Imodel{
 	 */
 	public function  delete($id){
 
-		$statement = $this->connection->prepare("DELETE  FROM categories WHERE user_id=:id");
+		$statement = $this->connection->prepare("DELETE  FROM users WHERE user_id=:id");
 		$statement->execute(array("id"=>$id));
 	}
 
@@ -102,8 +106,13 @@ public function userExist($email){
 		return $user;
 }
 
-public function userVerify($email,$password){
+public function findRole($id){
 
+	
+	$statement = $this->connection->prepare("SELECT * FROM roles WHERE role_id=:id");
+		$statement->execute(array('id'=>$id));
+		$role=$statement->fetch();
+		return $role;
 	
 }
 

@@ -46,7 +46,7 @@ public function logout(){
 public function user(){
 	
 	$user = $this->container->user->find($_SESSION['user']);
-	return ['user'=>$user['user_id'],'first_name'=>$user['first_name'],'last_name'=>$user['last_name']];
+	return ['user'=>$user['user_id'],'first_name'=>$user['first_name'],'last_name'=>$user['last_name'],'role_id'=>$user['role_id']];
 }
 
 public function check(){
@@ -55,6 +55,13 @@ public function check(){
 }
 
 
+public function role(){
+
+	$user_id = $this->container->user->find($_SESSION['role_id']);
+
+
+
+}
 
 
 

@@ -30,16 +30,26 @@ $app->get('/manage/signout' ,'AuthController:getSignout')->setName('admin.signou
 
 
 /**
- * Admin Routes
+ * Admin Routes /Protected Routes
  */
 
-$app->get('/manage' ,'AuthController:getIndex')->setName('admin.dashboard')->add(new AuthMiddleware($container));
-$app->get('/manage/post' ,'PostController:getIndex');
-$app->get('/manage/post/new' ,'PostController:getpostForm');
+$app->group('/manage',function(){
 
+	$this->get('/' ,'AuthController:getIndex')->setName('admin.dashboard');
 
-$app->get('/manage/user/new' ,'UserController:getUserForm')->setName('admin.signup');
-$app->post('/manage/user' ,'UserController:postUser')->setName('admin.signup');
+	$this->get('/post' ,'PostController:getIndex')->setName('admin.posts');
+	$this->get('/post/new' ,'PostController:getpostForm')->setName('admin.newPost');
+	$this->post('/post' ,'PostController:getpostForm')->setName('admin.addPost');
+
+	$this->get('/users' ,'UserController:getIndex')->setName('admin.users');
+	$this->get('/user/new' ,'UserController:getUserForm')->setName('admin.addUser');
+	$this->post('/user' ,'UserController:postUser');
+	$this->get('/user/edit/{id}' ,'UserController:editUser')->setName('admin.editUser');
+	$this->post('/user/update/{id}' ,'UserController:updateUser');
+	$this->get('/user/delete/{id}' ,'UserController:destroyUser');
+
+})->add(new AuthMiddleware($container));
+
 
 
  ?>

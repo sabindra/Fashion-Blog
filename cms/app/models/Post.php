@@ -41,7 +41,7 @@ class Post extends Model implements  IModel{
 	 * [findAll list all post]
 	 * @return [void] 
 	 */
-	public function findAll(){
+	public function findAll($id=null){
 
 		$statement = $this->connection->prepare("SELECT * FROM posts ORDER BY post_id");
 		$statement->execute();

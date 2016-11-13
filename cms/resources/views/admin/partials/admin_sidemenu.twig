@@ -8,10 +8,10 @@
                         <a href="javascript:;" data-toggle="collapse" data-target="#post"><i class="fa fa-fw fa-arrows-v"></i> Posts <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="post" class="collapse">
                             <li>
-                                <a href="/manage/post">view All</a>
+                                <a href="{{ path_for('admin.posts')}}">view All</a>
                             </li>
                             <li>
-                                <a href="/manage/post/new">Add Post</a>
+                                <a href="{{ path_for('admin.newPost')}}">Add Post</a>
                             </li>
                         </ul>
                     </li>
@@ -21,17 +21,25 @@
                     <li>
                         <a href="comment.php"><i class="fa fa-fw fa-edit"></i> Comments</a>
                     </li>
+
+                    {% if user is not empty%}
+                    {% if user.role_id == 1 %}
+    
+
+ 
                      <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#user"><i class="fa fa-fw fa-arrows-v"></i> Users <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="user" class="collapse">
                             <li>
-                                <a href="/manage/user/new">Add User</a>
+                                <a href="{{ path_for('admin.addUser')}}">Add User</a>
                             </li>
                             <li>
-                                <a href="#">View All Users</a>
+                                <a href="{{ path_for('admin.users')}}">View All Users</a>
                             </li>
                         </ul>
                     </li>
+                      {% endif %}
+                        {% endif %}
                     <li>
                         <a href="bootstrap-grid.html"><i class="fa fa-fw fa-wrench"></i> Profile</a>
                     </li>

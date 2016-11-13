@@ -4,7 +4,7 @@
  * @Author: Ryan Basnet
  * @Date:   2016-11-07 09:33:39
  * @Last Modified by:   Ryan Basnet
- * @Last Modified time: 2016-11-13 10:09:32
+ * @Last Modified time: 2016-11-13 11:38:46
  */
 
 session_start();
@@ -99,6 +99,8 @@ $container['view'] = function ($container){
     
     $view->addExtension(new Twig_Extension_Debug());
     $view->getEnvironment()->addGlobal('flash',$container->flash->getMessages());
+    $view->getEnvironment()->addGlobal('user',$container->auth->user());
+    $view->getEnvironment()->addGlobal('isLoggedIn',$container->auth->check());
 	return $view;
 };
 
