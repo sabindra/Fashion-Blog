@@ -1,0 +1,86 @@
+{% extends 'front/layout.twig' %}
+{% block main %}
+	<section>
+		<div class="row">
+			<div class="col-md-8">
+				<article class="blog-post">
+					<div class="blog-post-image">
+						<a href=""><img src="http://localhost:8888/images/750x500-2.jpg" alt=""></a>
+					</div>
+					<div class="blog-post-body">
+						<h2>{{ post.title }}</h2>
+						<div class="post-meta">
+							<span>by <a href="#">Jamie Mooze</a>
+							</span>/<span>
+							<i class="fa fa-clock-o"></i>{{ post.published }}</span>/<span>
+							<i class="fa fa-comment-o"></i> <a href="#">{{ post.comments_count }}</a>
+							</span>
+						</div>
+						<div class="blog-post-text"><p>{{ post.content }}</p>
+						</div>
+					</div>
+					{% if comments is not empty %}
+
+
+						<div class="well row comment-wrapper">
+							<h3 clas="text-center">Comments</h3>
+							<div class="actionBox">
+        						<ul class="commentList">
+        							{% for item in comments%}
+	            						<li>
+	                						<div class="commenterImage">
+	                  							<img src="http://placekitten.com/50/50" />
+
+	                						</div>
+	                						<div class="commentText">
+	                							<p class="comment-author">{{item.comment_author}}</p>
+	                    						<p class="">{{item.comment}}</p> <span class="date sub-text">{{item.comment_date}}</span>
+
+	                						</div>
+	            						</li>
+	            					{% endfor %}
+								</ul>
+							</div>
+						</div>
+					{% endif %}
+					<div class="well row">
+						{% if flash %}
+							{% for key,value in flash %}
+								{% if key == 'fail' %}
+									<div class="alert alert-danger" class="{{ key}}">{{ value[0] }}</div>
+		  						{% endif %}
+							{% endfor %}
+						{% endif %}
+	                        
+						<form action="/post/{{post.post_id}}/comment" method="post"> 
+							<div class="form-group">
+								<label for="name" >Name</label>
+								<input type="text" class="form-control" name="name">
+							</div>
+
+							<div class="form-group">
+								<label for="name" class="">Email</label>
+								<input type="email" class="form-control" name="email">
+							</div>
+							
+							<div class="form-group">
+								<label for="name" class="">Comment</label>
+								<textarea type="text" class="form-control" name="comment" rows="10"></textarea>
+							</div>
+							
+							<button class="btn btn-success" type="submit" name="submit">Submit</button>
+						</form>
+					</div>
+				
+				</article>
+			</div>
+			
+			<div class="col-md-4 sidebar-gutter">
+				<aside>
+					{% include 'front/includes/sidebar.twig'  %}
+				</aside>
+			</div>
+		</div>
+	</section>
+{% endblock main %}
+	

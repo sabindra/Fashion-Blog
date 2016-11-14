@@ -68,6 +68,17 @@ class Post extends Model implements  IModel{
 	}
 
 
+	public function findByCategory($category_id){
+
+
+			$statement = $this->connection->prepare("SELECT * FROM posts WHERE cat_id=:cat_id AND status='published' ORDER BY post_id DESC LIMIT 3");
+			$statement->execute(array('cat_id'=>$category_id));
+			$post=$statement->fetchAll();
+			return $post;
+
+
+		}
+
 	/**
 	 * [update post]
 	 * @param  [int] $id [post id]

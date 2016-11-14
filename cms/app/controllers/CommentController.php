@@ -1,6 +1,100 @@
-/**
- * @Author: Rajesh Basnet
- * @Date:   2016-11-08 20:41:58
- * @Last Modified by:   Rajesh Basnet
- * @Last Modified time: 2016-11-08 20:41:58
- */
+<?php 
+
+namespace App\Controllers;
+use PDO;
+use App\Validation\Validator;
+use Respect\Validation\Validator as v;
+
+
+class CommentController extends Controller{
+
+
+
+	public function getIndex($request,$response){
+
+		$comment = $this->container->comment;
+		$comments = $comment->findAll($id=null);
+
+		return $this->container->view->render($response,'admin/partials/comment/view_all_comment.twig',['comments'=>$comments]);
+
+
+	}
+
+	public function postComment($request,$response,$args){
+
+
+		$post_id=$args['id'];
+		
+		$rules =  [
+
+			'name'=>v::notEmpty()->alpha()->length(3,10),
+			'email'=>v::notEmpty()->email(),
+			'comment'=>v::notEmpty()
+			];
+
+
+		$validation = $this->container->validator->validate($request,$rules);
+
+		if($validation->failed()){
+
+			$this->container->flash->addMessage('fail',"Please enter all required fields.");
+			return $response->withRedirect($this->container->router->pathFor('post.getPost',['id'=>$post_id]));
+		}
+
+		$data=array();
+		$data['comment_author'] = ucfirst($request->getParam('name'));
+		$data['comment_post_id'] = $post_id;
+		$data['comment_author_email'] = $request->getParam('email');
+		$data['comment'] = $request->getParam('comment');
+		
+
+
+		$this->container->comment->create($data);
+		$this->container->flash->addMessage('success',"Thank you your comment has been submitted.");
+		return $response->withRedirect($this->container->router->pathFor('post.getPost',['id'=>$post_id]));
+
+	}
+
+
+	public function approveComment($request,$response,$args){
+
+		$comment_id =  $args['comment_id'];
+		$this->container->comment->approveComment($comment_id);
+		$this->container->flash->addMessage('success',"Comment is approved.");
+		return $response->withRedirect($this->container->router->pathFor('admin.comments'));
+		
+	}
+
+
+		public function unapproveComment($request,$response,$args){
+
+
+		$comment_id =  $args['comment_id'];
+		$this->container->comment->unapproveComment($comment_id);
+		$this->container->flash->addMessage('success',"Comment is blocked.");
+		return $response->withRedirect($this->container->router->pathFor('admin.comments'));
+
+
+	}
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ ?>

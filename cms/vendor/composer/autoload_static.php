@@ -40,6 +40,10 @@ class ComposerStaticInit7fe2c312a3ad56eb4d089f7f01723bf1
         array (
             'FastRoute\\' => 10,
         ),
+        'D' => 
+        array (
+            'Dotenv\\' => 7,
+        ),
         'A' => 
         array (
             'App\\' => 4,
@@ -87,6 +91,10 @@ class ComposerStaticInit7fe2c312a3ad56eb4d089f7f01723bf1
         'FastRoute\\' => 
         array (
             0 => __DIR__ . '/..' . '/nikic/fast-route/src',
+        ),
+        'Dotenv\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/vlucas/phpdotenv/src',
         ),
         'App\\' => 
         array (

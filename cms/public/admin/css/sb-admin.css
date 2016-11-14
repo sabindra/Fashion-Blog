@@ -275,6 +275,30 @@ FEEDBACK
   animation:         feedback-out .3s ease-in-out forwards;
 }
 
+#feedback h3 {
+  margin: 18px 0 3px;
+}
+
+#feedback p {
+  margin: 0;
+  padding: 20px 0;
+  font-size: 14px;
+
+}
+
+.dismiss {
+  float: right;
+  color:#FFFF;
+  padding: 20px 0;
+  font-size:30px;
+  
+  cursor: pointer;
+}
+
+.dismiss:hover {
+  opacity: 1;
+  text-decoration: none;
+}
 
 /*
 ANIMATION
@@ -357,4 +381,10 @@ ANIMATION
   100% {
     transform: translateY(-100px);
   }
+}
+
+.dashboard-mini-card{
+
+
+  padding:50px 80px;
 }

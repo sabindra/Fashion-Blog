@@ -17,8 +17,19 @@
 		<link href="/css/style.css" rel="stylesheet">
 	</head>
 	<body>
-		
-		{% include 'front/partials/navigation.twig' %}
+		{% if flash %}
+	{% for key,value in flash %}
+		<div  id="feedback" class="{{key}}">
+			<a href="#" class="dismiss"  aria-label="close">&times;</a>
+  	
+	<p class="text-center">{{ value[0] }}</p>
+	  </div>
+{% endfor %}
+	
+
+
+{% endif %}
+		{% include 'front/includes/navigation.twig' %}
 
 			<div class="container">
 		<header>
@@ -27,7 +38,7 @@
 		{% block main %}
 				<div class="col-md-4 sidebar-gutter">
 					<aside>
-					{% include 'front/partials/sidebar.twig'  %}
+					{% include 'front/includes/sidebar.twig'  %}
 					</aside>
 				</div>
 			</div>
@@ -36,7 +47,7 @@
 		</div><!-- /.container -->
 		<!-- Footer -->
 
-		{% include 'front/partials/footer.twig' %}
+		{% include 'front/includes/footer.twig' %}
 
 		<!-- Bootstrap core JavaScript
 			================================================== -->
@@ -45,5 +56,6 @@
 		<script src="/js/bootstrap.min.js"></script>
 		<script src="/js/jquery.bxslider.js"></script>
 		<script src="/js/mooz.scripts.min.js"></script>
+		<script src="/js/scripts.js"></script>
 	</body>
 </html>

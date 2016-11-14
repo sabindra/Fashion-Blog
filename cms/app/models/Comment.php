@@ -22,14 +22,14 @@ class Comment extends Model implements  IModel{
 	public function create($array){
 
 		$statement = $this->connection->prepare("INSERT INTO comments(comment_post_id,comment_author,comment_author_email,comment,comment_status,comment_date)
-												 VALUES(:comment_post_id,:comment_author,:comment_author_email,:comment,:comment_status,:comment_date)");
+												 VALUES(:comment_post_id,:comment_author,:comment_author_email,:comment,:comment_status,NOW())");
 		
 		$statement->execute(array("comment_post_id"=>$array['comment_post_id'],
 									"comment_author"=> $array['comment_author'],
 									"comment_author_email"=>$array['comment_author_email'],
 									"comment"=>$array['comment'],
-									"comment_status"=>"unapproved']",
-									"comment_date"=>$array['comment_date'] ));
+									"comment_status"=>"unapproved"
+										 ));
 
 	}
 
@@ -39,11 +39,21 @@ class Comment extends Model implements  IModel{
 	 * [findAll list all category]
 	 * @return [void] 
 	 */
-	public function findAll(){
+	public function findAll($id=null){
+		if(!isset($id)){
 
 		$statement = $this->connection->prepare("SELECT * FROM comments ORDER BY comment_id");
 		$statement->execute();
 		$comments = $statement->fetchAll(PDO::FETCH_ASSOC);	
+		
+		}else{
+
+		$statement = $this->connection->prepare("SELECT * FROM comments WHERE comment_post_id =:id AND comment_status = 'approved' ORDER BY comment_id");
+		$statement->execute(array('id'=>$id));
+		$comments = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+		}
+		
 		return $comments;
 			
 	}

@@ -32,7 +32,7 @@ class Category extends Model implements  Imodel{
 	 * [findAll list all category]
 	 * @return [voiarray['title']
 	 */
-	public function findAll(){
+	public function findAll($id=null){
 
 		$statement = $this->connection->prepare("SELECT * FROM categories");
 		$statement->execute();
@@ -82,12 +82,18 @@ class Category extends Model implements  Imodel{
 	 */
 	public function  delete($id){
 
-		$statement = $dbh->prepare("DELETE  FROM categories WHERE cat_id=:id");
+		$statement = $dbh->prepare("DELETE  FROM categories WHERE LOWER(cat_id)=:id");
 		$statement->execute(array("id"=>$id));
 	}
+
+
+public function findByTitle($title){
+
+	$statement = $this->connection->prepare("SELECT * FROM categories WHERE cat_title=:title");
+		$statement->execute(array('title'=>$title));
+		$category=$statement->fetch();
+		return $category;
 }
 
-
-
-
+}
  ?>

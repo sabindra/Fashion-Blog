@@ -1,14 +1,14 @@
 <?php
 session_start();
 ?>
-{% include 'admin/partials/admin_header.twig' %}
+{% include 'admin/includes/admin_header.twig' %}
 <body>
-{% include 'admin/partials/flash/feedback.twig' %}
+{% include 'admin/flash/feedback.twig' %}
     <div id="wrapper">
 
         <!-- Navigation -->
      
-    {% include 'admin/partials/admin_navigation.twig' %}
+    {% include 'admin/includes/admin_navigation.twig' %}
     
         <div id="page-wrapper">
 
@@ -31,6 +31,7 @@ session_start();
 
     <!-- Bootstrap Core JavaScript -->
     <script src="/admin/js/bootstrap.min.js"></script>
+    <script src="/admin/js/script.js"></script>
 
 </body>
 

@@ -1,7 +1,7 @@
 {% if flash %}
 	{% for key,value in flash %}
 		<div id="feedback" class="{{ key}}">
-  	
+  			<a href="#" class="dismiss"  aria-label="close">&times;</a>
 	<p>{{ value[0] }}</p>
 	  </div>
 {% endfor %}

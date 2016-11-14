@@ -4,7 +4,7 @@
  * @Author: Ryan Basnet
  * @Date:   2016-11-07 09:33:39
  * @Last Modified by:   Ryan Basnet
- * @Last Modified time: 2016-11-13 11:38:46
+ * @Last Modified time: 2016-11-14 10:17:05
  */
 
 session_start();
@@ -13,7 +13,8 @@ require __DIR__ . '/../vendor/autoload.php';
 
 
 /** Test */
-
+$dotenv = new Dotenv\Dotenv(__DIR__.'/../');
+$dotenv->load();
 
 
 
@@ -25,7 +26,7 @@ require __DIR__ . '/../vendor/autoload.php';
  */
 
 $config['settings']['displayErrorDetails'] = true;
-$config['db'] = require __DIR__ . '/../config/db.php';
+
 
 
 /**
@@ -54,7 +55,7 @@ $container['connection'] = function($container) use($config){
 
 	try {
 		
-		$connection = new PDO('mysql:host=localhost;dbname='.$config['db']['db_name'], $config['db']['user'], $config['db']['pass']);
+		$connection = new PDO('mysql:host=localhost;dbname='. getenv('db_name'), getenv('db_user'), getenv('db_pass'));
 		// $dbh->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
 		
 		
@@ -177,6 +178,12 @@ $container['user'] = function($container){
 
 	$connection = $container->connection;
 	return new \App\Models\User($connection);
+};
+
+$container['comment'] = function($container){
+
+	$connection = $container->connection;
+	return new \App\Models\Comment($connection);
 };
 
 

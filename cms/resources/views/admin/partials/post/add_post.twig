@@ -19,26 +19,36 @@
                 </div>
                 <!-- /.row -->
 <div class="col-xs-12">
+   {% if errors is not empty %}
+    <div class="alert alert-danger">
+  {% for e in errors %}
 
-<form method="post" enctype="multipart/form-data" action="">
+  <p>{{ e[0] }}</p>
+
+  {% endfor %}
+</div>
+{% endif %}
+
+<form method="post"  action="{{ path_for('admin.postPost') }}" enctype="multipart/form-data">
 
   <div class="form-group">
     <label for="title">Title:</label>
-    <input type="text" class="col-xs-6 form-control" id="title" name="title" value="<?php if(!empty($title)){ echo  $title; }?>">
+    <input type="text" class="col-xs-6 form-control" id="title" name="title" >
   </div>
   <div class="form-group">
     <label for="title">Category:</label>
     <select name ="category" class="form-control">
-    <?php foreach ($categories as $cat){
 
-      echo "<option value=".$cat['cat_id'].">".$cat['cat_title']."</option>";
+      {% for item in category%}
+   
+      <option value="{{item.cat_id }}">{{ item.cat_title }}</option>;
       
-    }?>
+   {% endfor %}
     </select>
   </div>
   <div class="form-group">
     <label for="pwd">Content:</label>
-    <textarea type="text" class="form-control"  name="content" rows="15"><?php if(!empty($content)){ echo $content; }?></textarea>
+    <textarea type="text" class="form-control"  name="content" rows="15"></textarea>
     <div class="form-group">
     <label for="post_image">Image</label>
     <input type="file" class=""  name="post_image">

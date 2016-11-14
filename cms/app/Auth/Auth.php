@@ -44,9 +44,12 @@ public function logout(){
 
 
 public function user(){
-	
-	$user = $this->container->user->find($_SESSION['user']);
+	if(isset($_SESSION['user'])){
+
+		$user = $this->container->user->find($_SESSION['user']);
 	return ['user'=>$user['user_id'],'first_name'=>$user['first_name'],'last_name'=>$user['last_name'],'role_id'=>$user['role_id']];
+	}
+	
 }
 
 public function check(){
