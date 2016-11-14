@@ -82,7 +82,7 @@ class Category extends Model implements  Imodel{
 	 */
 	public function  delete($id){
 
-		$statement = $dbh->prepare("DELETE  FROM categories WHERE LOWER(cat_id)=:id");
+		$statement = $this->connection->prepare("DELETE  FROM categories WHERE LOWER(cat_id)=:id");
 		$statement->execute(array("id"=>$id));
 	}
 

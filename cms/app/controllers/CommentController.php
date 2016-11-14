@@ -77,6 +77,17 @@ class CommentController extends Controller{
 
 	}
 
+	public function deleteComment($request,$response,$args){
+
+
+		$comment_id =  $args['comment_id'];
+		$this->container->comment->delete($comment_id);
+		$this->container->flash->addMessage('success',"Comment is deleted.");
+		return $response->withRedirect($this->container->router->pathFor('admin.comments'));
+
+
+	}
+
 
 
 }

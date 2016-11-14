@@ -22,7 +22,7 @@ class UserController extends Controller{
 		
 		$users = $user->findAll($admin_id);
 		
-		return $this->container->view->render($response,'admin/index_admin.twig');
+		return $this->container->view->render($response,'admin/partials/user/view_all_user.twig',['users'=>$users]);
 
 
 	}

@@ -6,6 +6,7 @@
 <section>
 	<div class="row">
 		<div class="col-md-8">
+			{% if posts is not empty %}
 		{% for post in posts %}
 			<article class="blog-post">
 				<div class="blog-post-image">
@@ -20,6 +21,13 @@
 			</article>
 
 		{% endfor %}
+	{% endif %}
+	{% if posts is empty %}
+
+	<article>
+		<h3>Sorry no articles found!</h3>
+	</article>
+{% endif %}
 		</div>
 		<div class="col-md-4 sidebar-gutter">
 					<aside>

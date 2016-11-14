@@ -99,6 +99,13 @@ class PageController extends Controller{
 
 	}
 
+	public function sendMessage(){
+
+
+		var_dump($request->getParams());
+		exit;
+	}
+
 
 
 }

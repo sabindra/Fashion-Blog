@@ -9,7 +9,8 @@ use \App\Middleware\AuthMiddleware;
 
 $app->get('/' ,'PageController:getIndex')->setName('home');
 $app->get('/about' ,'PageController:getAbout')->setName('about');;
-$app->get('/contact' ,'PageController:getContact')->setName('contact');;
+$app->get('/contact' ,'PageController:getContact')->setName('contact');
+$app->post('/contact' ,'PageController:sendMessage');
 
 $app->get('/post/{id}' ,'PageController:getPost')->setName('post.getPost');
 $app->post('/post/{id}/comment','CommentController:postComment')->setName('admin.postComment');
@@ -39,6 +40,15 @@ $app->group('/manage',function(){
 
 	$this->get('/' ,'UserController:getIndex')->setName('admin.dashboard');
 
+
+	/** category */
+	$this->get('/category','CategoryController:getIndex')->setName('admin.category');
+	$this->post('/category','CategoryController:addCategory')->setName('admin.addCategory');
+	$this->get('/category/{id}/delete','CategoryController:destroyCategory')->setName('admin.deleteCategory');
+	$this->get('/category/{id}/edit','CategoryController:editCategory')->setName('admin.editCategory');
+	$this->post('/category/{id}','CategoryController:updateCategory')->setName('admin.updateCategory');
+
+
 	/** post **/
 	$this->get('/posts','PostController:getIndex')->setName('admin.posts');
 	$this->get('/post/new','PostController:getpostForm')->setName('admin.addPost');
@@ -65,6 +75,7 @@ $app->group('/manage',function(){
 	$this->get('/comments','CommentController:getIndex')->setName('admin.comments');
 	$this->get('/comment/{comment_id}/approve','CommentController:approveComment');
 	$this->get('/comment/{comment_id}/unapprove','CommentController:unapproveComment');
+	$this->get('/comment/{comment_id}/delete','CommentController:deleteComment');
 	
 
 	
