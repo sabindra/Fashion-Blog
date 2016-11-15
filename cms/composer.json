@@ -16,7 +16,8 @@
         "slim/views": "^0.1.3",
         "slim/flash": "^0.1.0",
         "respect/validation": "^1.1",
-        "vlucas/phpdotenv": "^2.4"
+        "vlucas/phpdotenv": "^2.4",
+        "aws/aws-sdk-php": "^3.19"
     },
 
     "autoload":{

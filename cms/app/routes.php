@@ -6,11 +6,16 @@ use \App\Middleware\AuthMiddleware;
 /**
  * Page Routes
  */
+$app->get('/t' ,function($request,$response){
 
+	return phpInfo();
+})->setName('home');
 $app->get('/' ,'PageController:getIndex')->setName('home');
 $app->get('/about' ,'PageController:getAbout')->setName('about');;
 $app->get('/contact' ,'PageController:getContact')->setName('contact');
 $app->post('/contact' ,'PageController:sendMessage');
+$app->get('/test1' ,'PageController:test1');
+$app->post('/test2' ,'PageController:test2');
 
 $app->get('/post/{id}' ,'PageController:getPost')->setName('post.getPost');
 $app->post('/post/{id}/comment','CommentController:postComment')->setName('admin.postComment');
@@ -38,7 +43,7 @@ $app->get('/manage/signout' ,'AuthController:getSignout')->setName('admin.signou
 
 $app->group('/manage',function(){
 
-	$this->get('/' ,'UserController:getIndex')->setName('admin.dashboard');
+	$this->get('/' ,'AuthController:getIndex')->setName('admin.dashboard');
 
 
 	/** category */

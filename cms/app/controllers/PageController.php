@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 use PDO;
+use App\Aws\AmazonService;
+use App\Aws\Exceptions\S3Exception;;
 
 
 class PageController extends Controller{
@@ -108,15 +110,77 @@ class PageController extends Controller{
 
 
 
+
+
+
+
+
+
+
+public function  test1($request,$response){
+
+	$this->container->view->render($response,'admin/test1.php');
 }
 
+public function  test2($request,$response){
+
+	$a = new AmazonService();
+	$awsClient = $a->getAWS();
+	
+	if(!empty($_FILES['post-image']['name'])){
 
 
+	$image = $_FILES['post-image']['name'];
+    $image_size = $_FILES['post-image']['size'];
+    $image_temp = $_FILES['post-image']['tmp_name'];
+    $imageType= ['PNG','JPEG','JPG',];
+     $fileExt = strtolower(end(explode(".",$image)));
+      
+    
 
 
+    if(!in_array(strtoupper(pathinfo($image,PATHINFO_EXTENSION)),$imageType)){
+
+      $imageError ="Please upload valid image file.";
+      echo $imageError;
+
+      exit;
+
+    }else{
 
 
+	$fileName = md5(uniqid())."_".date("d-m-y").".".$fileExt;
+      
+     $imageLocation=__DIR__."/../../resources/tmp_image/$fileName";
+     // temp file storage
+     move_uploaded_file($image_temp,$imageLocation);
+     echo $fileName;
 
+     try {
+$awsClient->putObject([
+
+	'Bucket'=>getenv('AWS_BUCKET'),
+	'Key'=>"post_images/{$fileName}",
+	'Body'=>fopen($imageLocation, 'rb'),
+	'ACL'=>'public-read'
+	]);
+unlink($imageLocation);
+
+     	
+     } catch (S3Exception $e) {
+     	
+     	var_dump($e);
+     	exit;
+     }
+		}
+	}else{
+
+		echo "file is not uploaded";
+		exit;
+	}
+}
+
+}
 
 
 

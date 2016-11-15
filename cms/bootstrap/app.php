@@ -4,10 +4,11 @@
  * @Author: Ryan Basnet
  * @Date:   2016-11-07 09:33:39
  * @Last Modified by:   Ryan Basnet
- * @Last Modified time: 2016-11-14 10:17:05
+ * @Last Modified time: 2016-11-15 21:58:06
  */
 
 session_start();
+ date_default_timezone_set('Australia/Sydney');
 
 require __DIR__ . '/../vendor/autoload.php';
 
