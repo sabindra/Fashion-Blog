@@ -157,14 +157,18 @@ public function  test2($request,$response){
      echo $fileName;
 
      try {
+     	$handle = fopen($imageLocation, 'rb');
 $awsClient->putObject([
 
 	'Bucket'=>getenv('AWS_BUCKET'),
 	'Key'=>"post_images/{$fileName}",
-	'Body'=>fopen($imageLocation, 'rb'),
+	'Body'=>$handle,
 	'ACL'=>'public-read'
 	]);
+
+fclose($handle);
 unlink($imageLocation);
+
 
      	
      } catch (S3Exception $e) {
