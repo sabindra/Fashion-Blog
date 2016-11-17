@@ -3,7 +3,8 @@
 namespace App\Controllers;
 use PDO;
 use App\Aws\AmazonService;
-use App\Aws\Exceptions\S3Exception;;
+use App\Aws\Exceptions\S3Exception;
+use App\Services\SendGrid\SendgridEmailService as SES;
 
 
 class PageController extends Controller{
@@ -103,9 +104,14 @@ class PageController extends Controller{
 
 	public function sendMessage(){
 
+			$data['from'] = "rajesh2045@gmail.com";
+			$data['to'] = "soniyaacharya38@gmail.com";
+			$data['message'] = "Hello send grid";
+			$data['subject']  ="Enquire test";
+		$sendgridService = new SES();
+		$sendgridService->sendEmail($data);
 
-		var_dump($request->getParams());
-		exit;
+		
 	}
 
 

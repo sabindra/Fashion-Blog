@@ -97,7 +97,8 @@ class PostController extends Controller{
         ]);
 
       fclose($handle);
-      unlink($tempLocation);
+      
+      
 
 
      } catch (S3Exception $e) {
