@@ -40,19 +40,19 @@
       <?php foreach ($allPosts as $item): ?>
         {% for post in posts %}
       	<tr> 
-        <td>{{ post['post_id'] }}</td>
-        <td>{{ post['author'] }}</td>
+        <td>{{ post.post_id }}</td>
+        <td>{{ post.title }}</td>
 
-        <td>{{ post['author'] }}</td>
-        <td>{{ post['published'] }}</td>
-        <td>{{ post['status'] }}</td>
-        <td>{{ post['view_count'] }}</td>
-        <td>{{ post['comments_count'] }}</td>
-        <td>{{ post['cat_id'] }}</td>
-        <td>{{ post['tags'] }}</td>
+        <td>{{ post.author }}</td>
+        <td>{{ post.published }}</td>
+        <td>{{ post.status }}</td>
+        <td>{{ post.view_count }}</td>
+        <td>{{ post.comments_count }}</td>
+        <td>{{ post.cat_id }}</td>
+        <td>{{ post.tags }}</td>
  
-        <td><a class ="btn btn-warning" href="post.php?source=edit_post&p_id">Edit</a></td>
-         <td><a class ="btn btn-danger" href="post.php?delete=">Delete</a></td>
+        <td><a class ="btn btn-warning" href="">Edit</a></td>
+         <td><a class ="btn btn-danger" href="/manage/post/{{ post.post_id}}/delete">Delete</a></td>
       </tr>
 
       	

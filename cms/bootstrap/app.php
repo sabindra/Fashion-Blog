@@ -4,7 +4,7 @@
  * @Author: Ryan Basnet
  * @Date:   2016-11-07 09:33:39
  * @Last Modified by:   Ryan Basnet
- * @Last Modified time: 2016-11-15 21:58:06
+ * @Last Modified time: 2016-11-17 15:00:13
  */
 
 session_start();
@@ -57,7 +57,7 @@ $container['connection'] = function($container) use($config){
 	try {
 		
 		$connection = new PDO('mysql:host=localhost;dbname='. getenv('db_name'), getenv('db_user'), getenv('db_pass'));
-		// $dbh->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+		$connection->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
 		
 		
 

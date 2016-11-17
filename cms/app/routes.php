@@ -57,7 +57,8 @@ $app->group('/manage',function(){
 	/** post **/
 	$this->get('/posts','PostController:getIndex')->setName('admin.posts');
 	$this->get('/post/new','PostController:getpostForm')->setName('admin.addPost');
-	$this->post('/post','PostController:addPost')->setName('admin.postPost');
+	$this->post('/post','PostController:postPost')->setName('admin.postPost');
+	$this->get('/post/{id}/delete','PostController:destroyPost');
 
 
 	/** user **/

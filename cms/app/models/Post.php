@@ -21,16 +21,30 @@ class Post extends Model implements  IModel{
 	 */
 	public function create($array){
 
-		$statement = $this->connection->prepare("INSERT INTO posts(title,content,image_path,tags,author,status,cat_id,published) VALUES(:title,:content,:image_path,:tag,:author,:status,:cat_id,:published");
-		$statement = $dbh->prepare($query);
-		$statement->execute(array(	"title"=>$array['title'],
-									"content"=> $array['content'],
-									"image_path"=>$array['image_path'],
-									"tag"=>$array['tag'],
-									"status"=>$array['status'],
-									"author"=>$array['author'],
-									"published"=>$array['published'],
-									"cat_id"=>$array['cat_id'] ));
+
+try {
+	
+
+	$statement = $this->connection->prepare("INSERT INTO posts(title,content,image_path,tags,author,status,cat_id) VALUES(:title,:content,:image_path,:tags,:author,:status,:cat_id)");
+		
+		$status = $statement->execute(array(	":title"=>$array['title'],
+									":content"=> $array['content'],
+									":image_path"=>$array['image_path'],
+									":tags"=>$array['tags'],
+									":author"=>$array['author'],
+									":status"=>$array['status'],	
+									":cat_id"=>$array['cat_id'] ));
+
+
+
+
+} catch (PDOException $e) {
+	
+var_dump($e);
+exit;
+	
+}
+		
 
 
 	}
@@ -108,7 +122,7 @@ class Post extends Model implements  IModel{
 	 */
 	public function  delete($id){
 
-		$statement = $dbh->prepare("DELETE  FROM posts WHERE post_id=:id");
+		$statement = $this->connection->prepare("DELETE  FROM posts WHERE post_id=:id");
 		$statement->execute(array("id"=>$id));
 	}
 
