@@ -101,14 +101,14 @@ exit;
 	 */
 	public function update($id,$array){
 
-		$title = $array['title'];
-		$stmt = $this->connection->prepare(" UPDATE posts SET title=:title,content=:content,tags=:tag,status=:status,post_id=:post_id WHERE post_id=:post_id ");
-		$stmt->execute(array(	"title"=>$array['title'],
+	
+		$statement = $this->connection->prepare(" UPDATE posts SET title=:title,content=:content,tags=:tags,status=:status,cat_id=:cat_id WHERE post_id=:post_id ");
+		$statement->execute(array(	"title"=>$array['title'],
 								"content"=> $array['content'],
-								"tag"=>$array['tag'],
+								"tags"=>$array['tags'],
 								"status"=>$array['status'],
-								"post_id"=>$array['cat_id'],
-								"post_id"=>$array['post_id']));
+								"cat_id"=>$array['cat_id'],
+								"post_id"=>$id));
 
 
 

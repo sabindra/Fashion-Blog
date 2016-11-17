@@ -31,6 +31,9 @@ class PostController extends Controller{
 
 	public function postPost($request,$response){
 
+    // var_dump($request->getParams());
+    // exit;
+
 
 
     $rules = [
@@ -134,15 +137,51 @@ public function editPost($request,$response,$args){
   $post_id = $args['id'];
   $categories = $this->container->category->findAll();
 
+
+   $post= $this->container->post->find($post_id);
+return $this->container->view->render($response,'admin/partials/post/edit_post.twig',['category'=>$categories,'post'=>$post]);
+
+
+}
+
+public function updatePost($request,$response,$args){
+
   $post_id = $args['id'];
+   $categories = $this->container->category->findAll();
+  $rules = [
 
-  // $this->container->get()
+      'post-title'=>v::notEmpty(),
+        'post-content'=>v::notEmpty(),
+        'post-tag'=>v::alpha(),
 
+    ];
+
+
+$validation= $this->container->validator->validate($request,$rules);
+if($validation->failed()){
+
+  $this->container->flash->addMessage('fail',"Please enter all required field !");
+ return $response->withRedirect($this->container->router->pathFor('admin.editPost',['id'=>$post_id]));
+}
+
+
+  $data = array();
+  $data['title'] = $request->getParam('post-title');
+    $data['content'] = $request->getParam('post-content');
+   
+    $data['tags'] = $request->getParam('post-tag');
+    $data['status'] = $request->getParam('post-status');
+    $data['cat_id'] = $request->getParam('category');
+
+  $post= $this->container->post->update($post_id,$data);
+$this->container->flash->addMessage('success',"post Deleted successfully !");
+ return $response->withRedirect($this->container->router->pathFor('admin.posts'));
   
 
 
 
 }
+
 
 /**
    * [getUserForm description]
@@ -153,6 +192,7 @@ public function editPost($request,$response,$args){
   public function destroyPost($request,$response,$args){
 
     $post_id = $args['id'];
+
     $this->container->post->delete($post_id);
     $this->container->flash->addMessage('success',"post Deleted successfully !");
     return $response->withRedirect($this->container->router->pathFor('admin.posts'));

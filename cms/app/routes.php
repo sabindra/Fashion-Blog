@@ -58,6 +58,8 @@ $app->group('/manage',function(){
 	$this->get('/posts','PostController:getIndex')->setName('admin.posts');
 	$this->get('/post/new','PostController:getpostForm')->setName('admin.addPost');
 	$this->post('/post','PostController:postPost')->setName('admin.postPost');
+	$this->get('/post/{id}/edit','PostController:editPost')->setName('admin.editPost');
+	$this->post('/post/{id}/update','PostController:updatePost')->setName('admin.editPost');
 	$this->get('/post/{id}/delete','PostController:destroyPost');
 
 

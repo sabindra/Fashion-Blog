@@ -30,11 +30,11 @@
 </div>
 {% endif %}
 
-<form method="post"  action="{{ path_for('admin.postPost') }}" enctype="multipart/form-data">
+<form method="post"  action="/manage/post/{{post.post_id}}/update" enctype="multipart/form-data">
 
   <div class="form-group">
     <label for="title">Title:</label>
-    <input type="text" class="col-xs-6 form-control" id="title" name="post-title" >
+    <input type="text" class="col-xs-6 form-control" id="title" name="post-title"  value="{{post.title}}">
   </div>
   <div class="form-group">
     <label for="title">Category:</label>
@@ -49,16 +49,12 @@
   </div>
   <div class="form-group">
     <label for="pwd">Content:</label>
-    <textarea type="text" class="form-control"  name="post-content" rows="15"></textarea>
-    <div class="form-group">
-    <label for="post-image">Image</label>
-    <input type="file" class=""  name="post-image">
-    
-  </div>
+    <textarea type="text" class="form-control"  name="post-content" rows="15">{{post.content|e('html')}}</textarea>
+   
   </div>
   <div class="form-group">
     <label for="tag">tags:</label>
-    <input type="text" class="form-control" id="image" name="post-tag">
+    <input type="text" class="form-control" id="image" name="post-tag" value="{{post.tags}}">
   </div>
   <div class="form-group">
     <label for="status">status:</label>
@@ -71,7 +67,8 @@
     </select>
   </div>
  
-  <button type="submit" class="btn btn-success" name="submit">Submit</button>
+  <button type="submit" class="btn btn-success" name="submit">Update
+  </button>
 </form>
 
 
