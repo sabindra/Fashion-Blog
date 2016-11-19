@@ -388,3 +388,8 @@ ANIMATION
 
   padding:50px 80px;
 }
+
+.alert{
+
+  border-radius:0;
+}

@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use PDO;
 use \App\Interfaces\IModel as IModel;
+use PDO;
 
 class Category extends Model implements  Imodel{
 
@@ -11,9 +11,8 @@ class Category extends Model implements  Imodel{
 	function __construct($connection){
 
 		parent::__construct($connection);
-
-		
 	}
+
 
 	/**
 	 * [create create a category ]
@@ -37,6 +36,7 @@ class Category extends Model implements  Imodel{
 		$statement = $this->connection->prepare("SELECT * FROM categories");
 		$statement->execute();
 		$categories = $statement->fetchAll(PDO::FETCH_ASSOC);	
+		
 		return $categories;
 			
 	}
@@ -49,12 +49,11 @@ class Category extends Model implements  Imodel{
 	 */
 	public function find($id){
 
-
 		$statement = $this->connection->prepare("SELECT * FROM categories WHERE cat_id=:id");
 		$statement->execute(array('id'=>$id));
 		$post=$statement->fetch();
+		
 		return $post;
-
 
 	}
 
@@ -70,8 +69,6 @@ class Category extends Model implements  Imodel{
 		$title = $array['title'];
 		$stmt = $this->connection->prepare("UPDATE categories SET cat_title=:title WHERE cat_id=:id");
 		$stmt->execute(array(':title'=>$title,':id'=>$id));
-
-
 	}
 
 
@@ -87,13 +84,18 @@ class Category extends Model implements  Imodel{
 	}
 
 
-public function findByTitle($title){
+	public function findByTitle($title){
 
-	$statement = $this->connection->prepare("SELECT * FROM categories WHERE cat_title=:title");
+		$statement = $this->connection->prepare("SELECT * FROM categories WHERE cat_title=:title");
 		$statement->execute(array('title'=>$title));
 		$category=$statement->fetch();
+			
 		return $category;
-}
+	}
 
 }
- ?>
+ 
+
+
+
+?>

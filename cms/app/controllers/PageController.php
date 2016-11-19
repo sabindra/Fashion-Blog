@@ -124,8 +124,18 @@ class PageController extends Controller{
 
 
 public function  test1($request,$response){
+	$id = uniqid('',TRUE);
 
-	$this->container->view->render($response,'admin/test1.php');
+	echo "ID :" .$id;
+	echo "<br>";
+	$eid = base64_encode($id);
+	echo "Encode :". $eid;
+	echo "<br>";
+	echo "Decode :".base64_decode($eid);
+	echo "<br>";
+	// echo base64_encode($eid);
+
+	exit;
 }
 
 public function  test2($request,$response){

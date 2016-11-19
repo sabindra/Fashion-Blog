@@ -1,26 +1,20 @@
 <?php 
 
-
-
 namespace App\Middleware;
 
 
-
+/**
+ * Middlewware Base Class
+ */
 class Middleware {
 
-protected $container;
+	protected $container;
 
 
 	public function __construct($container){
 
-
 		$this->container= $container;
-
-
 	}
 }
-
-
-
 
  ?>

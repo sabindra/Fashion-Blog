@@ -4,11 +4,11 @@
  * @Author: Ryan Basnet
  * @Date:   2016-11-07 09:33:39
  * @Last Modified by:   Ryan Basnet
- * @Last Modified time: 2016-11-17 15:00:13
+ * @Last Modified time: 2016-11-19 10:43:39
  */
 
 session_start();
- date_default_timezone_set('Australia/Sydney');
+date_default_timezone_set('Australia/Sydney');
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -45,11 +45,9 @@ $app = new \Slim\App($config);
 $container = $app->getContainer();
 
 
-
 /**
  * Database Conection Setup
  */
-
 
 $container['connection'] = function($container) use($config){
 
@@ -59,19 +57,15 @@ $container['connection'] = function($container) use($config){
 		$connection = new PDO('mysql:host=localhost;dbname='. getenv('db_name'), getenv('db_user'), getenv('db_pass'));
 		$connection->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
 		
-		
-
 		} catch (PDOException $e) {
 
-			echo "Error!: " , $e->getMessage() , "<br/>";
-				 die();
+			echo "Error !: " , $e->getMessage() , "<br/>";
+			die();
 		}
 
 	return $connection;
 
 };
-
-
 
 
 /**
@@ -84,7 +78,7 @@ $container['flash'] = function ($container){
 	return new \Slim\Flash\Messages();
 };
 
-
+/** view  **/
 $container['view'] = function ($container){
 
 
@@ -100,9 +94,12 @@ $container['view'] = function ($container){
     $view->addExtension(new Slim\Views\TwigExtension($container['router'], $basePath));
     
     $view->addExtension(new Twig_Extension_Debug());
+
+    //set global variable in view
     $view->getEnvironment()->addGlobal('flash',$container->flash->getMessages());
     $view->getEnvironment()->addGlobal('user',$container->auth->user());
     $view->getEnvironment()->addGlobal('isLoggedIn',$container->auth->check());
+	
 	return $view;
 };
 
@@ -127,29 +124,39 @@ $container['auth'] = function($container){
  * Controller Registration
  */
 
-$container['PageController'] = function($container){
 
-	return new \App\Controllers\PageController($container);
-};
 
 $container['AuthController'] = function($container){
 
 	return new \App\Controllers\Auth\AuthController($container);
 };
+$container['PasswordController'] = function($container){
 
-$container['PostController'] = function($container){
-
-	return new \App\Controllers\PostController($container);
+	return new \App\Controllers\Auth\PasswordController($container);
 };
+
+
+
+$container['PageController'] = function($container){
+
+	return new \App\Controllers\PageController($container);
+};
+
 
 $container['UserController'] = function($container){
 
 	return new \App\Controllers\UserController($container);
 };
 
+
 $container['CategoryController'] = function($container){
 
 	return new \App\Controllers\CategoryController($container);
+};
+
+$container['PostController'] = function($container){
+
+	return new \App\Controllers\PostController($container);
 };
 
 $container['CommentController'] = function($container){
@@ -163,24 +170,31 @@ $container['CommentController'] = function($container){
  * Model Registration
  */
 
-$container['category'] = function($container){
-
-	$connection = $container->connection;
-	return new \App\Models\Category($connection);
-};
-
-$container['post'] = function($container){
-
-	$connection = $container->connection;
-	return new \App\Models\Post($connection);
-};
-
+/** User **/
 $container['user'] = function($container){
 
 	$connection = $container->connection;
 	return new \App\Models\User($connection);
 };
 
+
+/** Category **/
+$container['category'] = function($container){
+
+	$connection = $container->connection;
+	return new \App\Models\Category($connection);
+};
+
+
+/** Post  **/
+$container['post'] = function($container){
+
+	$connection = $container->connection;
+	return new \App\Models\Post($connection);
+};
+
+
+/** Comment */
 $container['comment'] = function($container){
 
 	$connection = $container->connection;

@@ -2,18 +2,17 @@
 
 namespace App\Models;
 
-use PDO;
 use \App\Interfaces\IModel as IModel;
+use PDO;
 
 class Comment extends Model implements  IModel{
 
 
 	function __construct($connection){
 
-		parent::__construct($connection);
-
-		
+		parent::__construct($connection);	
 	}
+
 
 	/**
 	 * [create create a category ]
@@ -21,7 +20,7 @@ class Comment extends Model implements  IModel{
 	 */
 	public function create($array){
 
-		$statement = $this->connection->prepare("INSERT INTO comments(comment_post_id,comment_author,comment_author_email,comment,comment_status,comment_date)
+			$statement = $this->connection->prepare("INSERT INTO comments(comment_post_id,comment_author,comment_author_email,comment,comment_status,comment_date)
 												 VALUES(:comment_post_id,:comment_author,:comment_author_email,:comment,:comment_status,NOW())");
 		
 		$statement->execute(array("comment_post_id"=>$array['comment_post_id'],

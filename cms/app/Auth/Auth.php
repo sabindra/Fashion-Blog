@@ -2,69 +2,92 @@
 
 namespace App\Auth;
 
-
+/**
+ * Auth 
+ */
 class Auth{
 
-protected $container;
+	protected $container;
 
-public function __construct($container)
-{
-	$this->container=$container;
-}
+	/**
+	 * [__construct description]
+	 * @param [type] $container [description]
+	 */
+	public function __construct($container){
+		
+		$this->container=$container;
+	}
 
+	/**
+	 * [attempt description]
+	 * @param  [type] $email    [description]
+	 * @param  [type] $password [description]
+	 * @return [type]           [description]
+	 */
+	public function attempt($email,$password){
 
+		$user = $this->container->user->userExist($email);
 
-public function attempt($email,$password){
+		if(!$user){
 
-
-
-	$user = $this->container->user->userExist($email);
-
-	if(!$user){
-
-				//set session
 				return false;
 		}
 
 		if(password_verify($password,$user['password'])){
-
 
 			$_SESSION['user'] =$user['user_id'];
 			return true;
 		}
 
 		return false;
-}
-
-
-public function logout(){
-
-	session_unset();
-}
-
-
-public function user(){
-	if(isset($_SESSION['user'])){
-
-		$user = $this->container->user->find($_SESSION['user']);
-	return ['user'=>$user['user_id'],'first_name'=>$user['first_name'],'last_name'=>$user['last_name'],'role_id'=>$user['role_id']];
 	}
+
+
+	/**
+	 * [logout description]
+	 * @return [type] [description]
+	 */
+	public function logout(){
+
+		session_unset();
+	}
+
+
+	/**
+	 * [user description]
+	 * @return [type] [description]
+	 */
+	public function user(){
+		
+		if(isset($_SESSION['user'])){
+
+			$user = $this->container->user->find($_SESSION['user']);
+			return ['user'=>$user['user_id'],
+					'first_name'=>$user['first_name'],
+					'last_name'=>$user['last_name'],
+					'role_id'=>$user['role_id']];
+		}
+	}
+
 	
-}
+	/**
+	 * [check description]
+	 * @return [type] [description]
+	 */
+	public function check(){
 
-public function check(){
-
-	return isset($_SESSION['user']);
-}
-
-
-public function role(){
-
-	$user_id = $this->container->user->find($_SESSION['role_id']);
+		return isset($_SESSION['user']);
+	}
 
 
+	/**
+	 * [role description]
+	 * @return [type] [description]
+	 */
+	public function role(){
 
-}
+		$user_id = $this->container->user->find($_SESSION['role_id']);
+	}
 
 
 

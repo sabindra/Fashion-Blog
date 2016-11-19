@@ -37,6 +37,21 @@ public function sendEmail($data){
 
 }
 
+public function passwordReset($data){
+
+
+    $from = new Email(null, $data['from']);
+    $subject = $data['subject'];
+    $to = new Email(null, $data['to']);
+    $content = new Content("text/html", $data['message']);
+    $mail = new Mail($from, $subject, $to, $content);
+
+    $sg = new \SendGrid($this->apikey);
+    $response = $response = $sg->client->mail()->send()->post($mail);
+    
+    return $response->statusCode();
+}
+
 
 
 

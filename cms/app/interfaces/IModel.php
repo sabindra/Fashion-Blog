@@ -3,7 +3,6 @@
 namespace App\Interfaces;
 
 
-
 interface IModel{
 
 	public function create($array);
@@ -15,8 +14,6 @@ interface IModel{
 	public function update($id,$array);
 
 	public function  delete($id);
-
-
 
 }
 
