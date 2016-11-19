@@ -4,7 +4,7 @@
  * @Author: Ryan Basnet
  * @Date:   2016-11-07 09:33:39
  * @Last Modified by:   Ryan Basnet
- * @Last Modified time: 2016-11-19 10:43:39
+ * @Last Modified time: 2016-11-19 20:58:17
  */
 
 session_start();
@@ -201,6 +201,13 @@ $container['comment'] = function($container){
 	return new \App\Models\Comment($connection);
 };
 
+
+/** Password reset */
+$container['passwordReset'] = function($container){
+
+	$connection = $container->connection;
+	return new \App\Models\PasswordReset($connection);
+};
 
 
 /**

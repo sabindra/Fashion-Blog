@@ -49,6 +49,8 @@ $app->post('/account/forgot-password' ,'PasswordController:postForgotPassword');
 $app->get('/account/reset-password/{passwordResetUrl}' ,'PasswordController:getResetPassword')
 	->setName('admin.resetPassword');
 
+	$app->post('/account/reset-password/{passwordResetUrl}' ,'PasswordController:resetPassword');
+
 
 
 

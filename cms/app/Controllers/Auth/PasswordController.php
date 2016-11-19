@@ -178,32 +178,18 @@ class PasswordController extends Controller{
 		
 		if($status===202){
 
-			$user = $this->container->user->userExist($recoveryEmail);
+			$data['recoveryEmail'] = $recoveryEmail;
+			$data['passwordResetToken'] =$passwordResetToken ;
+			$data['expiryDate'] = $expiryDate;
+
+				//check reset link is valid/not expired
+				$this->container->passwordReset->createResetLink($data);
 			
-			if(!empty($user)){
-
-				$userId 		= $user['user_id'];
-				$encodedToken 	= $passwordResetToken;
-				
-
-				$statement = $this->container
-								  ->connection
-								  ->prepare("INSERT INTO password_reset(user_id,reset_token,token_expiry,is_valid)
-												 		 VALUES(:user_id,:encoded_token,:token_expiry,:is_valid)");
-		
-				$statement->execute(array("user_id"=>$userId,
-									"encoded_token"=> $encodedToken,
-									"token_expiry"=>$expiryDate,
-									"is_valid"=>1
-									 ));
-
 				$this->container
 			 		 ->flash
 			 		->addMessage('success', 'Please check your email for password reset.');
 		
 				return $response->withRedirect($this->container->router->pathFor('admin.forgotPassword'));
-			} //end user check
-
 		}
 	}
 
@@ -219,39 +205,98 @@ class PasswordController extends Controller{
 		$passwordResetToken =  $args['passwordResetUrl'];
 
 
-		
-		$statement = $this->container
-								  ->connection
-								  ->prepare("SELECT * FROM password_reset WHERE reset_token=:password_reset_token AND is_valid = 1 AND token_expiry < NOW()");
-								  
-								   $statement->execute(array("password_reset_token"=>$passwordResetToken));
-								   $st = $statement->fetch(PDO::FETCH_ASSOC);
+		//check reset link is valid/not expired
+		$status = $this->container->passwordReset->isResetLinkValid($passwordResetToken);
 
-								  if($st){
+			if($status){
 
-								  	return $this->container
-						->view
-						->render($response,'admin/partials/auth/reset_password.twig');
-								  }else{
+				return $this->container
+							->view
+							->render($response,'admin/partials/auth/reset_password.twig',['resetToken'=>$passwordResetToken]);
+			}else{
 
-								  	$this->container
+				$this->container
 			 		 ->flash
 			 		->addMessage('fail', 'Please reset link is invalid, please request a new reset email.');
 
-return $response->withRedirect($this->container->router->pathFor('admin.forgotPassword'));
+				return $response->withRedirect($this->container->router->pathFor('admin.forgotPassword'));
 
-								  }
-
-		
-
+			}
 	}
 
 
-	public function resetPassword(){
+	public function resetPassword($request,$response,$args){
 
-		return $this->container
-					->view
-					->render($response,'admin/partials/auth/reset_password.twig');
+
+		$passwordResetToken =  $args['passwordResetUrl'];
+		$new_password		=	$request->getParam('new-password');
+		$confirm_password 	= 	$request->getParam('confirm-password');
+
+		//check reset link is valid/not expired
+		$status = $this->container->passwordReset->isResetLinkValid($passwordResetToken);
+
+
+		if(!$status){
+
+			$this->container
+			 	 ->flash
+			 	->addMessage('fail', 'Please reset link is invalid, please request a new reset email.');
+
+			return $response->withRedirect($this->container->router->pathFor('admin.forgotPassword'));
+
+		}
+
+
+
+		// respect validation rules
+		$rules = [
+
+			
+				'new-password'		=>v::notEmpty()->length(5,10),
+				'confirm-password'	=>v::notEmpty()->length(5,10)
+				
+		];
+
+		$validation = $this->container
+						   ->validator
+						   ->validate($request,$rules);
+
+		if($validation->failed()){
+
+			return $this->container
+						->view
+						->render($response,'admin/partials/auth/reset_password.twig',['errors'=>$validation->getError(),'resetToken'=>$passwordResetToken]);
+		}
+
+		//check password/confirm-password match 
+		if(!v::equals($new_password)->validate($confirm_password)){
+
+			$errors['password'] = ["New Password and confirm password must match"];
+			
+			return $this->container
+						->view
+						->render($response,'admin/partials/auth/reset_password.twig',['errors'=>$errors,'resetToken'=>$passwordResetToken]);
+
+		}
+
+
+		//update password
+		
+		$user_id = $this->container->user->userExist($status['user_email'])['user_id'];
+		
+		//update password
+		$this->container
+			 ->user
+			 ->updatePassword($user_id,password_hash($request->getParam('new-password'),PASSWORD_DEFAULT));
+
+		//delete password rest link
+		$this->container->passwordReset->destroyResetLink($status['password_reset_id']);
+
+		$this->container
+			 	 ->flash
+			 	->addMessage('success', 'Password reset is successful.');
+
+		return $response->withRedirect($this->container->router->pathFor('admin.signin'));
 	}
 
 }
