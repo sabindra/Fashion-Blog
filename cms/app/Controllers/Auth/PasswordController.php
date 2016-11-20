@@ -154,42 +154,54 @@ class PasswordController extends Controller{
 
 		//email
 		$recoveryEmail = $request->getParam('recovery-email');
-		
-		//password reset attributes
-		$passwordResetToken	= strtoupper(base64_encode(md5(uniqid('',true))));
-		$date 				= new DateTime('NOW');
-		$currentDate 		= $date->format('Y-m-d H:i:s');
-		$expiryDate 		= $date->add(new DateInterval('PT5H'))->format('Y-m-d H:i:s');
+	
+		if($this->container->user->userExist($recoveryEmail)){
+
+			//password reset attributes
+			$passwordResetToken	= strtoupper(base64_encode(md5(uniqid('',true))));
+			$date 				= new DateTime('NOW');
+			$currentDate 		= $date->format('Y-m-d H:i:s');
+			$expiryDate 		= $date->add(new DateInterval('PT5H'))->format('Y-m-d H:i:s');
 
 
-		$passwordResetUrl 	= "com.cms.local/account/reset-password/{$passwordResetToken}";
-		$sendgridService 	= new SendGridEmailService();
+			$passwordResetUrl 	= "com.cms.local/account/reset-password/{$passwordResetToken}";
+			$sendgridService 	= new SendGridEmailService();
 
-		//password rest template ---TEMPORARY [USE SENDGRID LATER]
-		//
-		$html = "<p>Please visit <a href='$passwordResetUrl'>password reset link</a> to reset password</p>";
+			//password rest template ---TEMPORARY [USE SENDGRID LATER]
+			//
+			$html = "<p>Please visit <a href='$passwordResetUrl'>password reset link</a> to reset password</p>";
 
-		$data['from']		= $recoveryEmail; 
-		$data['to']			= 'rajesh2045@gmail.com'; 
-		$data['subject']	= 'sNC Password Reset';
-		$data['message']	= $html; 
+			$data['from']		= $recoveryEmail; 
+			$data['to']			= 'rajesh2045@gmail.com'; 
+			$data['subject']	= 'sNC Password Reset';
+			$data['message']	= $html; 
 
-		$status = $sendgridService->passwordReset($data);
-		
-		if($status===202){
-
-			$data['recoveryEmail'] = $recoveryEmail;
-			$data['passwordResetToken'] =$passwordResetToken ;
-			$data['expiryDate'] = $expiryDate;
-
-				//check reset link is valid/not expired
-				$this->container->passwordReset->createResetLink($data);
+			$status = $sendgridService->passwordReset($data);
 			
-				$this->container
+			if($status===202){
+
+				$data['recoveryEmail'] = $recoveryEmail;
+				$data['passwordResetToken'] =$passwordResetToken ;
+				$data['expiryDate'] = $expiryDate;
+
+					//check reset link is valid/not expired
+					$this->container->passwordReset->createResetLink($data);
+				
+					$this->container
+				 		 ->flash
+				 		->addMessage('success', 'Please check your email for password reset.');
+			
+					return $response->withRedirect($this->container->router->pathFor('admin.forgotPassword'));
+			}
+		}else{
+
+			$this->container
 			 		 ->flash
-			 		->addMessage('success', 'Please check your email for password reset.');
+			 		->addMessage('fail', 'Account doesnot exist with email provided.');
+
+			return $response->withRedirect($this->container->router->pathFor('admin.forgotPassword'));
+
 		
-				return $response->withRedirect($this->container->router->pathFor('admin.forgotPassword'));
 		}
 	}
 
