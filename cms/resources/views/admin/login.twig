@@ -29,6 +29,7 @@
                             </div>
 
                             <button class="btn btn-success btn-lg login" >Log in </button>
+                            {{ csrf.field | raw }}
                         </form>
                         <br>
                         <a href="{{ path_for('admin.forgotPassword')}}" class ="pull-right">Forgot Password</a>

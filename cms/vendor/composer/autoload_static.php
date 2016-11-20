@@ -14,6 +14,7 @@ class ComposerStaticInit7fe2c312a3ad56eb4d089f7f01723bf1
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '8a9dc1de0ca7e01f3e08231539562f61' => __DIR__ . '/..' . '/aws/aws-sdk-php/src/functions.php',
+        '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
         '3f8bdd3b35094c73a26f0106e3c0f8b2' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/SendGrid.php',
         '9dda55337a76a24e949fbcc5d905a2c7' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/helpers/mail/Mail.php',
     );
@@ -24,6 +25,7 @@ class ComposerStaticInit7fe2c312a3ad56eb4d089f7f01723bf1
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Slim\\Views\\' => 11,
             'Slim\\Flash\\' => 11,
+            'Slim\\Csrf\\' => 10,
             'Slim\\' => 5,
             'SendGrid\\' => 9,
         ),
@@ -82,6 +84,10 @@ class ComposerStaticInit7fe2c312a3ad56eb4d089f7f01723bf1
         'Slim\\Flash\\' => 
         array (
             0 => __DIR__ . '/..' . '/slim/flash/src',
+        ),
+        'Slim\\Csrf\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/slim/csrf/src',
         ),
         'Slim\\' => 
         array (

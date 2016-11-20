@@ -9,6 +9,7 @@ return array(
     'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
     'Slim\\Views\\' => array($vendorDir . '/slim/twig-view/src', $vendorDir . '/slim/views'),
     'Slim\\Flash\\' => array($vendorDir . '/slim/flash/src'),
+    'Slim\\Csrf\\' => array($vendorDir . '/slim/csrf/src'),
     'Slim\\' => array($vendorDir . '/slim/slim/Slim'),
     'SendGrid\\' => array($vendorDir . '/sendgrid/php-http-client/lib'),
     'Respect\\Validation\\' => array($vendorDir . '/respect/validation/library'),

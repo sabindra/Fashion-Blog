@@ -13,6 +13,7 @@ return array(
     '37a3dc5111fe8f707ab4c132ef1dbc62' => $vendorDir . '/guzzlehttp/guzzle/src/functions_include.php',
     '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => $vendorDir . '/symfony/polyfill-mbstring/bootstrap.php',
     '8a9dc1de0ca7e01f3e08231539562f61' => $vendorDir . '/aws/aws-sdk-php/src/functions.php',
+    '5255c38a0faeba867671b61dfda6d864' => $vendorDir . '/paragonie/random_compat/lib/random.php',
     '3f8bdd3b35094c73a26f0106e3c0f8b2' => $vendorDir . '/sendgrid/sendgrid/lib/SendGrid.php',
     '9dda55337a76a24e949fbcc5d905a2c7' => $vendorDir . '/sendgrid/sendgrid/lib/helpers/mail/Mail.php',
 );
