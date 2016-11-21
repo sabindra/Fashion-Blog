@@ -38,9 +38,9 @@ class PostController extends Controller{
 
     $rules = [
 
-      'post-title'=>v::notEmpty(),
-        'post-content'=>v::notEmpty(),
-        'post-tag'=>v::alpha(),
+      'post_title'=>v::notEmpty(),
+        'post_content'=>v::notEmpty(),
+        'post_tag'=>v::alpha(),
 
     ];
 
@@ -109,10 +109,10 @@ class PostController extends Controller{
 
     $user = $this->container->auth->user();
     $data =array();
-    $data['title'] = $request->getParam('post-title');
-    $data['content'] = $request->getParam('post-content');
+    $data['title'] = $request->getParam('post_title');
+    $data['content'] = $request->getParam('post_content');
     $data['image_path'] = $imageName;
-    $data['tags'] = $request->getParam('post-tag');
+    $data['tags'] = $request->getParam('post_tag');
     $data['status'] = $request->getParam('post-status');
     $data['author'] = $user['first_name'];
     $data['cat_id'] = $request->getParam('category');
@@ -151,9 +151,9 @@ public function updatePost($request,$response,$args){
    $categories = $this->container->category->findAll();
   $rules = [
 
-      'post-title'=>v::notEmpty(),
-        'post-content'=>v::notEmpty(),
-        'post-tag'=>v::alpha(),
+      'post_title'=>v::notEmpty(),
+        'post_content'=>v::notEmpty(),
+        'post_tag'=>v::alpha(),
 
     ];
 
@@ -167,10 +167,10 @@ if($validation->failed()){
 
 
   $data = array();
-  $data['title'] = $request->getParam('post-title');
-    $data['content'] = $request->getParam('post-content');
+  $data['title'] = $request->getParam('post_title');
+    $data['content'] = $request->getParam('post_content');
    
-    $data['tags'] = $request->getParam('post-tag');
+    $data['tags'] = $request->getParam('post_tag');
     $data['status'] = $request->getParam('post-status');
     $data['cat_id'] = $request->getParam('category');
 

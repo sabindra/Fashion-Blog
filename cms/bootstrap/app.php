@@ -4,7 +4,7 @@
  * @Author: Ryan Basnet
  * @Date:   2016-11-07 09:33:39
  * @Last Modified by:   Ryan Basnet
- * @Last Modified time: 2016-11-20 22:51:40
+ * @Last Modified time: 2016-11-21 11:23:25
  */
 
 session_start();
@@ -216,6 +216,7 @@ $container['passwordReset'] = function($container){
 };
 
 
+$app->add(new \App\Middleware\OldInputMiddleware($container));
 $app->add(new \App\Middleware\CsrfMiddleware($container));
 $app->add($container->get('csrf'));
 

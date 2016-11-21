@@ -21,8 +21,6 @@
 						</div>
 					</div>
 					{% if comments is not empty %}
-
-
 						<div class="well row comment-wrapper">
 							<h3 clas="text-center">Comments</h3>
 							<div class="actionBox">
@@ -56,17 +54,17 @@
 						<form action="/post/{{post.post_id}}/comment" method="post"> 
 							<div class="form-group">
 								<label for="name" >Name</label>
-								<input type="text" class="form-control" name="name">
+								<input type="text" class="form-control" name="name" value="{{oldInput.name}}">
 							</div>
 
 							<div class="form-group">
 								<label for="name" class="">Email</label>
-								<input type="email" class="form-control" name="email">
+								<input type="email" class="form-control" name="email" value="{{oldInput.email}}">
 							</div>
 							
 							<div class="form-group">
 								<label for="name" class="">Comment</label>
-								<textarea type="text" class="form-control" name="comment" rows="10"></textarea>
+								<textarea type="text" class="form-control" name="comment" rows="10">{{oldInput.comment}}</textarea>
 							</div>
 							
 							<button class="btn btn-success" type="submit" name="submit">Submit</button>
@@ -76,7 +74,7 @@
 				
 				</article>
 				{% endif %}
-			{% if posts is empty %}
+			{% if post is empty %}
 
 	<article>
 		<h3>Sorry, no articles found!</h3>

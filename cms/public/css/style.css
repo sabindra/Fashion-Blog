@@ -587,3 +587,20 @@ ANIMATION
 	height:auto;
 }
 
+
+div.blog-post-text {
+
+	font-family: 'Raleway', sans-serif !important;
+	color:red;
+}
+
+.blog-post-text span,.blog-post-text ul,.blog-post-text li{
+
+text-align: justify !important;
+	font-size: 17px;
+	
+	line-height: 28px;
+	color: #000;
+	letter-spacing: 0.1px;
+	margin-bottom: 30px;
+}

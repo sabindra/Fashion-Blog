@@ -52,8 +52,8 @@ class UserController extends Controller{
 		// respect validation rules
 		$rules = [
 
-				'first-name'=>v::notEmpty()->alpha()->length(5,10),
-				'last-name'=>v::notEmpty()->alpha()->length(5,10),
+				'first_name'=>v::notEmpty()->alpha()->length(5,10),
+				'last_name'=>v::notEmpty()->alpha()->length(5,10),
 				'email'=>v::notEmpty()->email(),
 				'password'=>v::noWhiteSpace()->notEmpty()->length(5,10),
 				
@@ -70,8 +70,8 @@ class UserController extends Controller{
 		}
 
 		$data =array();
-		$data['first_name']= $request->getParam('first-name');
-		$data['last_name']= $request->getParam('last-name');
+		$data['first_name']= $request->getParam('first_name');
+		$data['last_name']= $request->getParam('last_name');
 		$data['email']= $request->getParam('email');
 		$data['password']= password_hash($request->getParam('password'),PASSWORD_DEFAULT);
 		$data['role_id']= $request->getParam('role');
@@ -110,8 +110,8 @@ class UserController extends Controller{
 		// respect validation rules
 		$rules = [
 
-				'first-name'=>v::notEmpty()->alpha()->length(5,10),
-				'last-name'=>v::notEmpty()->alpha()->length(5,10),
+				'first_name'=>v::notEmpty()->alpha()->length(5,10),
+				'last_name'=>v::notEmpty()->alpha()->length(5,10),
 				'email'=>v::notEmpty()->email(),
 				
 		];
@@ -129,8 +129,8 @@ class UserController extends Controller{
 
 
 		$data =array();
-		$data['first_name']= $request->getParam('first-name');
-		$data['last_name']= $request->getParam('last-name');
+		$data['first_name']= $request->getParam('first_name');
+		$data['last_name']= $request->getParam('last_name');
 		$data['user_email']= $request->getParam('email');
 		$data['password']= password_hash($request->getParam('password'),PASSWORD_DEFAULT);
 		$data['role_id']= $request->getParam('role');
@@ -190,8 +190,8 @@ class UserController extends Controller{
 			// respect validation rules
 		$rules = [
 
-				'first-name'=>v::notEmpty()->alpha()->length(5,10),
-				'last-name'=>v::notEmpty()->alpha()->length(5,10),
+				'first_name'=>v::notEmpty()->alpha()->length(5,10),
+				'last_name'=>v::notEmpty()->alpha()->length(5,10),
 				'email'=>v::notEmpty()->email(),
 				
 		];
@@ -204,8 +204,8 @@ class UserController extends Controller{
 		}
 
 		$data =array();
-		$data['first_name']= $request->getParam('first-name');
-		$data['last_name']= $request->getParam('last-name');
+		$data['first_name']= $request->getParam('first_name');
+		$data['last_name']= $request->getParam('last_name');
 		$data['user_email']= $request->getParam('email');
 		$user_id = $this->container->auth->user()['user'];
 
