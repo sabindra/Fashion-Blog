@@ -2,6 +2,7 @@
 
 use \App\Middleware\GuestMiddleware;
 use \App\Middleware\AuthMiddleware;
+use \App\Middleware\AdminMiddleware;
 
 /**
  * Public Page Routes
@@ -57,7 +58,7 @@ $app->get('/account/reset-password/{passwordResetUrl}' ,'PasswordController:getR
  * Admin Routes /Protected Routes
  */
 
-$app->group('',function(){
+$app->group('',function() use($container){
 
 	/** Dashboard **/
 	$this->get('/dashboard' ,'AuthController:getIndex')
@@ -119,36 +120,23 @@ $app->group('',function(){
 
 	/** user **/
 	$this->get('/users','UserController:getIndex')
-		->setName('admin.users');
+		->setName('admin.users')->add(new AdminMiddleware($container));
 
 	$this->get('/user/new','UserController:getUserForm')
-		->setName('admin.addUser');
+		->setName('admin.addUser')->add(new AdminMiddleware($container));
 
 	$this->post('/user','UserController:postUser')
-		->setName('admin.postUser');
+		->setName('admin.postUser')->add(new AdminMiddleware($container));
 
 	$this->get('/user/{id}/edit','UserController:editUser')
-		->setName('admin.editUser');
+		->setName('admin.editUser')->add(new AdminMiddleware($container));
 
-	$this->post('/user/{id}/update','UserController:updateUser');
+	$this->post('/user/{id}/update','UserController:updateUser')->add(new AdminMiddleware($container));
 
-	$this->get('/user/{id}/delete','UserController:destroyUser');
+	$this->get('/user/{id}/delete','UserController:destroyUser')->add(new AdminMiddleware($container));
 	
 
-	/** profile **/
-	// $this->get('/user/profile','UserController:getProfile')
-	// 	->setName('user.profile');
-
-	// $this->post('/user/profile','UserController:updateProfile')
-	// 	->setName('user.updateProfile');
-
-	// $this->get('/user/account/changepassword','PasswordController:getChangePassword')
-	// 	->setName('user.changePassword');
-
-	// $this->post('/user/profile/changepassword','AuthController:ChangePassword')
-	// 	->setName('user.updatePassword');
-
-
+	
 	/** comments  **/
 	$this->get('/comments','CommentController:getIndex')
 		->setName('admin.comments');
@@ -159,7 +147,7 @@ $app->group('',function(){
 
 	$this->get('/comment/{comment_id}/delete','CommentController:deleteComment');
 	
-})->add(new AuthMiddleware($container));
+});
 
 
 

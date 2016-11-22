@@ -27,19 +27,24 @@
   {% endfor %}
 </div>
 {% endif %}
-<form method="post"  action="{{ path_for('user.updateProfile') }}">
+<form method="post"  action="{{ path_for('user.updateProfile') }}" enctype="multipart/form-data">
 
   <div class="form-group">
     <label for="title">First Name</label>
-    <input type="text" class="col-xs-6 form-control" id="title" name="first-name" value="{{user.first_name}}">
+    <input type="text" class="col-xs-6 form-control" id="title" name="first_name" value="{{user.first_name}}">
   </div>
   <div class="form-group">
     <label for="title">Last Name</label>
-    <input type="text" class="col-xs-6 form-control" id="title" name="last-name" value="{{user.last_name}}" >
+    <input type="text" class="col-xs-6 form-control" id="title" name="last_name" value="{{user.last_name}}" >
   </div>
   <div class="form-group">
     <label for="title">Email</label>
     <input type="email" class="col-xs-6 form-control" id="title" name="email" value="{{user.user_email}}">
+  </div>
+   <div class="form-group">
+    <label for="profile-image">Image</label>
+    <input type="file" class=""  name="profile_image">
+    
   </div>
  
   <br><br>

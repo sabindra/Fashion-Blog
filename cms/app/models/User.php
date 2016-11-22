@@ -121,10 +121,16 @@ public function updateProfile($id,$array){
 		$first_name = $array['first_name'];
 		$last_name = $array['last_name'];
 		$user_email = $array['user_email'];
-		$stmt = $this->connection->prepare("UPDATE users SET first_name=:first_name,last_name=:last_name,user_email=:user_email WHERE user_id=:id");
+		$image_path = $array['image_path'];
+		$stmt = $this->connection->prepare("UPDATE users SET first_name=:first_name,
+															last_name=:last_name,
+															user_email=:user_email,
+															image_path=:image_path,
+															updated_at=NOW() WHERE user_id=:id");
 		$stmt->execute(array(	'first_name'=>$first_name,
 								'last_name'=>$last_name,
 								'user_email'=>$user_email,
+								'image_path'=>$image_path,
 								'id'=>$id));
 
 }

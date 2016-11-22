@@ -49,8 +49,8 @@
         
         
  
-        <td><a class ="btn btn-success" href="/comment/{{item.comment_id}}/approve">Approve</a></td>
-        <td><a class ="btn btn-warning" href="/comment/{{item.comment_id}}/unapprove">Block</a></td>
+        <td><a class ="btn btn-success {% if item.comment_status == 'approved' %} disabled {% endif %}" href="/comment/{{item.comment_id}}/approve">Approve</a></td>
+        <td><a class ="btn btn-warning {% if item.comment_status == 'unapproved' %} disabled {% endif %}" href="/comment/{{item.comment_id}}/unapprove">Block</a></td>
          <td><a class ="btn btn-danger" href="/comment/{{item.comment_id}}/delete">Delete</a></td>
       </tr>
 

@@ -15,19 +15,19 @@
                             </li>
                         </ul>
                     </li>
-                    {% if user is not empty%}
-                    {% if user.role_id == 1 %}
+                   
+                    {% if loggedUser.role_id == 1 %}
                     <li>
-                        <a href="/manage/category"><i class="fa fa-fw fa-table"></i>Categories</a>
+                        <a href="/category"><i class="fa fa-fw fa-table"></i>Categories</a>
                     </li>
                     {% endif %}
-                        {% endif %}
+                      
                     <li>
                         <a href="{{ path_for('admin.comments')}}"><i class="fa fa-fw fa-edit"></i> Comments</a>
                     </li>
 
-                    {% if user is not empty%}
-                    {% if user.role_id == 1 %}
+                   
+                    {% if loggedUser.role_id == 1 %}
     
 
  
@@ -43,7 +43,7 @@
                         </ul>
                     </li>
                       {% endif %}
-                        {% endif %}
+                   
                     <li>
                         <a href="{{ path_for('user.profile')}}"><i class="fa fa-fw fa-wrench"></i> Profile</a>
                     </li>

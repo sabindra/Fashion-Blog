@@ -4,7 +4,7 @@
  * @Author: Ryan Basnet
  * @Date:   2016-11-07 09:33:39
  * @Last Modified by:   Ryan Basnet
- * @Last Modified time: 2016-11-21 11:23:25
+ * @Last Modified time: 2016-11-22 17:05:17
  */
 
 session_start();
@@ -103,7 +103,7 @@ $container['view'] = function ($container){
 
     //set global variable in view
     $view->getEnvironment()->addGlobal('flash',$container->flash->getMessages());
-    $view->getEnvironment()->addGlobal('user',$container->auth->user());
+    $view->getEnvironment()->addGlobal('loggedUser',$container->auth->user());
     $view->getEnvironment()->addGlobal('isLoggedIn',$container->auth->check());
 	
 	return $view;

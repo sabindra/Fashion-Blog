@@ -92,6 +92,14 @@ class Comment extends Model implements  IModel{
 
 		$statement = $this->connection->prepare("DELETE  FROM comments WHERE comment_id=:id");
 		$statement->execute(array("id"=>$id));
+
+		$statement=$this->connection->prepare("SELECT comment_post_id as post_id from comments WHERE comment_id=:comment_id ");
+		$statement->execute(array(':comment_id'=>$comment_id));
+		
+		$post_id =$statement->fetch(PDO::FETCH_COLUMN);
+		$statement = $this->connection->prepare("UPDATE posts SET comments_count=(comments_count-1) WHERE post_id=:post_id");
+		$statement->execute(array(':post_id'=>$post_id));
+	
 	
 	}
 
@@ -104,6 +112,13 @@ class Comment extends Model implements  IModel{
 
 		$statement = $this->connection->prepare("UPDATE comments SET comment_status='approved' WHERE comment_id=:comment_id");
 		$statement->execute(array(':comment_id'=>$comment_id));
+
+		$statement=$this->connection->prepare("SELECT comment_post_id as post_id from comments WHERE comment_id=:comment_id ");
+		$statement->execute(array(':comment_id'=>$comment_id));
+		
+		$post_id =$statement->fetch(PDO::FETCH_COLUMN);
+		$statement = $this->connection->prepare("UPDATE posts SET comments_count=(comments_count+1) WHERE post_id=:post_id");
+		$statement->execute(array(':post_id'=>$post_id));
 	
 	}
 
@@ -116,6 +131,13 @@ class Comment extends Model implements  IModel{
 
 		$statement = $this->connection->prepare("UPDATE comments SET comment_status='unapproved' WHERE comment_id=:comment_id");
 		$statement->execute(array(':comment_id'=>$comment_id));
+
+		$statement=$this->connection->prepare("SELECT comment_post_id as post_id from comments WHERE comment_id=:comment_id ");
+		$statement->execute(array(':comment_id'=>$comment_id));
+		$post_id =$statement->fetch(PDO::FETCH_COLUMN);
+		
+		$statement = $this->connection->prepare("UPDATE posts SET comments_count=(comments_count-1) WHERE post_id=:post_id");
+		$statement->execute(array(':post_id'=>$post_id));
 
 	}
 }

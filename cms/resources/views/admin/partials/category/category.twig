@@ -25,7 +25,7 @@
 </div>
 {% endif %}
 
-                        <form method="post" action="/manage/category">
+                        <form method="post" action="/category">
     <div class="form-group">
       <label for="email">Add Category</label>
       <input type="text" class="form-control" id="email" name="category" placeholder="Enter email">
@@ -37,7 +37,7 @@
 <br>
 
 {% if editMode == TRUE and editCategory is not empty %}
- <form method="post" action="/manage/category/{{editCategory.cat_id}}">
+ <form method="post" action="/category/{{editCategory.cat_id}}">
     <div class="form-group">
       <label for="email">Update Category</label>
       <input type="text" class="form-control" id="email" name="category" value="{{editCategory.cat_title}}" placeholder="Enter email">
@@ -70,8 +70,8 @@
         <tr> 
         <td>{{item.cat_id}}</td>
         <td>{{item.cat_title}}</td>
-        <td><a class ="btn btn-warning" href="/manage/category/{{item.cat_id}}/edit">Edit</a></td>
-         <td><a class ="btn btn-danger" href="/manage/category/{{item.cat_id}}/delete">Delete</a></td>
+        <td><a class ="btn btn-warning" href="/category/{{item.cat_id}}/edit">Edit</a></td>
+         <td><a class ="btn btn-danger" href="/category/{{item.cat_id}}/delete">Delete</a></td>
       </tr>
 
         {% endfor %}

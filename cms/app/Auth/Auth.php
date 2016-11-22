@@ -65,7 +65,8 @@ class Auth{
 			return ['user'=>$user['user_id'],
 					'first_name'=>$user['first_name'],
 					'last_name'=>$user['last_name'],
-					'role_id'=>$user['role_id']];
+					'role_id'=>$user['role_id'],
+					'image_path'=>$user['image_path']];
 		}
 	}
 
@@ -86,7 +87,7 @@ class Auth{
 	 */
 	public function role(){
 
-		$user_id = $this->container->user->find($_SESSION['role_id']);
+		$user = $this->container->user->find($_SESSION['user_id']);
 	}
 
 

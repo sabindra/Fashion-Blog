@@ -48,18 +48,37 @@ class PageController extends Controller{
 
 	public function getAbout($request,$response){
 
-		$categories = $this->container->category->findAll();
+		$category = $this->container->category;
+		$categories = $category->findAll();
+		$newCategories = array();
+		foreach($categories as $cat) {
+			$ct = $cat;
+			$cat_title =$cat['cat_title'];
+			$ct['url'] = strtolower(str_replace(" ","_",$cat_title));
+			array_push($newCategories, $ct);
 
-		return $this->container->view->render($response,'front/partials/about.twig',['categories'=>$categories]);
+		}
+
+		return $this->container->view->render($response,'front/partials/about.twig',['categories'=>$newCategories]);
 
 	}
 
 	
 	public function getContact($request,$response){
 
-		$categories = $this->container->category->findAll();
+	
+		$category = $this->container->category;
+		$categories = $category->findAll();
+		$newCategories = array();
+		foreach($categories as $cat) {
+			$ct = $cat;
+			$cat_title =$cat['cat_title'];
+			$ct['url'] = strtolower(str_replace(" ","_",$cat_title));
+			array_push($newCategories, $ct);
 
-		return $this->container->view->render($response,'front/partials/contact.twig',['categories'=>$categories]);
+		}
+
+		return $this->container->view->render($response,'front/partials/contact.twig',['categories'=>$newCategories]);
 
 	}
 

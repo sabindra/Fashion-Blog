@@ -4,6 +4,8 @@ namespace App\Controllers;
 use PDO;
 use App\Validation\Validator;
 use Respect\Validation\Validator as v;
+use App\Aws\AmazonService;
+use App\Aws\Exceptions\S3Exception;
 
 
 class UserController extends Controller{
@@ -35,8 +37,10 @@ class UserController extends Controller{
 	 */
 	public function getUserForm($request,$response){
 
-		
-		return $this->container->view->render($response,'admin/partials/user/add_user.twig');
+		$statement=$this->container->connection->prepare("SELECT * from user_role");
+    	$statement->execute();
+    	$roles =$statement->fetchAll(PDO::FETCH_ASSOC);
+		return $this->container->view->render($response,'admin/partials/user/add_user.twig',['roles'=>$roles]);
 
 
 	}
@@ -107,6 +111,7 @@ class UserController extends Controller{
 
 		$user_id = $args['id'];
 
+
 		// respect validation rules
 		$rules = [
 
@@ -126,6 +131,7 @@ class UserController extends Controller{
 			// return $this->container->view->render($response,'admin/partials/user/edit_user.twig',['user'=>$user]);
 			return $response->withRedirect($this->container->router->pathFor('admin.editUser',['id'=>$user_id,'errors'=>$validation->getError()]));
 		}
+
 
 
 		$data =array();
@@ -187,6 +193,9 @@ class UserController extends Controller{
 	 */
 	public function updateProfile($request,$response){
 
+		//user id
+		$user_id = $this->container->auth->user()['user'];
+		$currentUser = $this->container->user->find($user_id);
 			// respect validation rules
 		$rules = [
 
@@ -197,18 +206,87 @@ class UserController extends Controller{
 		];
 
 		$validation = $this->container->validator->validate($request,$rules);
-		if($validation->failed()){
 
+		$fileType= ['png','jpeg','jpg',];
+    	$file['image'] = $_FILES['profile_image']['name'];
+   		$file['size'] = $_FILES['profile_image']['size'];
+
+    	$imageRules = [ 
+
+       
+        'fileType'=>$fileType,
+        'fileSize'=>'10000000'
+
+
+          ];
+     
+     if(is_uploaded_file($_FILES['profile_image']['tmp_name'])){
+     	$validation->validateImage($request,$file,$imageRules);
+
+     }
+
+     if($validation->failed()){
+			$this->container->view->getEnvironment()->addGlobal('errors',$validation->getError());
 			$this->container->flash->addMessage('fail',"Please enter all fields!");
 			return $response->withRedirect($this->container->router->pathFor('user.profile'));
 		}
+  
 
+  if(is_uploaded_file($_FILES['profile_image']['tmp_name']) && empty($validation->failed()) ){
+     	
+     	//upload-image
+	$name = $request->getParam('first_name')."_".$request->getParam('last_name');
+////upload image
+    $fileExt = strtolower(end(explode(".",$file['image'])));
+    $imageName = md5(uniqid())."_".date("d-m-y")."_".$name.".".$fileExt;
+    $image_temp = $_FILES['profile_image']['tmp_name'];
+
+    $tempLocation=__DIR__."/../../resources/tmp_image/$imageName";
+    move_uploaded_file($image_temp,$tempLocation);
+    $a = new AmazonService();
+  $awsClient = $a->getAWS();
+     try {
+      
+      $handle = fopen($tempLocation, 'rb');
+      $awsClient->putObject([
+
+        'Bucket'=>getenv('AWS_BUCKET'),
+        'Key'=>"user_profile_images/{$imageName}",
+        'Body'=>$handle,
+        'ACL'=>'public-read'
+        ]);
+
+      fclose($handle);
+      
+      unlink($tempLocation);
+
+      //delete image
+      $imageKey = $currentUser['image_path'];
+       $awsClient->deleteObject(array(
+    	'Bucket' => getenv('AWS_BUCKET'),
+    	'Key'    => "user_profile_images/{$imageKey}",
+)); 
+
+
+     } catch (S3Exception $e) {
+      
+      $error = ['image'=>['Sorry, image could not be uploaded.'] ];
+       return $this->container->view->render($response,'admin/partials/post/add_post.twig',['category'=>$categories,'errors'=>$error]);
+     }
+
+     }
+
+
+	
+
+//upload image
 		$data =array();
 		$data['first_name']= $request->getParam('first_name');
 		$data['last_name']= $request->getParam('last_name');
 		$data['user_email']= $request->getParam('email');
-		$user_id = $this->container->auth->user()['user'];
-
+		
+		$old_image_path = $this->container->user->find($user_id)['image_path'];
+		$data['image_path']= (!empty($imageName))? $imageName : $old_image_path;
 		$user = $this->container->user->updateProfile($user_id,$data);
 		$this->container->flash->addMessage('success',"Successfully update profile!");
 		return $response->withRedirect($this->container->router->pathFor('user.profile'));

@@ -6,14 +6,28 @@ use Respect\Validation\Validator as v;
 use App\Aws\AmazonService;
 use App\Aws\Exceptions\S3Exception;
 
+
 class PostController extends Controller{
 
 
 
 	public function getIndex($request,$response){
 
-		$posts = $this->container->post;
-		$posts = $posts->findAll();
+    $role_id = $this->container->auth->user()['role_id'];
+    $user_id = $this->container->auth->user()['user'];
+    $post = $this->container->post;
+    if($role_id!=1){
+
+      $posts = $post->where('author',$user_id);
+
+    }
+    else{
+
+      $posts = $posts->findAll();
+    }
+
+		
+		
 
 		return $this->container->view->render($response,'admin/partials/post/view_all_post.twig',['posts'=>$posts]);
 
@@ -24,6 +38,7 @@ class PostController extends Controller{
 	public function getPostForm($request,$response){
 
 		$categories = $this->container->category->findAll();
+    
 		return $this->container->view->render($response,'admin/partials/post/add_post.twig',['category'=>$categories]);
 
 
@@ -99,7 +114,7 @@ class PostController extends Controller{
       fclose($handle);
       
       
-
+      unlink($tempLocation);
 
      } catch (S3Exception $e) {
       
@@ -114,7 +129,7 @@ class PostController extends Controller{
     $data['image_path'] = $imageName;
     $data['tags'] = $request->getParam('post_tag');
     $data['status'] = $request->getParam('post-status');
-    $data['author'] = $user['first_name'];
+    $data['author'] = $user['user'];
     $data['cat_id'] = $request->getParam('category');
 
    
@@ -135,11 +150,21 @@ class PostController extends Controller{
 
 public function editPost($request,$response,$args){
 
+
+
+
+  
   $post_id = $args['id'];
   $categories = $this->container->category->findAll();
-
-
    $post= $this->container->post->find($post_id);
+
+   $current_user_id= $this->container->auth->user()['user'];
+   $post_user_id = $post['author'];
+   if($post_user_id!=$current_user_id){
+$this->container->flash->addMessage('fail',"Not authorize to perform action !");
+ return $response->withRedirect($this->container->router->pathFor('admin.posts'));
+
+   }
 return $this->container->view->render($response,'admin/partials/post/edit_post.twig',['category'=>$categories,'post'=>$post]);
 
 
@@ -171,7 +196,7 @@ if($validation->failed()){
     $data['content'] = $request->getParam('post_content');
    
     $data['tags'] = $request->getParam('post_tag');
-    $data['status'] = $request->getParam('post-status');
+    $data['status'] = $request->getParam('post_status');
     $data['cat_id'] = $request->getParam('category');
 
   $post= $this->container->post->update($post_id,$data);
@@ -193,7 +218,15 @@ $this->container->flash->addMessage('success',"post Deleted successfully !");
   public function destroyPost($request,$response,$args){
 
     $post_id = $args['id'];
+    $post= $this->container->post->find($post_id);
 
+     $current_user_id= $this->container->auth->user()['user'];
+   $post_user_id = $post['author'];
+   if($post_user_id!=$current_user_id){
+$this->container->flash->addMessage('fail',"Not authorize to perform action !");
+ return $response->withRedirect($this->container->router->pathFor('admin.posts'));
+
+   }
     $this->container->post->delete($post_id);
     $this->container->flash->addMessage('success',"post Deleted successfully !");
     return $response->withRedirect($this->container->router->pathFor('admin.posts'));

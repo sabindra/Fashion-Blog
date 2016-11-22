@@ -34,7 +34,7 @@
 
   <div class="form-group">
     <label for="title">Title:</label>
-    <input type="text" class="col-xs-6 form-control" id="title" name="post-title"  value="{{post.title}}">
+    <input type="text" class="col-xs-6 form-control" id="title" name="post_title"  value="{{post.title}}">
   </div>
   <div class="form-group">
     <label for="title">Category:</label>
@@ -49,16 +49,16 @@
   </div>
   <div class="form-group">
     <label for="pwd">Content:</label>
-    <textarea type="text" class="form-control"  name="post-content" rows="15">{{post.content|e('html')}}</textarea>
+    <textarea type="text" class="form-control"  name="post_content" rows="15">{{post.content|e('html')}}</textarea>
    
   </div>
   <div class="form-group">
     <label for="tag">tags:</label>
-    <input type="text" class="form-control" id="image" name="post-tag" value="{{post.tags}}">
+    <input type="text" class="form-control" id="image" name="post_tag" value="{{post.tags}}">
   </div>
   <div class="form-group">
     <label for="status">status:</label>
-    <select class="form-control" name="post-status">
+    <select class="form-control" name="post_status">
 
     <option value="draft">Draft</option>
     <option value="published">Published</option>

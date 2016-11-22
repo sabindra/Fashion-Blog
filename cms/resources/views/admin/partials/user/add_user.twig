@@ -35,8 +35,7 @@
   </div>
   <div class="form-group">
     <label for="title">First Name</label>
-    <input type="text" class="col-xs-6 form-control" id="title" name="first_
-    name"  value="{{ oldInput.first_name}}">
+    <input type="text" class="col-xs-6 form-control" id="title" name="first_name"  value="{{ oldInput.first_name}}">
   </div>
   <div class="form-group">
     <label for="title">Email</label>
@@ -50,12 +49,10 @@
     <label for="title">Role</label>
     <select name ="role" class="form-control">
 
-
-      <option value="1">Admin</option>
-      <option value="2">Author</option>
-       <option value="3">Subscriber</option>
+{% for role in roles %}
+       <option value="{{role.role_id}}">{{role.role | capitalize}}</option>
       
-
+{% endfor %}
     </select>
   </div>
  
