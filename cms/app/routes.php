@@ -24,8 +24,7 @@ $app->get('/post/{id}' ,'PageController:getPost')
 $app->post('/post/{id}/comment','CommentController:postComment')
 	->setName('	admin.postComment');
 
-$app->get('/post/category/{category}' ,'PageController:categoryPost')
-	->setName('admin.postComment');
+$app->get('/post/category/{category}' ,'PageController:categoryPost');
 
 
 /**
@@ -171,5 +170,6 @@ $app->get('/t' ,function($request,$response){
 
 $app->get('/test1' ,'PageController:test1');
 $app->post('/test2' ,'PageController:test2');
+$app->get('/pagi/{cat}' ,'PageController:test3');
 
  ?>

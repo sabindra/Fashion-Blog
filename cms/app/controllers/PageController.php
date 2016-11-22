@@ -2,9 +2,11 @@
 
 namespace App\Controllers;
 use PDO;
+use stdClass;
 use App\Aws\AmazonService;
 use App\Aws\Exceptions\S3Exception;
 use App\Services\SendGrid\SendgridEmailService as SES;
+use App\Services\Paginator as Paginator;
 
 
 class PageController extends Controller{
@@ -27,8 +29,15 @@ class PageController extends Controller{
 
 		}
 
+
+			$page =$request->getParam('page');
+			$paginator =  new Paginator($this->container->connection);
+			$paginator->setQuery("SELECT * FROM posts WHERE status = 'published' ORDER BY post_id DESC");
+			$results = $paginator->paginate(3,$page);
+			$p = $results->data;
+
 			
-		return $this->container->view->render($response,'front/partials/index.twig',['categories'=>$newCategories,'recentPosts'=>$recentPosts,'featuredPosts'=>$featuredPosts]);
+		return $this->container->view->render($response,'front/partials/index.twig',['categories'=>$newCategories,'recentPosts'=>$p,'featuredPosts'=>$featuredPosts]);
 
 
 	}
@@ -79,25 +88,36 @@ class PageController extends Controller{
 
 		
 		$categoryTitle = $args['category'];
+
 		$formattedCategory = strtolower(str_replace("_"," ",$categoryTitle));
 		$category_id = $this->container->category->findByTitle($formattedCategory)['cat_id'];
-		$posts = $this->container->post->findByCategory($category_id);
+
 		$featuredPosts = $this->container->post->findFeatured();
 		$categories = $this->container->category->findAll();
+		// $posts = $this->container->post->findByCategory($category_id);
+		
 		$newCategories = array();
+		
 		foreach($categories as $cat) {
 			$ct = $cat;
 			$cat_title =$cat['cat_title'];
 			$ct['url'] = strtolower(str_replace(" ","_",$cat_title));
 			array_push($newCategories, $ct);
-
 		}
-		// var_dump($category_id);
-		// var_dump($posts);
-		// exit;
-		// $categories = $this->container->category->findAll();
 		
-		return $this->container->view->render($response,'front/partials/category.twig',['categories'=>$newCategories,'posts'=>$posts,'featuredPosts'=>$featuredPosts]);
+
+
+		$page =$request->getParam('page');
+		
+		$paginator =  new Paginator($this->container->connection);
+		$paginator->setQuery("SELECT * FROM posts WHERE cat_id=$category_id AND status = 'published'");
+		$results = $paginator->paginate(2,$page);
+		$posts = $results->data;
+		
+		$paginationLinks=(array)$paginator->paginationLinks("/post/category/$categoryTitle","pagination-btn");
+	
+		
+		return $this->container->view->render($response,'front/partials/category.twig',['categories'=>$newCategories,'posts'=>$posts,'featuredPosts'=>$featuredPosts,'paginationLinks'=>$paginationLinks]);
 		
 
 	}
@@ -200,9 +220,64 @@ unlink($imageLocation);
 	}
 }
 
+
+
+
+
+
+
+
+
+public function  test3($request,$response,$args){
+
+	$cat = $args['cat'];
+	$page =$request->getParam('page');
+	$paginator =  new Paginator($this->container->connection);
+	$paginator->setQuery("SELECT * FROM posts WHERE status = 'published'");
+	$results = $paginator->paginate(3,$page);
+	$paginator->paginationLinks("/pagi/$cat");
+	exit;
+
+	// //initial setup
+	// $perPage = 6;
+
+	// //get page from request
+	// $pageNum = (int)$request->getParam('page');
+	// $pageNum = (!empty($pageNum) && $pageNum >= 1 )?$pageNum:1;
+
+	// //get total pages
+	// $totalItem = $this->container->post->where('cat_id','4');
+	// $pages = ceil(count($totalItem)/$perPage);
+
+	// //reset page num if invalid
+	// $pageNum =($pages>=$pageNum)?$pageNum : $pages;
+	// $start = ($pageNum-1)*$perPage;
+
+	// $paginate = $this->container->post->paginate($start,$perPage);
+
+	// echo 'Total Items :'.count($totalItem);
+	// echo "<br>";
+	
+	// echo 'total pages :'.$pages;
+	// echo "<br>";
+	// echo 'page Num :'.$pageNum;
+	// 	echo "<br>";
+	// // echo count($totalItem);
+	// // var_dump( $paginate);
+	// foreach ($paginate as $v) {
+	// 	echo $v['post_id'];
+	// 		echo "<br>";
+	// }
+	// exit;
+
+
+	// exit;
+	// 
+	
 }
 
 
+}
 
 
 

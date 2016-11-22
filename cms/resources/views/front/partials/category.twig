@@ -21,6 +21,16 @@
 			</article>
 
 		{% endfor %}
+		{% if paginationLinks is not empty %}
+			
+				<div class="pagination-bar">
+				{{ paginationLinks.next | raw }}
+				{{ paginationLinks.prev | raw }}
+			</div>
+			
+			
+
+				{% endif %}
 	{% endif %}
 	{% if posts is empty %}
 

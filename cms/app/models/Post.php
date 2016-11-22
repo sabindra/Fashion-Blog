@@ -149,5 +149,38 @@ exit;
 
 
 
+	/**
+	 * [find find a post by id]
+	 * @param  [int] $id [post id]
+	 * @return [array]   [return database result set in associative array]
+	 */
+	public function where($key,$value){
+
+
+		$statement = $this->connection->prepare("SELECT * FROM posts WHERE $key=:value");
+		$statement->execute(array('value'=>$value));
+		$post=$statement->fetchAll(PDO::FETCH_ASSOC);
+		return $post;
+
+
+	}
+
+		/**
+	 * [find find a post by id]
+	 * @param  [int] $id [post id]
+	 * @return [array]   [return database result set in associative array]
+	 */
+	public function paginate($condition,$offset,$limit){
+
+
+		$statement = $this->connection->prepare("SELECT * FROM posts ORDER BY post_id DESC LIMIT $offset,$limit");
+		$statement->execute();
+		$post=$statement->fetchAll(PDO::FETCH_ASSOC);
+		return $post;
+
+
+	}
+
+
 }
  ?>

@@ -604,3 +604,30 @@ text-align: justify !important;
 	letter-spacing: 0.1px;
 	margin-bottom: 30px;
 }
+
+
+div.pagination-bar{
+
+	width:100%;
+	min-height:50px;
+	margin:20px 0px;
+	
+}
+
+.pagination-bar a{
+
+	height:50px;
+	width:100px;
+	background-color: #2B2B2B;
+	color:#FFF;
+	line-height: 50px;
+	text-align:center;
+	font-weight:bold;
+	text-transform: uppercase;
+}
+
+.pagination-bar a:hover{
+
+	background-color: #fec503;
+	border:none;
+}
