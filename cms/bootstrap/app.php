@@ -4,7 +4,7 @@
  * @Author: Ryan Basnet
  * @Date:   2016-11-07 09:33:39
  * @Last Modified by:   Ryan Basnet
- * @Last Modified time: 2016-11-22 17:05:17
+ * @Last Modified time: 2016-11-23 01:15:50
  */
 
 session_start();
@@ -122,6 +122,12 @@ $container['validator'] = function ($container){
 $container['auth'] = function($container){
 
 	return new \App\Auth\Auth($container);
+};
+
+/** class to check resource ownership **/
+$container['owner'] = function($container){
+
+	return new \App\Auth\CheckOwnership($container);
 };
 
 

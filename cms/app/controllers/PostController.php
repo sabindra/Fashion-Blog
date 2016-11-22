@@ -7,10 +7,16 @@ use App\Aws\AmazonService;
 use App\Aws\Exceptions\S3Exception;
 
 
+
 class PostController extends Controller{
 
 
-
+  /**
+   * [getIndex description]
+   * @param  [type] $request  [description]
+   * @param  [type] $response [description]
+   * @return [type]           [description]
+   */
 	public function getIndex($request,$response){
 
     $role_id = $this->container->auth->user()['role_id'];
@@ -23,7 +29,7 @@ class PostController extends Controller{
     }
     else{
 
-      $posts = $posts->findAll();
+      $posts = $post->findAll();
     }
 
 		
@@ -35,22 +41,33 @@ class PostController extends Controller{
 	}
 
 
+  /**
+   * [getPostForm description]
+   * @param  [type] $request  [description]
+   * @param  [type] $response [description]
+   * @return [type]           [description]
+   */
 	public function getPostForm($request,$response){
 
 		$categories = $this->container->category->findAll();
     
-		return $this->container->view->render($response,'admin/partials/post/add_post.twig',['category'=>$categories]);
+		return $this->container
+                ->view
+                ->render($response,'admin/partials/post/add_post.twig',['category'=>$categories]);
 
 
 	}
 
+
+  /**
+   * [postPost description]
+   * @param  [type] $request  [description]
+   * @param  [type] $response [description]
+   * @return [type]           [description]
+   */
 	public function postPost($request,$response){
 
-    // var_dump($request->getParams());
-    // exit;
-
-
-
+    
     $rules = [
 
       'post_title'=>v::notEmpty(),
@@ -77,16 +94,15 @@ class PostController extends Controller{
 
           ];
      
-  $validation->validateImage($request,$file,$imageRules);
-
-
-    
+    $validation->validateImage($request,$file,$imageRules);
 
     if($validation->failed()){
 
       $categories = $this->container->category->findAll();
 
-      return $this->container->view->render($response,'admin/partials/post/add_post.twig',['category'=>$categories,'errors'=>$validation->getError()]);
+      return $this->container
+                  ->view
+                  ->render($response,'admin/partials/post/add_post.twig',['category'=>$categories,'errors'=>$validation->getError()]);
     
     }
 
@@ -98,9 +114,11 @@ class PostController extends Controller{
 
     $tempLocation=__DIR__."/../../resources/tmp_image/$imageName";
     move_uploaded_file($image_temp,$tempLocation);
+    
     $a = new AmazonService();
-  $awsClient = $a->getAWS();
-     try {
+    $awsClient = $a->getAWS();
+     
+    try {
       
       $handle = fopen($tempLocation, 'rb');
       $awsClient->putObject([
@@ -116,11 +134,14 @@ class PostController extends Controller{
       
       unlink($tempLocation);
 
-     } catch (S3Exception $e) {
+    } catch (S3Exception $e) {
       
       $error = ['image'=>['Sorry, image could not be uploaded.'] ];
-       return $this->container->view->render($response,'admin/partials/post/add_post.twig',['category'=>$categories,'errors'=>$error]);
-     }
+      
+      return $this->container
+                  ->view
+                  ->render($response,'admin/partials/post/add_post.twig',['category'=>$categories,'errors'=>$error]);
+    }
 
     $user = $this->container->auth->user();
     $data =array();
@@ -136,77 +157,110 @@ class PostController extends Controller{
     $post = $this->container->post->create($data);
     
 
-  $this->container->flash->addMessage('success',"post added successfully !");
+    $this->container
+         ->flash
+         ->addMessage('success',"post added successfully !");
    
-
-
-    
      return $response->withRedirect($this->container->router->pathFor('admin.addPost'));
 
 
 
 
 }
+  /**
+   * [editPost description]
+   * @param  [type] $request  [description]
+   * @param  [type] $response [description]
+   * @param  [type] $args     [description]
+   * @return [type]           [description]
+   */
+  public function editPost($request,$response,$args){
 
-public function editPost($request,$response,$args){
-
-
-
-
-  
-  $post_id = $args['id'];
-  $categories = $this->container->category->findAll();
-   $post= $this->container->post->find($post_id);
-
-   $current_user_id= $this->container->auth->user()['user'];
-   $post_user_id = $post['author'];
-   if($post_user_id!=$current_user_id){
-$this->container->flash->addMessage('fail',"Not authorize to perform action !");
- return $response->withRedirect($this->container->router->pathFor('admin.posts'));
-
-   }
-return $this->container->view->render($response,'admin/partials/post/edit_post.twig',['category'=>$categories,'post'=>$post]);
+    $categories = $this->container->category->findAll();
 
 
-}
+    $post_id = $args['id'];
+    $post= $this->container->post->find($post_id);
+    
+    $role_id=$this->container->auth->user()['role_id'];
+    $current_user_id= $this->container->auth->user()['user'];
+    
 
-public function updatePost($request,$response,$args){
+    $ownership = $this->container->owner->post($current_user_id,$post);
+    
+    if(!$ownership){
 
-  $post_id = $args['id'];
-   $categories = $this->container->category->findAll();
-  $rules = [
-
-      'post_title'=>v::notEmpty(),
-        'post_content'=>v::notEmpty(),
-        'post_tag'=>v::alpha(),
-
-    ];
-
-
-$validation= $this->container->validator->validate($request,$rules);
-if($validation->failed()){
-
-  $this->container->flash->addMessage('fail',"Please enter all required field !");
- return $response->withRedirect($this->container->router->pathFor('admin.editPost',['id'=>$post_id]));
-}
+      $this->container->flash->addMessage('fail',"Not authorize to perform action !");
+      return $response->withRedirect($this->container->router->pathFor('admin.posts'));
+    }
 
 
-  $data = array();
-  $data['title'] = $request->getParam('post_title');
+    return $this->container->view->render($response,'admin/partials/post/edit_post.twig',['category'=>$categories,'post'=>$post]);
+     
+
+  }
+
+
+  /**
+   * [updatePost description]
+   * @param  [type] $request  [description]
+   * @param  [type] $response [description]
+   * @param  [type] $args     [description]
+   * @return [type]           [description]
+   */
+  public function updatePost($request,$response,$args){
+
+    $categories = $this->container->category->findAll();
+
+
+    $post_id = $args['id'];
+    $post= $this->container->post->find($post_id);
+      
+    $role_id=$this->container->auth->user()['role_id'];
+    $current_user_id= $this->container->auth->user()['user'];
+
+
+    $ownership = $this->container->owner->post($current_user_id,$post);
+      
+    if(!$ownership){
+
+      $this->container->flash->addMessage('fail',"Not authorize to perform action !");
+      
+      return $response->withRedirect($this->container->router->pathFor('admin.posts'));
+    }
+
+
+    $rules = [
+
+        'post_title'=>v::notEmpty(),
+          'post_content'=>v::notEmpty(),
+          'post_tag'=>v::alpha(),
+
+      ];
+
+
+    $validation= $this->container->validator->validate($request,$rules);
+    if($validation->failed()){
+
+      $this->container->flash->addMessage('fail',"Please enter all required field !");
+      return $response->withRedirect($this->container->router->pathFor('admin.editPost',['id'=>$post_id]));
+    }
+
+
+    $data = array();
+    $data['title'] = $request->getParam('post_title');
     $data['content'] = $request->getParam('post_content');
-   
     $data['tags'] = $request->getParam('post_tag');
     $data['status'] = $request->getParam('post_status');
     $data['cat_id'] = $request->getParam('category');
 
-  $post= $this->container->post->update($post_id,$data);
-$this->container->flash->addMessage('success',"post Deleted successfully !");
- return $response->withRedirect($this->container->router->pathFor('admin.posts'));
-  
-
-
-
-}
+    $post= $this->container->post->update($post_id,$data);
+    $this->container->flash->addMessage('success',"post updated successfully !");
+    
+    return $response->withRedirect($this->container->router->pathFor('admin.posts'));
+    
+    
+  }
 
 
 /**
@@ -217,28 +271,35 @@ $this->container->flash->addMessage('success',"post Deleted successfully !");
    */
   public function destroyPost($request,$response,$args){
 
+    $categories = $this->container->category->findAll();
+
+
     $post_id = $args['id'];
     $post= $this->container->post->find($post_id);
+      
+    $role_id=$this->container->auth->user()['role_id'];
+    $current_user_id= $this->container->auth->user()['user'];
 
-     $current_user_id= $this->container->auth->user()['user'];
-   $post_user_id = $post['author'];
-   if($post_user_id!=$current_user_id){
-$this->container->flash->addMessage('fail',"Not authorize to perform action !");
- return $response->withRedirect($this->container->router->pathFor('admin.posts'));
 
-   }
+    $ownership = $this->container->owner->post($current_user_id,$post);
+      
+    if(!$ownership){
+
+      $this->container->flash->addMessage('fail',"Not authorize to perform action !");
+      
+      return $response->withRedirect($this->container->router->pathFor('admin.posts'));
+    }
+
+
+
     $this->container->post->delete($post_id);
     $this->container->flash->addMessage('success',"post Deleted successfully !");
     return $response->withRedirect($this->container->router->pathFor('admin.posts'));
-
-
-  }
-
-
+  
 	}
 
 
-
+}
 
 
 

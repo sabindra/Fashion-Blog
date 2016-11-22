@@ -119,22 +119,28 @@ $app->group('',function() use($container){
 
 
 	/** user **/
+$this->group('',function() use($container){
+
+
 	$this->get('/users','UserController:getIndex')
-		->setName('admin.users')->add(new AdminMiddleware($container));
+		->setName('admin.users');
 
 	$this->get('/user/new','UserController:getUserForm')
-		->setName('admin.addUser')->add(new AdminMiddleware($container));
+		->setName('admin.addUser');
 
 	$this->post('/user','UserController:postUser')
-		->setName('admin.postUser')->add(new AdminMiddleware($container));
+		->setName('admin.postUser');
 
 	$this->get('/user/{id}/edit','UserController:editUser')
-		->setName('admin.editUser')->add(new AdminMiddleware($container));
+		->setName('admin.editUser');
 
-	$this->post('/user/{id}/update','UserController:updateUser')->add(new AdminMiddleware($container));
+	$this->post('/user/{id}/update','UserController:updateUser');
 
-	$this->get('/user/{id}/delete','UserController:destroyUser')->add(new AdminMiddleware($container));
+	$this->get('/user/{id}/delete','UserController:destroyUser');
 	
+
+
+})->add(new AdminMiddleware($container));
 
 	
 	/** comments  **/
@@ -147,7 +153,7 @@ $app->group('',function() use($container){
 
 	$this->get('/comment/{comment_id}/delete','CommentController:deleteComment');
 	
-});
+})->add(new AuthMiddleware($container));
 
 
 
