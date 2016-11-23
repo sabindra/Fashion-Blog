@@ -4,7 +4,7 @@
  * @Author: Ryan Basnet
  * @Date:   2016-11-07 09:33:39
  * @Last Modified by:   Ryan Basnet
- * @Last Modified time: 2016-11-23 15:03:18
+ * @Last Modified time: 2016-11-23 19:16:49
  */
 
 session_start();
@@ -212,7 +212,25 @@ $container['passwordReset'] = function($container){
 
 $app->add(new \App\Middleware\OldInputMiddleware($container));
 $app->add(new \App\Middleware\CsrfMiddleware($container));
+
 $app->add($container->get('csrf'));
+
+
+
+/**
+ * Error Handler
+ */
+
+//404
+$container['notFoundHandler'] = function ($container) {
+ 
+ 	return function ($request, $response) use ($container) {
+
+ 		$container->view->render($response,'error/404error.twig',['errorStatusCode'=>'404','errorStatusMessage'=>'Page Not Found']);
+ 
+  		return $response->withStatus(404);          
+		};
+};
 
 /**
  * Routes
