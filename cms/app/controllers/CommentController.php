@@ -4,6 +4,7 @@ namespace App\Controllers;
 use PDO;
 use App\Validation\Validator;
 use Respect\Validation\Validator as v;
+use App\Services\Paginator as Paginator;
 
 
 class CommentController extends Controller{
@@ -13,9 +14,15 @@ class CommentController extends Controller{
 	public function getIndex($request,$response){
 
 		$comment = $this->container->comment;
-		$comments = $comment->findAll($id=null);
+		
+		 $page =$request->getParam('page');
+      $paginator =  new Paginator($this->container->connection);
+      $paginator->setQuery("SELECT * FROM comments ORDER BY comment_id DESC");
+      $results = $paginator->paginate(5,$page);
+      $comments = $results->data;
+      $paginationLinks=$paginator->allpaginationLinks("/posts","pagination");
 
-		return $this->container->view->render($response,'admin/partials/comment/view_all_comment.twig',['comments'=>$comments]);
+		return $this->container->view->render($response,'admin/partials/comment/view_all_comment.twig',['comments'=>$comments,'paginationLinks'=>$paginationLinks]);
 
 
 	}

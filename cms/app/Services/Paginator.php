@@ -4,7 +4,7 @@
  * @Author: Ryan Basnet
  * @Date:   2016-11-22 00:13:04
  * @Last Modified by:   Ryan Basnet
- * @Last Modified time: 2016-11-22 12:49:28
+ * @Last Modified time: 2016-11-23 23:56:49
  */
 
 namespace App\Services;
@@ -128,11 +128,36 @@ class Paginator{
 		return $pageLinks;
 	}
 
+	public function allPaginationLinks($link,$css_class){
+
+			$pages = $this->pages;
+			$page = $this->page;
+			$html = '<ul class='.$css_class.'>';
+
+			if($pages>1){
 
 
+				for ($i=1; $i <= $pages ; $i++) {
+
+					if($i==$page){
+
+						$html.='<li class="active"><a href="#">'.$i.'</a></li>';
+
+					}else{
+
+						$html.='<li><a href="'.$link.'?page='.$i.'">'.$i.'</a></li>';
+					}
+
+			}
+
+			$html.='</ul>';
+
+			}
+			return $html;
+			
 
 }
-
+}
 
 
 

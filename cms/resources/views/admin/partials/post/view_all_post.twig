@@ -53,7 +53,7 @@
         <td>{{ post.tags }}</td>
  
         <td><a class ="btn btn-warning" href="/post/{{ post.post_id}}/edit">Edit</a></td>
-         <td><a class ="btn btn-danger" href="/post/{{ post.post_id}}/delete">Delete</a></td>
+         <td><a class ="btn btn-danger confirm-delete" data-href="/post/{{ post.post_id}}/delete" data-toggle="modal" onclick="Delete.confirm(this)" >Delete</a></td>
       </tr>
 
       	
@@ -62,7 +62,16 @@
      
     </tbody>
   </table>
+
+  <div class="row">
+    <div class="col-md-12 text-center">
+      {{ paginationLinks | raw }}
+      
+    </div>
+      
+  </div>
  </div>
+ {% include 'admin/includes/confirmation_modal.twig' %}
 {% endblock main %}
 
 

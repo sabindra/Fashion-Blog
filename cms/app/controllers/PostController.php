@@ -5,6 +5,7 @@ use PDO;
 use Respect\Validation\Validator as v;
 use App\Services\Aws\AmazonService;
 use App\Aws\Exceptions\S3Exception;
+use App\Services\Paginator as Paginator;
 
 
 
@@ -29,13 +30,19 @@ class PostController extends Controller{
     }
     else{
 
-      $posts = $post->findAll();
+      $page =$request->getParam('page');
+      $paginator =  new Paginator($this->container->connection);
+      $paginator->setQuery("SELECT * FROM posts ORDER BY post_id DESC");
+      $results = $paginator->paginate(5,$page);
+      $posts = $results->data;
+      $paginationLinks=$paginator->allpaginationLinks("/posts","pagination");
+
     }
 
 		
 		
 
-		return $this->container->view->render($response,'admin/partials/post/view_all_post.twig',['posts'=>$posts]);
+		return $this->container->view->render($response,'admin/partials/post/view_all_post.twig',['posts'=>$posts,'paginationLinks'=>$paginationLinks]);
 
 
 	}

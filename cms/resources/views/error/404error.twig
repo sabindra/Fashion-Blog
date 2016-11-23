@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+	{% include 'front/includes/header.twig' %}
+</head>
+<body class="error-page">
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-4 col-md-offset-4">
+			<h2 class="text-center"><span id='error-code'>{{errorStatusCode}}&nbsp;</span>{{errorStatusMessage}}</h2>
+			<a href="{{path_for('home')}}">Go to Home Page</a>
+			
+		</div>
+	</div>
+</div>
+</body>
+</html>
