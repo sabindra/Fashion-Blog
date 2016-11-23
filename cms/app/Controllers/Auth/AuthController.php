@@ -23,8 +23,11 @@ class AuthController extends Controller{
 	 */
 	public function getIndex($request,$response){
 
-			
-		return $this->container->view->render($response,'admin/index_admin.twig');
+		$totalPost = count($this->container->post->findAll());
+		$totalComment =count($this->container->comment->findAll()); 
+		return $this->container
+					->view
+					->render($response,'admin/index_admin.twig',['totalPost'=>$totalPost,'totalComment'=>$totalComment]);
 	}
 
 

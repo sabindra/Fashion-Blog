@@ -3,7 +3,7 @@
 namespace App\Controllers;
 use PDO;
 use Respect\Validation\Validator as v;
-use App\Aws\AmazonService;
+use App\Services\Aws\AmazonService;
 use App\Aws\Exceptions\S3Exception;
 
 
@@ -111,37 +111,16 @@ class PostController extends Controller{
     $fileExt = strtolower(end(explode(".",$file['image'])));
     $imageName = md5(uniqid())."_".date("d-m-y").".".$fileExt;
     $image_temp = $_FILES['post-image']['tmp_name'];
-
     $tempLocation=__DIR__."/../../resources/tmp_image/$imageName";
+    $objectKey ="post_images/{$imageName}";
+    
     move_uploaded_file($image_temp,$tempLocation);
     
-    $a = new AmazonService();
-    $awsClient = $a->getAWS();
+    $awsClient = new AmazonService();
+    
+    $awsClient->uploadObject($objectKey,$tempLocation);
      
-    try {
-      
-      $handle = fopen($tempLocation, 'rb');
-      $awsClient->putObject([
-
-        'Bucket'=>getenv('AWS_BUCKET'),
-        'Key'=>"post_images/{$imageName}",
-        'Body'=>$handle,
-        'ACL'=>'public-read'
-        ]);
-
-      fclose($handle);
-      
-      
-      unlink($tempLocation);
-
-    } catch (S3Exception $e) {
-      
-      $error = ['image'=>['Sorry, image could not be uploaded.'] ];
-      
-      return $this->container
-                  ->view
-                  ->render($response,'admin/partials/post/add_post.twig',['category'=>$categories,'errors'=>$error]);
-    }
+    
 
     $user = $this->container->auth->user();
     $data =array();

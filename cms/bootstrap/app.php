@@ -4,7 +4,7 @@
  * @Author: Ryan Basnet
  * @Date:   2016-11-07 09:33:39
  * @Last Modified by:   Ryan Basnet
- * @Last Modified time: 2016-11-23 01:15:50
+ * @Last Modified time: 2016-11-23 15:03:18
  */
 
 session_start();
@@ -49,21 +49,9 @@ $container = $app->getContainer();
  * Database Conection Setup
  */
 
-$container['connection'] = function($container) use($config){
+$container['connection'] = function($container){
 
-
-	try {
-		
-		$connection = new PDO('mysql:host=localhost;dbname='. getenv('db_name'), getenv('db_user'), getenv('db_pass'));
-		$connection->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
-		
-		} catch (PDOException $e) {
-
-			echo "Error !: " , $e->getMessage() , "<br/>";
-			die();
-		}
-
-	return $connection;
+return \App\Services\DbConnection::getConnection();
 
 };
 

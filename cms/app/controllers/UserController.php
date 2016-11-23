@@ -4,7 +4,7 @@ namespace App\Controllers;
 use PDO;
 use App\Validation\Validator;
 use Respect\Validation\Validator as v;
-use App\Aws\AmazonService;
+use App\Services\Aws\AmazonService;
 use App\Aws\Exceptions\S3Exception;
 
 
@@ -236,44 +236,19 @@ class UserController extends Controller{
      	
      	//upload-image
 	$name = $request->getParam('first_name')."_".$request->getParam('last_name');
-////upload image
     $fileExt = strtolower(end(explode(".",$file['image'])));
     $imageName = md5(uniqid())."_".date("d-m-y")."_".$name.".".$fileExt;
     $image_temp = $_FILES['profile_image']['tmp_name'];
-
     $tempLocation=__DIR__."/../../resources/tmp_image/$imageName";
+    $objectKey ="user_profile_images/{$imageName}";
+    $oldObjectKey = "user_profile_images/".$currentUser['image_path']."";
+    
     move_uploaded_file($image_temp,$tempLocation);
-    $a = new AmazonService();
-  $awsClient = $a->getAWS();
-     try {
-      
-      $handle = fopen($tempLocation, 'rb');
-      $awsClient->putObject([
-
-        'Bucket'=>getenv('AWS_BUCKET'),
-        'Key'=>"user_profile_images/{$imageName}",
-        'Body'=>$handle,
-        'ACL'=>'public-read'
-        ]);
-
-      fclose($handle);
-      
-      unlink($tempLocation);
-
-      //delete image
-      $imageKey = $currentUser['image_path'];
-       $awsClient->deleteObject(array(
-    	'Bucket' => getenv('AWS_BUCKET'),
-    	'Key'    => "user_profile_images/{$imageKey}",
-)); 
-
-
-     } catch (S3Exception $e) {
-      
-      $error = ['image'=>['Sorry, image could not be uploaded.'] ];
-       return $this->container->view->render($response,'admin/partials/post/add_post.twig',['category'=>$categories,'errors'=>$error]);
-     }
-
+    $awsClient = new AmazonService();
+ 
+      $awsClient->uploadObject($objectKey,$tempLocation);
+      $awsClient->deleteObject($oldObjectKey);
+     
      }
 
 

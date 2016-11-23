@@ -4,8 +4,7 @@
     <div class="row">
         <div class="col-lg-12">
             <h3 class="page-header">
-                Welcome 
-                <small>{{user.first_name}}</small>
+                Welcome {{loggedUser.first_name}}
             </h3>
             <ol class="breadcrumb">
                 <li>
@@ -26,7 +25,7 @@
                         POSTS
                     </div>
                     <div class="panel-body bg-info">
-                        <h2 class="text-center">48</h2> 
+                        <h2 class="text-center">{{totalPost}}</h2> 
                     </div>
                     <div class="panel-footer">
                         <a href="{{path_for('admin.posts')}}" class="">got to posts</a>
@@ -41,10 +40,10 @@
                         COMMENTS
                     </div>
                     <div class="panel-body bg-danger">
-                        <h2 class="text-center">48</h2>
+                        <h2 class="text-center">{{totalComment}}</h2>
                     </div>
                     <div class="panel-footer">
-                        <a href="{{path_for('admin.posts')}}" class="">got to comments</a>
+                        <a href="{{path_for('admin.comments')}}" class="">got to comments</a>
                     </div>
                 </div>
             </div>
