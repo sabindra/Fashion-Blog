@@ -25,7 +25,13 @@ class PostController extends Controller{
     $post = $this->container->post;
     if($role_id!=1){
 
-      $posts = $post->where('author',$user_id);
+    
+      $page =$request->getParam('page');
+      $paginator =  new Paginator($this->container->connection);
+      $paginator->setQuery("SELECT * FROM posts WHERE author = $user_id ORDER BY post_id DESC");
+      $results = $paginator->paginate(5,$page);
+      $posts = $results->data;
+      $paginationLinks=$paginator->allpaginationLinks("/posts","pagination");
 
     }
     else{

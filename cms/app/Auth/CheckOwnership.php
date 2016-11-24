@@ -19,7 +19,7 @@ class CheckOwnership{
 	}
 
 	/**
-	 * [post description]
+	 * [post check ownership of blog post]
 	 * @param  [int] $user_id [request issuing user]
 	 * @param  [accoc array] $post    [post properties]
 	 * @return [boolean]          [returns true  if user is owner of resource/admin or false]

@@ -1,9 +1,9 @@
 {% extends 'front/layout.twig' %}
 {% block main %}
-	<section>
-		<div class="row">
-			<div class="col-md-8">
-				{% if post is not empty %}
+<section>
+	<div class="row">
+		<div class="col-md-8">
+			{% if post is not empty %}
 				<article class="blog-post">
 					<div class="blog-post-image">
 						<a href=""><img src="https://s3-ap-southeast-2.amazonaws.com/sncblog/post_images/{{post.image_path}}" alt=""></a>
@@ -29,12 +29,10 @@
 	            						<li>
 	                						<div class="commenterImage">
 	                  							<img src="http://placekitten.com/50/50" />
-
 	                						</div>
 	                						<div class="commentText">
 	                							<p class="comment-author">{{item.comment_author}}</p>
 	                    						<p class="">{{item.comment}}</p> <span class="date sub-text">{{item.comment_date}}</span>
-
 	                						</div>
 	            						</li>
 	            					{% endfor %}
@@ -52,42 +50,45 @@
 						{% endif %}
 	                        
 						<form action="/post/{{post.post_id}}/comment" method="post"> 
-							<div class="form-group">
-								<label for="name" >Name</label>
-								<input type="text" class="form-control" name="name" value="{{oldInput.name}}">
-							</div>
-
-							<div class="form-group">
-								<label for="name" class="">Email</label>
-								<input type="email" class="form-control" name="email" value="{{oldInput.email}}">
-							</div>
 							
 							<div class="form-group">
-								<label for="name" class="">Comment</label>
+								<label for="name" >Name<span class="required">*</span></label>
+								<input type="text" class="form-control" name="name" value="{{oldInput.name}}">
+							</div>
+							<!-- /.form-group -->
+
+							<div class="form-group">
+								<label for="name" class="">Email<span class="required">*</span></label>
+								<input type="email" class="form-control" name="email" value="{{oldInput.email}}">
+							</div>
+							<!-- /.form-group -->
+							
+							<div class="form-group">
+								<label for="name" class="">Comment<span class="required">*</span></label>
 								<textarea type="text" class="form-control" name="comment" rows="10">{{oldInput.comment}}</textarea>
 							</div>
+							<!-- /.form-group -->
 							
 							<button class="btn btn-success" type="submit" name="submit">Submit</button>
 							{{ csrf.field | raw }}
 						</form>
 					</div>
-				
-				</article>
-				{% endif %}
-			{% if post is empty %}
 
-	<article>
-		<h3>Sorry, no articles found!</h3>
-	</article>
-{% endif %}
-			</div>
-			
-			<div class="col-md-4 sidebar-gutter">
-				<aside>
-					{% include 'front/includes/sidebar.twig'  %}
-				</aside>
-			</div>
+				</article>
+		
+			{% else %}
+
+				<article>
+					<h3>Sorry, no articles found!</h3>
+				</article>
+			{% endif %}
 		</div>
-	</section>
+		<div class="col-md-4 sidebar-gutter">
+			<aside>
+				{% include 'front/includes/sidebar.twig'  %}
+			</aside>
+		</div>
+	</div>
+</section>
 {% endblock main %}
 	

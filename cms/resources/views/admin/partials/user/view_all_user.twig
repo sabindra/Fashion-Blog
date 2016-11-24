@@ -1,62 +1,51 @@
 {% extends 'admin/layout_admin.twig' %}
 {% block main %}
-    <!-- Page Heading -->
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h2 class="page-header">
-                            All Users
-                        </h2>
-                        <ol class="breadcrumb">
-                            <li>
-                                <i class="fa fa-dashboard"></i>  <a href="index.html">Dashboard</a>
-                            </li>
-                            <li class="active">
-                                <i class="fa fa-file"></i> Blank Page
-                            </li>
-                        </ol>
-                    </div>
-                </div>
-                <!-- /.row -->
+<!-- Page Heading -->
+<div class="row">
+    <div class="col-lg-12">
+        <h2 class="page-header">
+            All Users
+        </h2>
+        <ol class="breadcrumb">
+            <li>
+                <i class="fa fa-dashboard"></i>  <a href="index.html">Dashboard</a>
+            </li>
+            <li class="active">
+                <i class="fa fa-file"></i> Blank Page
+            </li>
+        </ol>
+    </div>
+</div>
+<!-- /.row -->
 <div class="col-xs-12">
-                         <table class="table table-striped table-bordered table-hover">
-    <thead class="">
-      <tr>
-        <th>Id</th>
-        <th>First Name</th>
+    <table class="table table-striped table-bordered table-hover">
+      <thead class="">
+        <tr>
+          <th>Id</th>
+          <th>First Name</th>
+          
+          <th>Last Name</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th colspan="2">Actions</th>
+
+        </tr>
+      </thead>
+      <tbody>
         
-        <th>Last Name</th>
-        <th>Email</th>
-        <th>Role</th>
-        <th colspan="2">Actions</th>
-
-      </tr>
-    </thead>
-    <tbody>
-      
-      <?php foreach ($allusers as $item): ?>
-        {% for user in users %}
-      	<tr> 
-        <td>{{ user.user_id }}</td>
-        <td>{{ user.first_name }}</td>
-
-        <td>{{ user.last_name }}</td>
-        <td>{{ user.user_email }}</td>
-        <td>{{ user.role_id }}</td>
-       
- 
-        <td><a class ="btn btn-warning" href="/user/{{user.user_id}}/edit">Edit</a></td>
-         <td><a class ="btn btn-danger" href="/user/{{user.user_id}}/delete">Delete</a></td>
-      </tr>
-
-      	
-      {% endfor %}
-       
-     {% if user is not empty%}
-     <p>{{user.role_id}}</p>
-     <p>{{user.first_name}}</p>
-
-   {% endif %}
-    </tbody>
+        
+          {% for user in users %}
+        	 <tr> 
+              <td>{{ user.user_id }}</td>
+              <td>{{ user.first_name }}</td>
+              <td>{{ user.last_name }}</td>
+              <td>{{ user.user_email }}</td>
+              <td>{{ user.role_id }}</td>
+              <td><a class ="btn btn-warning" href="/user/{{user.user_id}}/edit">Edit</a></td>
+              <td><a class ="btn btn-danger" href="/user/{{user.user_id}}/delete">Delete</a></td>
+            </tr>	
+          {% endfor %}
+      </tbody>
   </table>
  </div>
 {% endblock main %}

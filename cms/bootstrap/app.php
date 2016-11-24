@@ -4,7 +4,7 @@
  * @Author: Ryan Basnet
  * @Date:   2016-11-07 09:33:39
  * @Last Modified by:   Ryan Basnet
- * @Last Modified time: 2016-11-23 19:16:49
+ * @Last Modified time: 2016-11-24 14:59:45
  */
 
 session_start();
@@ -16,10 +16,6 @@ require __DIR__ . '/../vendor/autoload.php';
 /** Test */
 $dotenv = new Dotenv\Dotenv(__DIR__.'/../');
 $dotenv->load();
-
-
-
-
 
 
 /**
@@ -226,7 +222,7 @@ $container['notFoundHandler'] = function ($container) {
  
  	return function ($request, $response) use ($container) {
 
- 		$container->view->render($response,'error/404error.twig',['errorStatusCode'=>'404','errorStatusMessage'=>'Page Not Found']);
+ 		$container->view->render($response,'error/error.twig',['errorStatusCode'=>'404','errorStatusMessage'=>'Page Not Found']);
  
   		return $response->withStatus(404);          
 		};
@@ -236,7 +232,7 @@ $container['notFoundHandler'] = function ($container) {
  * Routes
  */
 
-require __DIR__ .'/../app/routes.php';
+require __DIR__ .'/../app/Route/routes.php';
 
 
 ?>

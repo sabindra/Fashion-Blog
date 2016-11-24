@@ -3,26 +3,26 @@
 namespace App\Auth;
 
 /**
- * Auth 
+ * Class responsible for authentication 
+ * @package App\Auth
+ * @access public
+ * @author Ryan Basnet
+ * @license sprouttech
  */
 class Auth{
 
 	protected $container;
 
-	/**
-	 * [__construct description]
-	 * @param [type] $container [description]
-	 */
 	public function __construct($container){
 		
 		$this->container=$container;
 	}
 
 	/**
-	 * [attempt description]
-	 * @param  [type] $email    [description]
-	 * @param  [type] $password [description]
-	 * @return [type]           [description]
+	 * [attempt attempts login]
+	 * @param  [string] $email    [user email]
+	 * @param  [string] $password [user description]
+	 * @return [bool]           [returns true on vrification]
 	 */
 	public function attempt($email,$password){
 
@@ -44,8 +44,8 @@ class Auth{
 
 
 	/**
-	 * [logout description]
-	 * @return [type] [description]
+	 * [logout logs user out]
+	 * @return [void] [destroy session data]
 	 */
 	public function logout(){
 
@@ -55,7 +55,7 @@ class Auth{
 
 	/**
 	 * [user description]
-	 * @return [type] [description]
+	 * @return [assoc array] [returns logged in user details]
 	 */
 	public function user(){
 		
@@ -72,8 +72,8 @@ class Auth{
 
 	
 	/**
-	 * [check description]
-	 * @return [type] [description]
+	 * [check if user is loggedin]
+	 * @return [bool] [return session value for user]
 	 */
 	public function check(){
 
@@ -82,8 +82,8 @@ class Auth{
 
 
 	/**
-	 * [role description]
-	 * @return [type] [description]
+	 * [role returns logged in user role id]
+	 * @return [int] [return role id of logged in user]
 	 */
 	public function role(){
 

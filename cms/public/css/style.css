@@ -71,6 +71,11 @@ section:last-child {
 }
 .navbar .navbar-nav > li > a {
 	color:#fff;
+	text-transform:uppercase;
+}
+.navbar .navbar-nav > li > a:hover {
+	color:#fec503;
+
 }
 header {
 	margin: 130px 0 65px;
@@ -385,6 +390,7 @@ footer .footer-bottom {
 	padding: 10px 0 40px;
 }
 
+
 /** Custom */
 /*
 FEEDBACK
@@ -586,7 +592,12 @@ ANIMATION
 
 	height:auto;
 }
+.required{
 
+
+	color:red;
+	font-size:25px;
+}
 
 div.blog-post-text {
 

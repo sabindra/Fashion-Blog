@@ -3,33 +3,33 @@
 	{% include 'front/includes/header.twig' %}
 	<body>
 		{% if flash %}
-	{% for key,value in flash %}
-		<div  id="feedback" class="{{key}}">
-			<a href="#" class="dismiss"  aria-label="close">&times;</a>
-  	
-	<p class="text-center">{{ value[0] }}</p>
-	  </div>
-{% endfor %}
+			{% for key,value in flash %}
+				<div  id="feedback" class="{{key}}">
+					<a href="#" class="dismiss"  aria-label="close">&times;</a>
+  					<p class="text-center">{{ value[0] }}</p>
+	  			</div>
+			{% endfor %}
 	
-
-
-{% endif %}
+		{% endif %}
 		{% include 'front/includes/navigation.twig' %}
 
 			<div class="container">
-		<header>
-			<a href="{{path_for('home')}}"><img src="/images/logo.png"></a>
-		</header>
-		{% block main %}
+				<header>
+					<a href="{{path_for('home')}}"><img src="/images/logo.png"></a>
+				</header>
+				{% block main %}
 				<div class="col-md-4 sidebar-gutter">
 					<aside>
-					{% include 'front/includes/sidebar.twig'  %}
+						{% include 'front/includes/sidebar.twig'  %}
 					</aside>
 				</div>
 			</div>
 		</section>
+		{# Importatn do not remove div/section #}
 		{% endblock main %}
-		</div><!-- /.container -->
+		</div>
+		<!-- /.container -->
+		
 		<!-- Footer -->
 
 		{% include 'front/includes/footer.twig' %}
@@ -38,7 +38,7 @@
 			================================================== -->
 		<!-- Placed at the end of the document so the pages load faster -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-		<script src="/js/bootstrap.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 		<script src="/js/jquery.bxslider.js"></script>
 		<script src="/js/mooz.scripts.min.js"></script>
 		<script src="/js/scripts.js"></script>

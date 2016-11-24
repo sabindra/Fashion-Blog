@@ -1,12 +1,16 @@
 <?php 
 
 namespace App\Controllers;
-use PDO;
+
+
 use stdClass;
+use PDO;
 use App\Aws\AmazonService;
 use App\Aws\Exceptions\S3Exception;
-use App\Services\SendGrid\SendgridEmailService as SES;
 use App\Services\Paginator as Paginator;
+use App\Services\SendGrid\SendgridEmailService as SES;
+use Respect\Validation\Validator as v;
+
 
 
 class PageController extends Controller{
@@ -141,7 +145,26 @@ class PageController extends Controller{
 
 	}
 
-	public function sendMessage(){
+	public function sendMessage($request,$response){
+
+	    $rules = [
+
+	      'name'=>v::notEmpty(),
+	        'email'=>v::notEmpty(),
+	        'messgae'=>v::notEmpty()->alpha(),
+
+	    ];
+
+
+	    $validation =$this->container->validator->validate($request,$rules);
+	    if($validation->failed()){
+	    	$this->container
+         ->flash
+         ->addMessage('fail',"Please enter all required fields !");
+   
+    	 return $response->withRedirect($this->container->router->pathFor('contact'));
+	    }
+
 
 			$data['from'] = "rajesh2045@gmail.com";
 			$data['to'] = "soniyaacharya38@gmail.com";

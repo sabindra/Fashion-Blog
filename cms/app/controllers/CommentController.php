@@ -20,7 +20,7 @@ class CommentController extends Controller{
       $paginator->setQuery("SELECT * FROM comments ORDER BY comment_id DESC");
       $results = $paginator->paginate(5,$page);
       $comments = $results->data;
-      $paginationLinks=$paginator->allpaginationLinks("/posts","pagination");
+      $paginationLinks=$paginator->allpaginationLinks("/comments","pagination");
 
 		return $this->container->view->render($response,'admin/partials/comment/view_all_comment.twig',['comments'=>$comments,'paginationLinks'=>$paginationLinks]);
 

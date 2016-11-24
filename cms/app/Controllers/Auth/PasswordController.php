@@ -9,8 +9,10 @@ use App\Services\SendGrid\SendgridEmailService;
 use PDO;
 use DateTime;
 use DateInterval;
+
+
 /**
- * 
+ * Password Controller
  * @package App\Controller\Auth
  * @access public
  * @author Ryan Basnet
@@ -25,7 +27,7 @@ class PasswordController extends Controller{
 	 * [getChangePassword return password change form]
 	 * [HTTP request object] $request 
 	 * @param  [HTTP response object] $response 
-	 * @return [HTML]           [return form for password change]
+	 * @return [HTML] [return form for password change]
 	 */
 	public function getChangePassword($request,$response){
 
@@ -39,7 +41,7 @@ class PasswordController extends Controller{
 	 * [changePassword post password change form]
 	 * [HTTP request object] $request 
 	 * @param  [HTTP response object] $response 
-	 * @return [HTML]           [redirects to login form form with flash message]
+	 * @return [HTML] [redirects to login/change password form]
 	 */
 	public function changePassword($request,$response){
 
@@ -116,7 +118,7 @@ class PasswordController extends Controller{
 	 * [getPasswordForgot return password reset request form]
 	 * [HTTP request object] $request 
 	 * @param  [HTTP response object] $response 
-	 * @return [HTML]           [return form for password change]
+	 * @return [HTML] [return form for password forgot]
 	 */
 	public function getForgotPassword($request,$response){
 
@@ -129,7 +131,7 @@ class PasswordController extends Controller{
 	 * [getPasswordForgot post password forgot request]
 	 * [HTTP request object] $request 
 	 * @param  [HTTP response object] $response 
-	 * @return [HTML]           [redirects to forgot-password form]
+	 * @return [HTML] [redirects to forgot-password form]
 	 */
 	public function postForgotPassword($request,$response){
 
@@ -210,7 +212,7 @@ class PasswordController extends Controller{
 	 * [getResetPassword return password reset form]
 	 * [HTTP request object] $request 
 	 * @param  [HTTP response object] $response 
-	 * @return [HTML]           [return form for password reset]
+	 * @return [HTML]  [return form for password reset/forgot password form for invalidresetToken]
 	 */
 	public function getResetPassword($request,$response,$args){
 
@@ -236,7 +238,13 @@ class PasswordController extends Controller{
 			}
 	}
 
-
+	/**
+	 * [resetPassword reset user password]
+	 * @param  [HTTP request object] $request 
+	 * @param  [HTTP response object] $response 
+	 * @param  [array] $args     [request url parameter]
+	 * @return [HTML]           [returns login on success or redirect back]
+	 */
 	public function resetPassword($request,$response,$args){
 
 

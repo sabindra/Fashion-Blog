@@ -1,63 +1,58 @@
 {% extends 'front/layout.twig' %}
 {% block main %}
-		<section>
-			<div class="row">
-				<div class="col-md-12">
-					<article class="blog-post">
-						<div class="blog-post-body">
-							<h2><a href="post.html">Contact</a></h2>
-							<div class="blog-post-text">
+<section>
+	<div class="row">
+		<div class="col-md-12">
+					
+      <article class="blog-post">
+				<div class="blog-post-body">
+					<h2><a href="post.html">Contact</a></h2>
+							
+          <div class="blog-post-text">
+					  <p>A newly-developed mathematical method can detect geometric structure in neural activity in the brain. “Previously, in order to understand this structure, scientists needed to relate neural activity to some specific external stimulus</p>
 
-								<p>A newly-developed mathematical method can detect geometric structure in neural activity in the brain. “Previously, in order to understand this structure, scientists needed to relate neural activity to some specific external stimulus</p>
+            <form class="well form-horizontal" action="/contact " method="post">
+                <div class="form-group">
+                  <label class="col-md-3 control-label">Name</label>  
+                  <div class="col-md-8 inputGroupContainer">
+                  <div class="input-group">
+                  <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                  <input  name="name" placeholder="Your Name" class="form-control"  type="text">
+                    </div>
+                  </div>
+                </div>
+                <!-- /.form-group -->
 
-    <form class="well form-horizontal" action="/contact " method="post">
+        
+              <div class="form-group">
+                <label class="col-md-3 control-label">E-Mail</label>  
+                <div class="col-md-8 inputGroupContainer">
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                    <input name="email" placeholder="E-Mail Address" class="form-control"  type="text">
+                  </div>
+                </div>
+              </div>
+              <!-- /.form-group -->
 
+              <div class="form-group">
+                <label class="col-md-3 control-label" >Message</label> 
+                  <div class="col-md-8 inputGroupContainer">
+                  <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                <textarea name="lmessage" placeholder="Type Message" class="form-control"  type="text" rows="10"></textarea>
+                  </div>
+                </div>
+              </div>
+              <!-- /.form-group -->
 
-
-
-<!-- Text input-->
-
-<div class="form-group">
-  <label class="col-md-3 control-label">Name</label>  
-  <div class="col-md-8 inputGroupContainer">
-  <div class="input-group">
-  <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-  <input  name="first_name" placeholder="First Name" class="form-control"  type="text">
-    </div>
-  </div>
-</div>
-
-<!-- Text input-->
-
-
-
-<!-- Text input-->
-       <div class="form-group">
-  <label class="col-md-3 control-label">E-Mail</label>  
-    <div class="col-md-8 inputGroupContainer">
-    <div class="input-group">
-        <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-  <input name="email" placeholder="E-Mail Address" class="form-control"  type="text">
-    </div>
-  </div>
-</div>
-
-<div class="form-group">
-  <label class="col-md-3 control-label" >Message</label> 
-    <div class="col-md-8 inputGroupContainer">
-    <div class="input-group">
-  <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
-  <textarea name="last_name" placeholder="Last Name" class="form-control"  type="text" rows="10"></textarea>
-    </div>
-  </div>
-</div>
-
-<button class="btn btn-info">Send Message</button>
-</form>
-							</div>
-						</div>
-					</article>
+              <button class="btn btn-success col-md-offset-3">Send Message</button>
+              {{ csrf.field | raw }}
+            </form>
+				  </div>
 				</div>
-			</div>
-		</section>
-		{% endblock main %}
+			</article>
+		</div>
+	</div>
+</section>
+{% endblock main %}

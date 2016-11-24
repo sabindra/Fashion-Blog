@@ -118,29 +118,29 @@ $app->group('',function() use($container){
 	$this->get('/post/{id}/delete','PostController:destroyPost');
 
 
-	/** user **/
-$this->group('',function() use($container){
+	/** user [protected for admin role  only] **/
+	$this->group('',function() use($container){
 
 
-	$this->get('/users','UserController:getIndex')
-		->setName('admin.users');
+		$this->get('/users','UserController:getIndex')
+			->setName('admin.users');
 
-	$this->get('/user/new','UserController:getUserForm')
-		->setName('admin.addUser');
+		$this->get('/user/new','UserController:getUserForm')
+			->setName('admin.addUser');
 
-	$this->post('/user','UserController:postUser')
-		->setName('admin.postUser');
+		$this->post('/user','UserController:postUser')
+			->setName('admin.postUser');
 
-	$this->get('/user/{id}/edit','UserController:editUser')
-		->setName('admin.editUser');
+		$this->get('/user/{id}/edit','UserController:editUser')
+			->setName('admin.editUser');
 
-	$this->post('/user/{id}/update','UserController:updateUser');
+		$this->post('/user/{id}/update','UserController:updateUser');
 
-	$this->get('/user/{id}/delete','UserController:destroyUser');
-	
+		$this->get('/user/{id}/delete','UserController:destroyUser');
+		
 
 
-})->add(new AdminMiddleware($container));
+	})->add(new AdminMiddleware($container));
 
 	
 	/** comments  **/
@@ -158,12 +158,4 @@ $this->group('',function() use($container){
 
 
 /** Test **/
-$app->get('/t' ,function($request,$response){
-			return phpInfo();
-		})->setName('home');
-
-$app->get('/test1' ,'PageController:test1');
-$app->post('/test2' ,'PageController:test2');
-$app->get('/pagi/{cat}' ,'PageController:test3');
-
  ?>

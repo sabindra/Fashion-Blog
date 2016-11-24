@@ -8,9 +8,11 @@ use Respect\Validation\Validator as v;
 use PDO;
 
 /**
+ * Authentication Controller
  * @package App\Controllers\Auth
+ * @access public
  * @author Ryan Basnet
- * @license sprouttech 
+ * @license sprouttech
  */
 class AuthController extends Controller{
 
@@ -39,7 +41,7 @@ class AuthController extends Controller{
 	 */
 	public function getSignin($request,$response){
 		
-		return $this->container->view->render($response,'admin/login.twig');
+		return $this->container->view->render($response,'admin/partials/auth/login.twig');
 
 
 	}
@@ -77,7 +79,7 @@ class AuthController extends Controller{
 			
 			return $this->container
 						->view
-						->render($response,'admin/login.twig',['errors'=>$errors]);
+						->render($response,'admin/partials/auth/login.twig',['errors'=>$errors]);
 			
 		}
 
