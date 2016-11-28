@@ -263,6 +263,7 @@ class PostController extends Controller{
    */
   public function destroyPost($request,$response,$args){
 
+
     $categories = $this->container->category->findAll();
 
 
@@ -284,30 +285,20 @@ class PostController extends Controller{
 
 
 
-    $this->container->post->delete($post_id);
-    $this->container->flash->addMessage('success',"post Deleted successfully !");
+    $status = $this->container->post->delete($post_id);
+   
+    if($status){
+
+      $this->container->flash->addMessage('success',"post Deleted successfully !");
+    return $response->withRedirect($this->container->router->pathFor('admin.posts'));
+    }
+    $this->container->flash->addMessage('fail',"Sorry, post couldnot be deleted !");
     return $response->withRedirect($this->container->router->pathFor('admin.posts'));
   
 	}
 
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
  ?>

@@ -2,10 +2,10 @@
 
 namespace App\Controllers\Auth;
 
-
+use PDO;
 use App\Controllers\Controller;
 use Respect\Validation\Validator as v;
-use PDO;
+
 
 /**
  * Authentication Controller

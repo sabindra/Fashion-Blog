@@ -122,8 +122,15 @@ exit;
 	 */
 	public function  delete($id){
 
+try{
 		$statement = $this->connection->prepare("DELETE  FROM posts WHERE post_id=:id");
 		$statement->execute(array("id"=>$id));
+			return true;
+	} catch (\PDOException $e){
+	
+		
+       return false;
+	}
 	}
 
 

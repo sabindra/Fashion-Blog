@@ -2,13 +2,13 @@
 
 namespace App\Controllers\Auth;
 
-
-use App\Controllers\Controller;
-use Respect\Validation\Validator as v;
-use App\Services\SendGrid\SendgridEmailService;
 use PDO;
 use DateTime;
 use DateInterval;
+use App\Controllers\Controller;
+use App\Services\SendGrid\SendgridEmailService;
+use Respect\Validation\Validator as v;
+
 
 
 /**
@@ -170,9 +170,8 @@ class PasswordController extends Controller{
 			$sendgridService 	= new SendGridEmailService();
 
 			//password rest template ---TEMPORARY [USE SENDGRID LATER]
-			//
+			
 			$html = "<p>Please visit <a href='$passwordResetUrl'>password reset link</a> to reset password</p>";
-
 			$data['from']		= $recoveryEmail; 
 			$data['to']			= 'rajesh2045@gmail.com'; 
 			$data['subject']	= 'sNC Password Reset';

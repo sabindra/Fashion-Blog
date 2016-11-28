@@ -4,7 +4,7 @@
  * @Author: Ryan Basnet
  * @Date:   2016-11-07 09:33:39
  * @Last Modified by:   Ryan Basnet
- * @Last Modified time: 2016-11-24 14:59:45
+ * @Last Modified time: 2016-11-28 16:54:50
  */
 
 session_start();
@@ -227,6 +227,18 @@ $container['notFoundHandler'] = function ($container) {
   		return $response->withStatus(404);          
 		};
 };
+
+// $containser['errorHandler'] = function ($container) {
+//     return function ($request, $response, $exception) use ($container) {
+//  			echo $exception->getMessage();
+//  			exit;
+//         return $container->get('response')->withStatus(500)
+//                              ->withHeader('Content-Type', 'text/html')
+//                              ->write('Something went wrong!');
+//     };
+// };
+
+
 
 /**
  * Routes

@@ -3,7 +3,7 @@
 namespace App\Middleware;
 
 /**
- * Auth middleware
+ * Admin middleware
  */
 class AdminMiddleware extends Middleware {
 
@@ -26,6 +26,7 @@ class AdminMiddleware extends Middleware {
 			$this->container->flash->addMessage('fail','Please login to proceed.');
 			return $response->withRedirect($this->container->router->pathFor('admin.signin'));
 		}
+		
 		$role_id = $this->container->auth->user()['role_id'];
 		if($role_id !=1){
 

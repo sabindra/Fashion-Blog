@@ -26,6 +26,7 @@ $app->post('/post/{id}/comment','CommentController:postComment')
 	->setName('	admin.postComment');
 
 $app->get('/post/category/{category}' ,'PageController:categoryPost');
+$app->get('/test' ,'PageController:test');
 
 
 /**

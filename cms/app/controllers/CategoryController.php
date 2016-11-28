@@ -1,15 +1,29 @@
 <?php 
 
 namespace App\Controllers;
+
+
 use PDO;
 use App\Validation\Validator;
 use Respect\Validation\Validator as v;
 
 
+/**
+ * Category Controller
+ * @package App\Controllers
+ * @access public
+ * @author Ryan Basnet
+ * @license sprouttech
+ */
 class CategoryController extends Controller{
 
 
-
+	/**
+	 * [getIndex retursns view all caegory page]
+	 * @param  [HTTP request object] $request 
+	 * @param  [HTTP response object] $response
+	 * @return [HTML]  [reurns view all category page]
+	 */
 	public function getIndex($request,$response){
 
 		$category = $this->container->category->findAll($id=null);
@@ -20,6 +34,12 @@ class CategoryController extends Controller{
 	}
 
 
+	/**
+	 * [addCategory add bloh cateegory]
+	 * @param  [HTTP request object] $request 
+	 * @param  [HTTP response object] $response
+	 * @return [HTML]  [redirects back with feedback]
+	 */
 	public function addCategory($request,$response){
 
 		$rules = [
@@ -34,7 +54,8 @@ class CategoryController extends Controller{
 		if($validation->failed()){
 			
 			$category = $this->container->category->findAll($id=null);
-			return $this->container->view->render($response,'admin/partials/category/category.twig',['category'=>$category,'errors'=>$validation->getError()]);
+			return $this->container
+						->view->render($response,'admin/partials/category/category.twig',['category'=>$category,'errors'=>$validation->getError()]);
 		}
 		$data =array();
 		$data['title'] = ucfirst($request->getParam('category'));
@@ -48,10 +69,10 @@ class CategoryController extends Controller{
 	}
 
 	/**
-	 * [getUserForm description]
-	 * [HTTP request object] $request 
+	 * [getUserForm returns category edit form]
+	 * @param  [HTTP request object] $request 
 	 * @param  [HTTP response object] $response 
-	 * @return [type]           [description]
+	 * @return [HTML]           [edit va4egory form]
 	 */
 	public function editCategory($request,$response,$args){
 
@@ -64,10 +85,10 @@ class CategoryController extends Controller{
 	}
 
 	/**
-	 * [getUserForm description]
+	 * [updatreCategory update blog category]
 	 * [HTTP request object] $request 
 	 * @param  [HTTP response object] $response 
-	 * @return [type]           [description]
+	 * @return [HTML]  [redirect back with feedback]
 	 */
 	public function updateCategory($request,$response,$args){
 				$category_id = $args['id'];
@@ -99,7 +120,7 @@ class CategoryController extends Controller{
 	}
 
 	/**
-	 * [getUserForm description]
+	 * [destroyCategory delete category]
 	 * [HTTP request object] $request 
 	 * @param  [HTTP response object] $response 
 	 * @return [type]           [description]
@@ -107,8 +128,13 @@ class CategoryController extends Controller{
 	public function destroyCategory($request,$response,$args){
 
 		$user_id = $args['id'];
-		$this->container->category->delete($user_id);
-		$this->container->flash->addMessage('success',"Category deleted successfully !");
+		$status = $this->container->category->delete($user_id);
+		if($status){
+
+			$this->container->flash->addMessage('success',"Category deleted successfully !");
+		return $response->withRedirect($this->container->router->pathFor('admin.category'));
+		}
+		$this->container->flash->addMessage('fail',"Sorry, category could not be deleted !");
 		return $response->withRedirect($this->container->router->pathFor('admin.category'));
 
 

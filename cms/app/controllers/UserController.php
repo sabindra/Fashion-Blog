@@ -160,8 +160,13 @@ class UserController extends Controller{
 	public function destroyUser($request,$response,$args){
 
 		$user_id = $args['id'];
-		$this->container->user->delete($user_id);
-		$this->container->flash->addMessage('success',"User Deleted successfully !");
+		$status = $this->container->user->delete($user_id);
+		if($status){
+
+			$this->container->flash->addMessage('success',"User Deleted successfully !");
+		return $response->withRedirect($this->container->router->pathFor('admin.users'));
+		}
+		$this->container->flash->addMessage('fail',"Sorry user could not be deleted !");
 		return $response->withRedirect($this->container->router->pathFor('admin.users'));
 
 

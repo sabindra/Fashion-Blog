@@ -4,6 +4,8 @@ namespace App\Models;
 
 use \App\Interfaces\IModel as IModel;
 use PDO;
+use \PDOException;
+
 
 class Category extends Model implements  Imodel{
 
@@ -79,8 +81,16 @@ class Category extends Model implements  Imodel{
 	 */
 	public function  delete($id){
 
+		try{
+
 		$statement = $this->connection->prepare("DELETE  FROM categories WHERE LOWER(cat_id)=:id");
 		$statement->execute(array("id"=>$id));
+		return true;
+	} catch (PDOException $e){
+
+		
+       return false;
+	}
 	}
 
 

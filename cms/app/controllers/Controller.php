@@ -2,7 +2,9 @@
 
 namespace App\Controllers;
 
-
+/**
+ * Base Controller
+ */
 class Controller{
 
 

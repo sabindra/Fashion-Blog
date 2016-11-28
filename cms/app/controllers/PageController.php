@@ -8,24 +8,35 @@ use PDO;
 use App\Aws\AmazonService;
 use App\Aws\Exceptions\S3Exception;
 use App\Services\Paginator as Paginator;
-use App\Services\SendGrid\SendgridEmailService as SES;
+use App\Services\SendGrid\SendgridEmailService;
 use Respect\Validation\Validator as v;
 
+use Sendgrid;
 
 
 class PageController extends Controller{
 
 
 
+	/**
+	 * [getIndex return homepage
+	 * ]
+	 * @param  [type] $request  [description]
+	 * @param  [type] $response [description]
+	 * @return [type]           [description]
+	 */
 	public function getIndex($request,$response){
 
 		
 		$recentPosts = $this->container->post->findRecent();
+		
 		$featuredPosts = $this->container->post->findFeatured();
-		$category = $this->container->category;
-		$categories = $category->findAll();
+		
+		$categories = $this->container->category->findAll();
+		
 		$newCategories = array();
 		foreach($categories as $cat) {
+			
 			$ct = $cat;
 			$cat_title =$cat['cat_title'];
 			$ct['url'] = strtolower(str_replace(" ","_",$cat_title));
@@ -41,7 +52,9 @@ class PageController extends Controller{
 			$p = $results->data;
 
 			
-		return $this->container->view->render($response,'front/partials/index.twig',['categories'=>$newCategories,'recentPosts'=>$p,'featuredPosts'=>$featuredPosts]);
+		return $this->container
+					->view
+					->render($response,'front/partials/index.twig',['categories'=>$newCategories,'recentPosts'=>$p,'featuredPosts'=>$featuredPosts]);
 
 
 	}
@@ -49,13 +62,19 @@ class PageController extends Controller{
 
 
 
-
+	/**
+	 * [getAbout description]
+	 * @param  [type] $request  [description]
+	 * @param  [type] $response [description]
+	 * @return [type]           [description]
+	 */
 	public function getAbout($request,$response){
 
-		$category = $this->container->category;
-		$categories = $category->findAll();
+		
+		$categories = $this->container->category->findAll();
 		$newCategories = array();
 		foreach($categories as $cat) {
+			
 			$ct = $cat;
 			$cat_title =$cat['cat_title'];
 			$ct['url'] = strtolower(str_replace(" ","_",$cat_title));
@@ -68,13 +87,20 @@ class PageController extends Controller{
 	}
 
 	
+	/**
+	 * [getContact return contact page]
+	 * @param  [type] $request  [description]
+	 * @param  [type] $response [description]
+	 * @return [type]           [description]
+	 */
 	public function getContact($request,$response){
 
 	
-		$category = $this->container->category;
-		$categories = $category->findAll();
+		$categories = $this->container->category->findAll();
+		
 		$newCategories = array();
 		foreach($categories as $cat) {
+			
 			$ct = $cat;
 			$cat_title =$cat['cat_title'];
 			$ct['url'] = strtolower(str_replace(" ","_",$cat_title));
@@ -86,27 +112,51 @@ class PageController extends Controller{
 
 	}
 
+
+	/**
+	 * [getPost get blog post]
+	 * @param  [type] $request  [description]
+	 * @param  [type] $response [description]
+	 * @param  [type] $args     [description]
+	 * @return [type]           [description]
+	 */
 	public function getPost($request,$response,$args){
 
 		$id = $args['id'];
+
 		$post = $this->container->post->find($id);
+		
 		$featuredPosts = $this->container->post->findFeatured();
+		
 		$comments = $this->container->comment->findAll($id);
-		$category = $this->container->category;
-		$categories = $category->findAll();
+		
+		$categories = $this->container->category->findAll();
+		
 		$newCategories = array();
 		foreach($categories as $cat) {
+			
 			$ct = $cat;
 			$cat_title =$cat['cat_title'];
 			$ct['url'] = strtolower(str_replace(" ","_",$cat_title));
 			array_push($newCategories, $ct);
+
 		}
 
-		return $this->container->view->render($response,'front/partials/post.twig',['categories'=>$newCategories,'post'=>$post,'featuredPosts'=>$featuredPosts,'comments'=>$comments]);
+		return $this->container
+					->view
+					->render($response,'front/partials/post.twig',['categories'=>$newCategories,'post'=>$post,'featuredPosts'=>$featuredPosts,'comments'=>$comments]);
 
 
 	}
 
+
+	/**
+	 * [categoryPost get category page]
+	 * @param  [type] $request  [description]
+	 * @param  [type] $response [description]
+	 * @param  [type] $args     [description]
+	 * @return [type]           [description]
+	 */
 	public function categoryPost($request,$response,$args){
 
 		
@@ -117,11 +167,12 @@ class PageController extends Controller{
 
 		$featuredPosts = $this->container->post->findFeatured();
 		$categories = $this->container->category->findAll();
-		// $posts = $this->container->post->findByCategory($category_id);
+		
 		
 		$newCategories = array();
 		
 		foreach($categories as $cat) {
+			
 			$ct = $cat;
 			$cat_title =$cat['cat_title'];
 			$ct['url'] = strtolower(str_replace(" ","_",$cat_title));
@@ -145,184 +196,83 @@ class PageController extends Controller{
 
 	}
 
+
+	/**
+	 * [sendMessage send contact message]
+	 * @param  [type] $request  [description]
+	 * @param  [type] $response [description]
+	 * @return [type]           [description]
+	 */
 	public function sendMessage($request,$response){
 
 	    $rules = [
 
 	      'name'=>v::notEmpty(),
 	        'email'=>v::notEmpty(),
-	        'messgae'=>v::notEmpty()->alpha(),
+	        'message'=>v::notEmpty(),
 
 	    ];
 
 
 	    $validation =$this->container->validator->validate($request,$rules);
+	    
 	    if($validation->failed()){
+	    	
 	    	$this->container
-         ->flash
-         ->addMessage('fail',"Please enter all required fields !");
+         		 ->flash
+         		->addMessage('fail',"Please enter all required fields !");
    
     	 return $response->withRedirect($this->container->router->pathFor('contact'));
 	    }
 
 
-			$data['from'] = "rajesh2045@gmail.com";
-			$data['to'] = "soniyaacharya38@gmail.com";
-			$data['message'] = "Hello send grid";
-			$data['subject']  ="Enquire test";
-		$sendgridService = new SES();
-		$sendgridService->sendEmail($data);
-
+		$data['from'] = $request->getParam('email');
+		$data['to'] = "rajesh2045@gmail.com";
+		$data['message'] = $request->getParam('message');;
+		$data['subject']  ="Blog message from ".$request->getParam('name');
 		
-	}
+		$sendgridService 	= new SendGridEmailService();
+		$status = $sendgridService->sendEmail($data);
 
+			
+		if($status===202){
 
+			$this->container
+				 ->flash
+				 ->addMessage('success', 'Thank you for contacting us,we will get back to you soon.');
+		}else{
 
+			$this->container
+			 		 ->flash
+			 		->addMessage('fail', 'Account doesnot exist with email provided.');
 
-
-
-
-
-
-
-public function  test1($request,$response){
-	$id = uniqid('',TRUE);
-
-	echo "ID :" .$id;
-	echo "<br>";
-	$eid = base64_encode($id);
-	echo "Encode :". $eid;
-	echo "<br>";
-	echo "Decode :".base64_decode($eid);
-	echo "<br>";
-	// echo base64_encode($eid);
-
-	exit;
-}
-
-public function  test2($request,$response){
-
-	$a = new AmazonService();
-	$awsClient = $a->getAWS();
-	
-	if(!empty($_FILES['post-image']['name'])){
-
-
-	$image = $_FILES['post-image']['name'];
-    $image_size = $_FILES['post-image']['size'];
-    $image_temp = $_FILES['post-image']['tmp_name'];
-    $imageType= ['PNG','JPEG','JPG',];
-     $fileExt = strtolower(end(explode(".",$image)));
-      
-    
-
-
-    if(!in_array(strtoupper(pathinfo($image,PATHINFO_EXTENSION)),$imageType)){
-
-      $imageError ="Please upload valid image file.";
-      echo $imageError;
-
-      exit;
-
-    }else{
-
-
-	$fileName = md5(uniqid())."_".date("d-m-y").".".$fileExt;
-      
-     $imageLocation=__DIR__."/../../resources/tmp_image/$fileName";
-     // temp file storage
-     move_uploaded_file($image_temp,$imageLocation);
-     echo $fileName;
-
-     try {
-     	$handle = fopen($imageLocation, 'rb');
-$awsClient->putObject([
-
-	'Bucket'=>getenv('AWS_BUCKET'),
-	'Key'=>"post_images/{$fileName}",
-	'Body'=>$handle,
-	'ACL'=>'public-read'
-	]);
-
-fclose($handle);
-unlink($imageLocation);
-
-
-     	
-     } catch (S3Exception $e) {
-     	
-     	var_dump($e);
-     	exit;
-     }
 		}
-	}else{
 
-		echo "file is not uploaded";
-		exit;
-	}
+		return $response->withRedirect($this->container->router->pathFor('contact'));
+
 }
 
+public function test(){
 
 
+	$from = new SendGrid\Email(null, "rajesh2045@gmail.com");
+$subject = "Hello World from the SendGrid PHP Library!";
+$to = new SendGrid\Email(null, "ryandbasnet@gmail.com");
+$content = new SendGrid\Content("text/plain", "Hello, Email!");
+$mail = new SendGrid\Mail($from, $subject, $to, $content);
+
+$apiKey = getenv('SENDGRID_API_KEY');
+$sg = new \SendGrid($apiKey);
+    $response = $sg->client->mail()->send()->post($mail);
 
 
-
-
-
-
-public function  test3($request,$response,$args){
-
-	$cat = $args['cat'];
-	$page =$request->getParam('page');
-	$paginator =  new Paginator($this->container->connection);
-	$paginator->setQuery("SELECT * FROM posts WHERE status = 'published'");
-	$results = $paginator->paginate(3,$page);
-	$paginator->paginationLinks("/pagi/$cat");
-	exit;
-
-	// //initial setup
-	// $perPage = 6;
-
-	// //get page from request
-	// $pageNum = (int)$request->getParam('page');
-	// $pageNum = (!empty($pageNum) && $pageNum >= 1 )?$pageNum:1;
-
-	// //get total pages
-	// $totalItem = $this->container->post->where('cat_id','4');
-	// $pages = ceil(count($totalItem)/$perPage);
-
-	// //reset page num if invalid
-	// $pageNum =($pages>=$pageNum)?$pageNum : $pages;
-	// $start = ($pageNum-1)*$perPage;
-
-	// $paginate = $this->container->post->paginate($start,$perPage);
-
-	// echo 'Total Items :'.count($totalItem);
-	// echo "<br>";
-	
-	// echo 'total pages :'.$pages;
-	// echo "<br>";
-	// echo 'page Num :'.$pageNum;
-	// 	echo "<br>";
-	// // echo count($totalItem);
-	// // var_dump( $paginate);
-	// foreach ($paginate as $v) {
-	// 	echo $v['post_id'];
-	// 		echo "<br>";
-	// }
-	// exit;
-
-
-	// exit;
-	// 
-	
+echo $response->statusCode();
+exit;
+    return $response->statusCode();
 }
 
 
 }
-
-
-
 
 
 

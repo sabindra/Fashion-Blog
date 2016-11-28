@@ -22,17 +22,18 @@ public function __construct(){
 
 public function sendEmail($data){
 
-
  	$from = new Email(null, $data['from']);
     $subject = $data['subject'];
     $to = new Email(null, $data['to']);
     $content = new Content("text/plain", $data['message']);
+    
     $mail = new Mail($from, $subject, $to, $content);
 
     $sg = new \SendGrid($this->apikey);
-    $response = $response = $sg->client->mail()->send()->post($mail);
-    echo $response->statusCode();
-    exit;
+  
+   $response = $sg->client->mail()->send()->post($mail);
+    return $response->statusCode();
+    
 
 
 }
@@ -47,7 +48,8 @@ public function passwordReset($data){
     $mail = new Mail($from, $subject, $to, $content);
 
     $sg = new \SendGrid($this->apikey);
-    $response = $response = $sg->client->mail()->send()->post($mail);
+    $response = $sg->client->mail()->send()->post($mail);
+
     
     return $response->statusCode();
 }
