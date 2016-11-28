@@ -9,7 +9,9 @@ use App\Aws\AmazonService;
 use App\Aws\Exceptions\S3Exception;
 use App\Services\Paginator as Paginator;
 use App\Services\SendGrid\SendgridEmailService;
+use App\Services\Facebook\FacebookService;
 use Respect\Validation\Validator as v;
+use GuzzleHttp\Psr7\Request;
 
 use Sendgrid;
 
@@ -255,22 +257,24 @@ class PageController extends Controller{
 public function test(){
 
 
-	$from = new SendGrid\Email(null, "rajesh2045@gmail.com");
-$subject = "Hello World from the SendGrid PHP Library!";
-$to = new SendGrid\Email(null, "ryandbasnet@gmail.com");
-$content = new SendGrid\Content("text/plain", "Hello, Email!");
-$mail = new SendGrid\Mail($from, $subject, $to, $content);
-
-$apiKey = getenv('SENDGRID_API_KEY');
-$sg = new \SendGrid($apiKey);
-    $response = $sg->client->mail()->send()->post($mail);
+$fb = new FacebookService(getenv('FB_API_KEY'),getenv('FB_APP_ID'));
+$fb->getPosts();
 
 
-echo $response->statusCode();
-exit;
-    return $response->statusCode();
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
-
 
 }
 

@@ -19,7 +19,9 @@
         "vlucas/phpdotenv": "^2.4",
         "aws/aws-sdk-php": "^3.19",
         "sendgrid/sendgrid": "^5.1",
-        "slim/csrf": "^0.7.0"
+        "slim/csrf": "^0.7.0",
+        "guzzlehttp/guzzle": "^6.2",
+        "facebook/php-sdk-v4": "^5.4"
     },
 
     "autoload":{
