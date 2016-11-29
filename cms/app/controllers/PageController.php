@@ -256,10 +256,24 @@ class PageController extends Controller{
 
 public function test(){
 
+$appId =getenv('FB_APP_ID');
+$appKey = getenv('FB_API_KEY');
+$pageId= getenv('FB_PAGE_ID');
 
-$fb = new FacebookService(getenv('FB_API_KEY'),getenv('FB_APP_ID'));
-$fb->getPosts();
+//fb object
+$facebook = new \Facebook\Facebook([
+  						
+  				'app_id' => $appId,
+  				'app_secret' => $appKey,
+  				'default_graph_version' => 'v2.5',]);
 
+$fbApp = new \Facebook\FacebookApp($appId, $appKey);
+
+
+$accessToken = $fbApp->getAccessToken()->getValue();
+$facebookService = new FacebookService($facebook,$fbApp);
+
+$response = $facebookService->getPageData($pageId,$accessToken);
 
 
 
