@@ -305,7 +305,7 @@ class PageController extends Controller{
 
 
 		$data['from'] = $request->getParam('email');
-		$data['to'] = "rajesh2045@gmail.com";
+		$data['to'] = "support@ozmandu.com";
 		$data['message'] = $request->getParam('message');;
 		$data['subject']  ="Blog message from ".$request->getParam('name');
 		

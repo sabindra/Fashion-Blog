@@ -7,14 +7,10 @@
                             Blog Posts
                             
                         </h2>
-                        <ol class="breadcrumb">
-                            <li>
-                                <i class="fa fa-dashboard"></i>  <a href="index.html">Dashboard</a>
-                            </li>
-                            <li class="active">
-                                <i class="fa fa-file"></i> Blank Page
-                            </li>
-                        </ol>
+                         <div class="btn-group btn-breadcrumb breadcrumb">
+                            <a href="{{path_for('admin.dashboard')}}" class="btn btn-default"><i class="glyphicon glyphicon-home"></i> Dashboard</a>
+                            <a href="/posts" class="btn btn-info">Posts</a>
+                          </div>
                     </div>
                 </div>
                 <!-- /.row -->
