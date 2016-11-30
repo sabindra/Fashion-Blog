@@ -172,9 +172,9 @@ class PasswordController extends Controller{
 			//password rest template ---TEMPORARY [USE SENDGRID LATER]
 			
 			$html = "<p>Please visit <a href='$passwordResetUrl'>password reset link</a> to reset password</p>";
-			$data['from']		= $recoveryEmail; 
-			$data['to']			= 'rajesh2045@gmail.com'; 
-			$data['subject']	= 'sNC Password Reset';
+			$data['from']		= 'support@ozmandu.com'; 
+			$data['to']			= $recoveryEmail; 
+			$data['subject']	= 'Ozmandu Account Password Reset';
 			$data['message']	= $html; 
 
 			$status = $sendgridService->passwordReset($data);

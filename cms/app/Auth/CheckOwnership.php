@@ -44,18 +44,6 @@ class CheckOwnership{
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 }
 
 

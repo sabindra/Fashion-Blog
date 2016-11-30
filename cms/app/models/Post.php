@@ -22,30 +22,26 @@ class Post extends Model implements  IModel{
 	public function create($array){
 
 
-try {
-	
-
-	$statement = $this->connection->prepare("INSERT INTO posts(title,content,image_path,tags,author,status,cat_id) VALUES(:title,:content,:image_path,:tags,:author,:status,:cat_id)");
-		
-		$status = $statement->execute(array(	":title"=>$array['title'],
-									":content"=> $array['content'],
-									":image_path"=>$array['image_path'],
-									":tags"=>$array['tags'],
-									":author"=>$array['author'],
-									":status"=>$array['status'],	
-									":cat_id"=>$array['cat_id'] ));
-
-
-
-
-} catch (PDOException $e) {
-	
-var_dump($e);
-exit;
-	
-}
+		try {
 		
 
+			$statement = $this->connection->prepare("INSERT INTO posts(title,content,image_path,tags,author,status,cat_id) 
+													VALUES(:title,:content,:image_path,:tags,:author,:status,:cat_id)");
+			
+			$status = $statement->execute(array(	":title"=>$array['title'],
+										":content"=> $array['content'],
+										":image_path"=>$array['image_path'],
+										":tags"=>$array['tags'],
+										":author"=>$array['author'],
+										":status"=>$array['status'],	
+										":cat_id"=>$array['cat_id'] ));
+
+
+		} catch (\PDOException $e) {
+
+			throw new Exception("Sorry some thing went wrong");
+		
+		}
 
 	}
 
@@ -122,15 +118,18 @@ exit;
 	 */
 	public function  delete($id){
 
-try{
-		$statement = $this->connection->prepare("DELETE  FROM posts WHERE post_id=:id");
-		$statement->execute(array("id"=>$id));
-			return true;
-	} catch (\PDOException $e){
+		try{
+		
+			$statement = $this->connection->prepare("DELETE  FROM posts WHERE post_id=:id");
+			$statement->execute(array("id"=>$id));
+			
+				return true;
+	
+		} catch (\PDOException $e){
 	
 		
-       return false;
-	}
+       		return false;
+		}
 	}
 
 
@@ -166,22 +165,6 @@ try{
 
 		$statement = $this->connection->prepare("SELECT * FROM posts WHERE $key=:value");
 		$statement->execute(array('value'=>$value));
-		$post=$statement->fetchAll(PDO::FETCH_ASSOC);
-		return $post;
-
-
-	}
-
-		/**
-	 * [find find a post by id]
-	 * @param  [int] $id [post id]
-	 * @return [array]   [return database result set in associative array]
-	 */
-	public function paginate($condition,$offset,$limit){
-
-
-		$statement = $this->connection->prepare("SELECT * FROM posts ORDER BY post_id DESC LIMIT $offset,$limit");
-		$statement->execute();
 		$post=$statement->fetchAll(PDO::FETCH_ASSOC);
 		return $post;
 

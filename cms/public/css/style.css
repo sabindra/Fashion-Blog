@@ -147,7 +147,7 @@ header {
 	border-bottom: 1px solid #CECECE;
 }
 .blog-post:last-child {
-	border-bottom: none;
+	/*border-bottom: none*/;
 }
 .blog-post .blog-post-body {
 	text-align: center;
@@ -207,9 +207,10 @@ header {
 	padding: 12px 40px;
 	margin: 30px 0 0px;
 	border: 1px solid;
-	border-radius: 25px;
-	border-color: #E6E6E6;
-	background-color: #F3F3F3;
+	border-color: #2B2B2B;
+	border-top-right-radius:25px;
+	border-bottom-right-radius:25px;
+	background-color: #2B2B2B;
 	font-family: "Open Sans", Sans-serif;
 	text-transform: uppercase;
 	font-weight: 600;
@@ -219,11 +220,16 @@ header {
 	-moz-transition: all 0.2s ease-out;
 	-o-transition: all 0.2s ease-out;
 	transition: all 0.2s ease-out;
+	color: #fff;
 }
 .blog-post .read-more a:hover {
 	background-color: #fed136;
 	border-color: #fed136;
 	color: #fff;
+}
+.blog-post .read-more a span{
+
+	font-size: 18px;
 }
 .blog-post .blog-post-text {
 	text-align: left;
@@ -293,6 +299,7 @@ header {
 	border-color: #E4E4E4;
 	padding-bottom: 20px;
 	width: 100%;
+	
 }
 .widget-post:last-child {
 	border-bottom: none;
@@ -384,7 +391,7 @@ footer .footer-socials a {
 	transition: all 0.2s ease-out;
 }
 footer .footer-socials a:hover {
-	background-color: #dddddd;
+	background-color: #fdd035;
 }
 footer .footer-bottom {
 	padding: 10px 0 40px;
@@ -548,6 +555,11 @@ ANIMATION
 
   padding:50px 80px;
 }
+.comment-box{
+
+	margin:0;
+	margin-top:20px;
+}
 
 .commentList {
     padding:0;
@@ -591,6 +603,7 @@ ANIMATION
 .comment-wrapper{
 
 	height:auto;
+	margin:0;
 }
 .required{
 
@@ -682,4 +695,74 @@ font-weight: bold;
 	text-align:center;
 	font-weight:800;
 	font-size: 25px;
+}
+.facebook-feeds-widget {
+  min-height: 300px;
+  margin-top: 50px;
+}
+
+.panel.panel-default {
+  border-radius: 0;
+  border: transparent;
+}
+
+.panel-default .panel-heading {
+  text-align: center;
+  padding:0;
+  border-radius: 0;
+  background-color:#FFF;
+}
+
+.panel-heading h5 {
+  color: #FFF;
+}
+
+.widget-icon {
+  width: 60px;
+  height: 40px;
+}
+
+.panel-body {
+  padding: 0;
+}
+
+article {
+  margin: 10px 0;
+  border: 1px gray solid;
+  padding: 10px;
+}
+
+.profile-image {
+  width: 60px;
+  height: 60px;
+}
+
+.page-status {
+  font-weight: 500;
+  font-size: 12px;
+}
+
+.story{
+  color:gray;
+  font-size:11px;
+  text-indent:10px;
+}
+
+.likes {
+  text-align: right;
+}
+
+.like-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.like-count {
+  padding: 15px;
+}
+
+.fbuser{
+	font-weight:16px;
+	font-size: 800;
+	color:#3b5998;
 }

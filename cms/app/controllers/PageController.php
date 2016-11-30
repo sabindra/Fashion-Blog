@@ -52,11 +52,71 @@ class PageController extends Controller{
 			$paginator->setQuery("SELECT * FROM posts WHERE status = 'published' ORDER BY post_id DESC");
 			$results = $paginator->paginate(3,$page);
 			$p = $results->data;
+			$posts =array();
+			//set author name
+			foreach ($p as $post) {
+				
+				$author = $this->container->user->find($post['author']);
+				$post['author_full_name'] = $author['first_name']." ".$author['last_name'];
+				array_push($posts, $post);
 
+			
+			}
+
+		//facebook data
+		$appId =getenv('FB_APP_ID');
+		$appKey = getenv('FB_API_KEY');
+		$pageId= getenv('FB_PAGE_ID');
+
+		//fb object
+		$facebook = new \Facebook\Facebook([
+	  						
+	  				'app_id' => $appId,
+	  				'app_secret' => $appKey,
+	  				'default_graph_version' => 'v2.5',]);
+
+		$fbApp = new \Facebook\FacebookApp($appId, $appKey);
+
+
+		$accessToken = $fbApp->getAccessToken()->getValue();
+		$facebookService = new FacebookService($facebook,$fbApp);
+
+		$facebookResponse = $facebookService->getPageData($pageId,$accessToken);
+
+		$facebookData =array();
+		$facebookData['username']= $facebookResponse['username'];
+		$facebookData['profile_picture']= $facebookResponse['picture']['data']['url'];
+		$rawPosts=$facebookResponse['posts']['data'];
+		$facebookData['posts'] =array();
+	
+		foreach ($rawPosts as $key=>$value) {
+		
+			$postData =array();
+			$postData['from'] = $value['from']['name'];
+			
+			if(isset($value['message'])){
+				
+				$postData['message'] = $value['message'];
+			}
+		
+			if(isset($value['story'])){
+			
+			$postData['story'] = $value['story'];
+			}
+
+			if(isset($value['picture'])){
+			
+			$postData['picture'] = $value['picture'];
+			}
+		
+			array_push($facebookData['posts'],$postData);
+		
+		}
+			
 			
 		return $this->container
 					->view
-					->render($response,'front/partials/index.twig',['categories'=>$newCategories,'recentPosts'=>$p,'featuredPosts'=>$featuredPosts]);
+					->render($response,'front/partials/index.twig',['categories'=>$newCategories,'recentPosts'=>$posts,'featuredPosts'=>$featuredPosts,'facebookData'=>$facebookData]);
 
 
 	}
@@ -127,7 +187,12 @@ class PageController extends Controller{
 		$id = $args['id'];
 
 		$post = $this->container->post->find($id);
+
+		//set author full name
+		$author = $this->container->user->find($post['author']);
+		$post['author_full_name'] = $author['first_name']." ".$author['last_name'];
 		
+
 		$featuredPosts = $this->container->post->findFeatured();
 		
 		$comments = $this->container->comment->findAll($id);
@@ -188,7 +253,18 @@ class PageController extends Controller{
 		$paginator =  new Paginator($this->container->connection);
 		$paginator->setQuery("SELECT * FROM posts WHERE cat_id=$category_id AND status = 'published'");
 		$results = $paginator->paginate(2,$page);
-		$posts = $results->data;
+		$p = $results->data;
+		$posts =array();
+			//set author name
+			foreach ($p as $post) {
+				
+				$author = $this->container->user->find($post['author']);
+				$post['author_full_name'] = $author['first_name']." ".$author['last_name'];
+				array_push($posts, $post);
+
+			
+			}
+
 		
 		$paginationLinks=(array)$paginator->paginationLinks("/post/category/$categoryTitle","pagination-btn");
 	
@@ -275,11 +351,27 @@ $facebookService = new FacebookService($facebook,$fbApp);
 
 $response = $facebookService->getPageData($pageId,$accessToken);
 
+$facebookData =array();
+$facebookData['username']= $response['username'];
+$facebookData['profile_picture']= $response['picture']['data']['url'];
+$rawPosts=$response['posts']['data'];
+$facebookData['posts'] =array();
+foreach ($rawPosts as $key=>$value) {
+	
+	$postData =array();
+	$postData['from'] = $value['from']['name'];
+	$postData['message'] = $value['message'];
+	if(isset($value['story'])){
+		$postData['story'] = $value['story'];
+	}
 
+	if(isset($value['picture'])){
+		$postData['picture'] = $value['picture'];
+	}
+	array_push($facebookData['posts'],$postData);
+}
 
-
-
-
+var_dump($facebookData);
 
 
 

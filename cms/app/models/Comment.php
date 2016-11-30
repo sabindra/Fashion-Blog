@@ -39,17 +39,18 @@ class Comment extends Model implements  IModel{
 	 * @return [void] 
 	 */
 	public function findAll($id=null){
+		
 		if(!isset($id)){
 
-		$statement = $this->connection->prepare("SELECT * FROM comments ORDER BY comment_id");
-		$statement->execute();
-		$comments = $statement->fetchAll(PDO::FETCH_ASSOC);	
+			$statement = $this->connection->prepare("SELECT * FROM comments ORDER BY comment_id");
+			$statement->execute();
+			$comments = $statement->fetchAll(PDO::FETCH_ASSOC);	
 		
 		}else{
 
-		$statement = $this->connection->prepare("SELECT * FROM comments WHERE comment_post_id =:id AND comment_status = 'approved' ORDER BY comment_id");
-		$statement->execute(array('id'=>$id));
-		$comments = $statement->fetchAll(PDO::FETCH_ASSOC);
+			$statement = $this->connection->prepare("SELECT * FROM comments WHERE comment_post_id =:id AND comment_status = 'approved' ORDER BY comment_id");
+			$statement->execute(array('id'=>$id));
+			$comments = $statement->fetchAll(PDO::FETCH_ASSOC);
 
 		}
 		

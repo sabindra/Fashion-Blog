@@ -83,14 +83,15 @@ class Category extends Model implements  Imodel{
 
 		try{
 
-		$statement = $this->connection->prepare("DELETE  FROM categories WHERE LOWER(cat_id)=:id");
-		$statement->execute(array("id"=>$id));
-		return true;
-	} catch (PDOException $e){
+			$statement = $this->connection->prepare("DELETE  FROM categories WHERE LOWER(cat_id)=:id");
+			$statement->execute(array("id"=>$id));
+			return true;
+
+		} catch (PDOException $e){
 
 		
-       return false;
-	}
+       		return false;
+		}
 	}
 
 

@@ -2,7 +2,7 @@
 * @Author: Ryan Basnet
 * @Date:   2016-11-14 16:17:24
 * @Last Modified by:   Ryan Basnet
-* @Last Modified time: 2016-11-23 23:25:29
+* @Last Modified time: 2016-11-29 20:26:37
 */
 
 
@@ -50,11 +50,3 @@ var Delete = (function(e){
  $(".dismiss").click(function() {
     $("#feedback").addClass("dismissed");
   });
-
-
-
-
-
-
-
-

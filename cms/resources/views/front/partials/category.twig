@@ -11,9 +11,9 @@
 						</div>
 						<div class="blog-post-body">
 							<h2><a href="/post/{{post['post_id']}}">{{ post.title }}</a></h2>
-							<div class="post-meta"><span>by <a href="#">{{ post.author }}</a></span>/<span><i class="fa fa-clock-o"></i>{{ post.published | date("F jS \\a\\t g:ia") }}</span>/<span><i class="fa fa-comment-o"></i> <a href="#">{{ post['comments_count']}}</a></span></div>
+							<div class="post-meta"><span>by <a href="#">{{ post.author_full_name }}</a></span>/<span><i class="fa fa-clock-o"></i>{{ post.published | date("F jS \\a\\t g:ia") }}</span>/<span><i class="fa fa-comment-o"></i> <a href="#">{{ post['comments_count']}}</a></span></div>
 							<p>{{ post.content|raw }}</p>
-							<div class="read-more"><a href="/post/{{post['post_id']}}">Continue Reading</a></div>
+							<div class="read-more"><a href="/post/{{post['post_id']}}">Continue Reading <span>&#187;</span></a></div>
 						</div>
 					</article>
 				{% endfor %}

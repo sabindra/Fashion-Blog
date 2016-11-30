@@ -91,17 +91,18 @@ class User extends Model implements  Imodel{
 	 * @return [void]   
 	 */
 	public function  delete($id){
-try{
 
+		try{
 
-		$statement = $this->connection->prepare("DELETE  FROM users WHERE user_id=:id");
-		$statement->execute(array("id"=>$id));
+			$statement = $this->connection->prepare("DELETE  FROM users WHERE user_id=:id");
+			$statement->execute(array("id"=>$id));
 			return true;
-	} catch (\PDOException $e){
+		
+		} catch (\PDOException $e){
 
 		
-       return false;
-	}
+       		return false;
+		}
 	}
 
 

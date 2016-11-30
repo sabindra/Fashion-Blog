@@ -57,6 +57,7 @@ class CategoryController extends Controller{
 			return $this->container
 						->view->render($response,'admin/partials/category/category.twig',['category'=>$category,'errors'=>$validation->getError()]);
 		}
+
 		$data =array();
 		$data['title'] = ucfirst($request->getParam('category'));
 		$this->container->category->create($data);
@@ -91,6 +92,7 @@ class CategoryController extends Controller{
 	 * @return [HTML]  [redirect back with feedback]
 	 */
 	public function updateCategory($request,$response,$args){
+				
 				$category_id = $args['id'];
 				$editCategory = $this->container->category->find($category_id);
 				$category = $this->container->category->findAll($id=null);
@@ -129,6 +131,7 @@ class CategoryController extends Controller{
 
 		$user_id = $args['id'];
 		$status = $this->container->category->delete($user_id);
+		
 		if($status){
 
 			$this->container->flash->addMessage('success',"Category deleted successfully !");
